@@ -65,66 +65,22 @@ function App() {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  // CORS-FREE form submission using iframe method
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
     
     try {
-      // Google Apps Script URL
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyi7-hDfiz9H12t8irp6AURiCNL1FLiBCvoV0mUJNjWuF0EuD8_XB8eZS2TIRUl81b6/exec'
+      const formElement = e.target
+      const formData = new FormData(formElement)
       
-      // Validate required fields
-      if (!formData.companyName || !formData.firstName || !formData.lastName || !formData.email) {
-        alert('Please fill in all required fields (Company Name, First Name, Last Name, and Email)')
-        setFormSubmissionState('idle')
-        return
-      }
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
       
-      // Create hidden iframe for submission
-      const iframe = document.createElement('iframe')
-      iframe.style.display = 'none'
-      iframe.name = 'hidden_iframe'
-      document.body.appendChild(iframe)
-      
-      // Create form element
-      const form = document.createElement('form')
-      form.method = 'POST'
-      form.action = GOOGLE_SCRIPT_URL
-      form.target = 'hidden_iframe'
-      form.style.display = 'none'
-      
-      // Prepare form data as JSON string
-      const submissionData = {
-        companyName: formData.companyName,
-        industry: formData.industry,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        challenges: formData.challenges,
-        goals: formData.goals
-      }
-      
-      // Add JSON data as a single form field
-      const input = document.createElement('input')
-      input.type = 'hidden'
-      input.name = 'data'
-      input.value = JSON.stringify(submissionData)
-      form.appendChild(input)
-      
-      // Add form to page and submit
-      document.body.appendChild(form)
-      
-      // Handle iframe load event
-      iframe.onload = function() {
-        // Clean up
-        document.body.removeChild(form)
-        document.body.removeChild(iframe)
-        
-        // Show success message
+      if (response.ok) {
         setFormSubmissionState('success')
-        
         // Reset form
         setFormData({
           companyName: '',
@@ -140,11 +96,9 @@ function App() {
           budget: '',
           consultationType: 'video'
         })
+      } else {
+        setFormSubmissionState('error')
       }
-      
-      // Submit the form
-      form.submit()
-      
     } catch (error) {
       console.error('Form submission error:', error)
       setFormSubmissionState('error')
@@ -353,8 +307,7 @@ function App() {
                 <CardDescription className="text-gray-300 mb-4">
                   Comprehensive monitoring and management of all your manufacturing workstations and servers. Real-time visibility into workstation health, automated patch management, and remote troubleshooting capabilities to minimize production downtime.
                 </CardDescription>
-                <br />
-                <div className="space-y-2 mb-6">
+                <div className="space-y-2 mb-6 mt-4">
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={16} className="mr-2" />
                     <span className="text-sm">24/7 Real-time Monitoring</span>
@@ -388,8 +341,7 @@ function App() {
                 <CardDescription className="text-gray-300 mb-4">
                   Advanced cloud backup solution protecting your critical workstations and data. TrueDelta technology enables backups every 15 minutes with 60x more efficiency than traditional methods, ensuring your data is always protected.
                 </CardDescription>
-                <br />
-                <div className="space-y-2 mb-6">
+                <div className="space-y-2 mb-6 mt-4">
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={16} className="mr-2" />
                     <span className="text-sm">15-Minute Backup Intervals</span>
@@ -423,8 +375,7 @@ function App() {
                 <CardDescription className="text-gray-300 mb-4">
                   AI-powered endpoint security that goes beyond traditional antivirus. Behavioral threat detection, automated remediation, and rollback capabilities protect your workstations from advanced threats and ransomware attacks.
                 </CardDescription>
-                <br />
-                <div className="space-y-2 mb-6">
+                <div className="space-y-2 mb-6 mt-4">
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={16} className="mr-2" />
                     <span className="text-sm">AI Behavioral Detection</span>
@@ -596,7 +547,7 @@ function App() {
                   </div>
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={20} className="mr-3 flex-shrink-0" />
-                    <span><strong>Leads can get professional responses within minutes</strong>, even when you're busy with installations or after hours. You set the rules of when responses are sent.</span>
+                    <span><strong>Respond While You Sleep</strong> - Leads can get professional responses within minutes, even when you're busy with installations or after hours. You set the rules of when responses are sent.</span>
                   </div>
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={20} className="mr-3 flex-shrink-0" />
@@ -660,16 +611,16 @@ function App() {
             {/* Contact Form */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
               <CardHeader>
-                <CardTitle className="text-white text-2xl">Schedule Your Free Discovery Call</CardTitle>
+                <CardTitle className="text-white text-2xl">Schedule Your Consultation</CardTitle>
                 <CardDescription className="text-gray-300">
-                  Fill out the form below and we'll contact you within 1 business hour
+                  Fill out the form below and we'll contact you within 2 business hours
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true" name="contact-form" method="POST">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="companyName" className="text-white mb-2 block">Company Name *</Label>
+                      <Label htmlFor="companyName" className="text-white">Company Name *</Label>
                       <Input
                         id="companyName"
                         name="companyName"
@@ -681,7 +632,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="industry" className="text-white mb-2 block">Industry</Label>
+                      <Label htmlFor="industry" className="text-white">Industry</Label>
                       <Select onValueChange={(value) => handleInputChange('industry', value)}>
                         <SelectTrigger className="bg-white/10 border-gray-600 text-white">
                           <SelectValue placeholder="Select industry" />
@@ -695,12 +646,13 @@ function App() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
+                      <input type="hidden" name="industry" value={formData.industry} />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName" className="text-white mb-2 block">First Name *</Label>
+                      <Label htmlFor="firstName" className="text-white">First Name *</Label>
                       <Input
                         id="firstName"
                         name="firstName"
@@ -712,7 +664,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName" className="text-white mb-2 block">Last Name *</Label>
+                      <Label htmlFor="lastName" className="text-white">Last Name *</Label>
                       <Input
                         id="lastName"
                         name="lastName"
@@ -727,7 +679,7 @@ function App() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="email" className="text-white mb-2 block">Email Address *</Label>
+                      <Label htmlFor="email" className="text-white">Email Address *</Label>
                       <Input
                         id="email"
                         name="email"
@@ -740,7 +692,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="phone" className="text-white mb-2 block">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-white">Phone Number</Label>
                       <Input
                         id="phone"
                         name="phone"
@@ -753,7 +705,7 @@ function App() {
                   </div>
 
                   <div>
-                    <Label htmlFor="challenges" className="text-white mb-2 block">Current IT Challenges</Label>
+                    <Label htmlFor="challenges" className="text-white">Current IT Challenges</Label>
                     <Textarea
                       id="challenges"
                       name="challenges"
@@ -766,7 +718,7 @@ function App() {
                   </div>
 
                   <div>
-                    <Label htmlFor="goals" className="text-white mb-2 block">Goals & Objectives</Label>
+                    <Label htmlFor="goals" className="text-white">Goals & Objectives</Label>
                     <Textarea
                       id="goals"
                       name="goals"
@@ -791,14 +743,14 @@ function App() {
                   {formSubmissionState === 'success' && (
                     <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg text-green-300">
                       <p className="font-semibold">Thank you for your interest!</p>
-                      <p>We will contact you within 1 business hour to schedule your free discovery consultation.</p>
+                      <p>We will contact you within 2 business hours to schedule your free discovery consultation.</p>
                     </div>
                   )}
                   
                   {formSubmissionState === 'error' && (
                     <div className="p-4 bg-red-600/20 border border-red-500 rounded-lg text-red-300">
                       <p className="font-semibold">Submission Error</p>
-                      <p>There was an issue submitting your form. Please try again or contact us directly at info@BlueprintIT.ai</p>
+                      <p>There was an issue submitting your form. Please try again or contact us directly at <a href="mailto:info@BlueprintIT.ai" className="text-blue-300 hover:text-blue-200 underline">info@BlueprintIT.ai</a></p>
                     </div>
                   )}
                 </form>
@@ -814,7 +766,7 @@ function App() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center text-gray-300">
                     <Mail className="mr-3 text-blue-400" size={20} />
-                    <span>info@BlueprintIT.ai</span>
+                    <a href="mailto:info@BlueprintIT.ai" className="text-blue-300 hover:text-blue-200 underline">info@BlueprintIT.ai</a>
                   </div>
                   <div className="flex items-center text-gray-300">
                     <MapPin className="mr-3 text-blue-400" size={20} />
@@ -856,8 +808,8 @@ function App() {
                         <span className="text-white text-sm font-bold">3</span>
                       </div>
                       <div>
-                        <h4 className="text-white font-semibold">Solutions</h4>
-                        <p className="text-gray-300 text-sm">Solutions and next steps provided in our discovery session</p>
+                        <h4 className="text-white font-semibold">Recommendations</h4>
+                        <p className="text-gray-300 text-sm">Recommendations and next steps provided in our discovery session</p>
                       </div>
                     </div>
                   </div>
@@ -879,7 +831,7 @@ function App() {
               Strategic IT Solutions & AI Automation for Your Business
             </p>
             <p className="text-gray-500 text-sm">
-              © 2025 Blueprint IT. All rights reserved. | info@BlueprintIT.ai
+              © 2025 Blueprint IT. All rights reserved. | <a href="mailto:info@BlueprintIT.ai" className="text-blue-600 hover:text-blue-500 underline">info@BlueprintIT.ai</a>
             </p>
           </div>
         </div>
@@ -889,3 +841,4 @@ function App() {
 }
 
 export default App
+
