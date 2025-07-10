@@ -856,8 +856,8 @@ function App() {
                         <span className="text-white text-sm font-bold">3</span>
                       </div>
                       <div>
-                        <h4 className="text-white font-semibold">Recommendations</h4>
-                        <p className="text-gray-300 text-sm">Recommendations and next steps provided in our discovery session</p>
+                        <h4 className="text-white font-semibold">Solutions</h4>
+                        <p className="text-gray-300 text-sm">Solutions and next steps provided in our discovery session</p>
                       </div>
                     </div>
                   </div>
@@ -889,4 +889,3 @@ function App() {
 }
 
 export default App
-
