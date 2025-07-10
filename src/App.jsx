@@ -353,7 +353,8 @@ function App() {
                 <CardDescription className="text-gray-300 mb-4">
                   Comprehensive monitoring and management of all your manufacturing workstations and servers. Real-time visibility into workstation health, automated patch management, and remote troubleshooting capabilities to minimize production downtime.
                 </CardDescription>
-                <div className="space-y-2 mb-6 mt-4">
+                <br />
+                <div className="space-y-2 mb-6">
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={16} className="mr-2" />
                     <span className="text-sm">24/7 Real-time Monitoring</span>
@@ -387,7 +388,8 @@ function App() {
                 <CardDescription className="text-gray-300 mb-4">
                   Advanced cloud backup solution protecting your critical workstations and data. TrueDelta technology enables backups every 15 minutes with 60x more efficiency than traditional methods, ensuring your data is always protected.
                 </CardDescription>
-                <div className="space-y-2 mb-6 mt-4">
+                <br />
+                <div className="space-y-2 mb-6">
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={16} className="mr-2" />
                     <span className="text-sm">15-Minute Backup Intervals</span>
@@ -421,7 +423,8 @@ function App() {
                 <CardDescription className="text-gray-300 mb-4">
                   AI-powered endpoint security that goes beyond traditional antivirus. Behavioral threat detection, automated remediation, and rollback capabilities protect your workstations from advanced threats and ransomware attacks.
                 </CardDescription>
-                <div className="space-y-2 mb-6 mt-4">
+                <br />
+                <div className="space-y-2 mb-6">
                   <div className="flex items-center text-green-400">
                     <CheckCircle size={16} className="mr-2" />
                     <span className="text-sm">AI Behavioral Detection</span>
@@ -657,16 +660,16 @@ function App() {
             {/* Contact Form */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
               <CardHeader>
-                <CardTitle className="text-white text-2xl">Schedule Your Consultation</CardTitle>
+                <CardTitle className="text-white text-2xl">Schedule Your Free Discovery Call</CardTitle>
                 <CardDescription className="text-gray-300">
-                  Fill out the form below and we'll contact you within 2 business hours
+                  Fill out the form below and we'll contact you within 1 business hour
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="companyName" className="text-white">Company Name *</Label>
+                      <Label htmlFor="companyName" className="text-white mb-2 block">Company Name *</Label>
                       <Input
                         id="companyName"
                         name="companyName"
@@ -678,7 +681,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="industry" className="text-white">Industry</Label>
+                      <Label htmlFor="industry" className="text-white mb-2 block">Industry</Label>
                       <Select onValueChange={(value) => handleInputChange('industry', value)}>
                         <SelectTrigger className="bg-white/10 border-gray-600 text-white">
                           <SelectValue placeholder="Select industry" />
@@ -697,7 +700,7 @@ function App() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName" className="text-white">First Name *</Label>
+                      <Label htmlFor="firstName" className="text-white mb-2 block">First Name *</Label>
                       <Input
                         id="firstName"
                         name="firstName"
@@ -709,7 +712,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName" className="text-white">Last Name *</Label>
+                      <Label htmlFor="lastName" className="text-white mb-2 block">Last Name *</Label>
                       <Input
                         id="lastName"
                         name="lastName"
@@ -724,7 +727,7 @@ function App() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="email" className="text-white">Email Address *</Label>
+                      <Label htmlFor="email" className="text-white mb-2 block">Email Address *</Label>
                       <Input
                         id="email"
                         name="email"
@@ -737,7 +740,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="phone" className="text-white">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-white mb-2 block">Phone Number</Label>
                       <Input
                         id="phone"
                         name="phone"
@@ -750,7 +753,7 @@ function App() {
                   </div>
 
                   <div>
-                    <Label htmlFor="challenges" className="text-white">Current IT Challenges</Label>
+                    <Label htmlFor="challenges" className="text-white mb-2 block">Current IT Challenges</Label>
                     <Textarea
                       id="challenges"
                       name="challenges"
@@ -763,7 +766,7 @@ function App() {
                   </div>
 
                   <div>
-                    <Label htmlFor="goals" className="text-white">Goals & Objectives</Label>
+                    <Label htmlFor="goals" className="text-white mb-2 block">Goals & Objectives</Label>
                     <Textarea
                       id="goals"
                       name="goals"
@@ -788,7 +791,7 @@ function App() {
                   {formSubmissionState === 'success' && (
                     <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg text-green-300">
                       <p className="font-semibold">Thank you for your interest!</p>
-                      <p>We will contact you within 2 business hours to schedule your free discovery consultation.</p>
+                      <p>We will contact you within 1 business hour to schedule your free discovery consultation.</p>
                     </div>
                   )}
                   
