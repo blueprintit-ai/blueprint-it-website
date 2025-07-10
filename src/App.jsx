@@ -65,6 +65,7 @@ function App() {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  // CORS-FREE form submission using iframe method
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
@@ -73,15 +74,6 @@ function App() {
       // Google Apps Script URL
       const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyi7-hDfiz9H12t8irp6AURiCNL1FLiBCvoV0mUJNjWuF0EuD8_XB8eZS2TIRUl81b6/exec'
       
-      // Log form submission for debugging
-      console.log('Form submitted:', {
-        companyName: formData.companyName,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone
-      })
-      
       // Validate required fields
       if (!formData.companyName || !formData.firstName || !formData.lastName || !formData.email) {
         alert('Please fill in all required fields (Company Name, First Name, Last Name, and Email)')
@@ -89,7 +81,20 @@ function App() {
         return
       }
       
-      // Prepare form data for Google Apps Script
+      // Create hidden iframe for submission
+      const iframe = document.createElement('iframe')
+      iframe.style.display = 'none'
+      iframe.name = 'hidden_iframe'
+      document.body.appendChild(iframe)
+      
+      // Create form element
+      const form = document.createElement('form')
+      form.method = 'POST'
+      form.action = GOOGLE_SCRIPT_URL
+      form.target = 'hidden_iframe'
+      form.style.display = 'none'
+      
+      // Prepare form data as JSON string
       const submissionData = {
         companyName: formData.companyName,
         industry: formData.industry,
@@ -101,31 +106,25 @@ function App() {
         goals: formData.goals
       }
       
-      console.log('Sending data to Google Apps Script:', submissionData)
+      // Add JSON data as a single form field
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = 'data'
+      input.value = JSON.stringify(submissionData)
+      form.appendChild(input)
       
-      // Send to Google Apps Script with proper headers and error handling
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'cors', // Explicitly set CORS mode
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submissionData)
-      })
+      // Add form to page and submit
+      document.body.appendChild(form)
       
-      console.log('Response status:', response.status)
-      
-      // Check if response is ok
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      // Parse response
-      const result = await response.json()
-      console.log('Response data:', result)
-      
-      if (result.success) {
+      // Handle iframe load event
+      iframe.onload = function() {
+        // Clean up
+        document.body.removeChild(form)
+        document.body.removeChild(iframe)
+        
+        // Show success message
         setFormSubmissionState('success')
+        
         // Reset form
         setFormData({
           companyName: '',
@@ -141,22 +140,13 @@ function App() {
           budget: '',
           consultationType: 'video'
         })
-      } else {
-        console.error('Google Apps Script returned error:', result.message)
-        setFormSubmissionState('error')
       }
+      
+      // Submit the form
+      form.submit()
+      
     } catch (error) {
       console.error('Form submission error:', error)
-      
-      // Provide more specific error information
-      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-        console.error('Network error - likely CORS or URL issue')
-      } else if (error.message.includes('HTTP error')) {
-        console.error('HTTP error:', error.message)
-      } else {
-        console.error('Unknown error:', error)
-      }
-      
       setFormSubmissionState('error')
     }
   }
@@ -673,7 +663,7 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true" name="contact-form" method="POST">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="companyName" className="text-white">Company Name *</Label>
@@ -702,7 +692,6 @@ function App() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
-                      <input type="hidden" name="industry" value={formData.industry} />
                     </div>
                   </div>
 
