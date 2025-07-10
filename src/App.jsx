@@ -67,7 +67,7 @@ function App() {
     
     try {
       // Replace with your Google Apps Script URL after deployment
-      const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyi7-hDfiz9H12t8irp6AURiCNL1FLiBCvoV0mUJNjWuF0EuD8_XB8eZS2TIRUl81b6/exec'
       
       // Prepare form data for Google Apps Script
       const submissionData = {
