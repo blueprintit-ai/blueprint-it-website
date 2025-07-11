@@ -215,7 +215,7 @@ function App() {
               <span className="text-blue-400">the Wood Industry </span>
             </h1>
             <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
-              Specialized IT consulting and AI automation for cabinetry, millwork, closet, and custom wood manufacturers. From proactively monitoring your critical workstations to implementing cutting-edge AI solutions that revolutionize your operations. In today's rapidly evolving marketplace, embracing smart technology isn't just an advantage—it's essential for staying competitive. Start with a free discovery call to blueprint your digital transformation journey.
+            Empowering cabinetry, millwork, closet, and custom wood manufacturers with advanced IT consulting and AI automation. We help you proactively monitor critical workstations while implementing intelligent automations that save time and drive growth. As the industry evolves, manufacturers who leverage AI technology are positioning themselves as tomorrow's market leaders. Begin your competitive transformation with a free discovery call.
             </p>          
             {/* Value Propositions */}
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
