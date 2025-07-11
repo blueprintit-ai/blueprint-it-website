@@ -212,7 +212,7 @@ function App() {
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               IT Solutions for<br />
-              <span className="text-blue-400">the Cabinetry & Manufacturing</span> Industry
+              <span className="text-blue-400">the Wood Industry </span>
             </h1>
             <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
               Specialized IT consulting and automation for cabinetry, millwork, and closet manufacturers. From proactively monitoring your critical workstations to implementing AI automations that save you time. We understand your business and what is important. Start with a free discovery call to blueprint your digital transformation journey.
