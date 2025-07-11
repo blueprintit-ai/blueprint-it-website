@@ -770,7 +770,7 @@ function App() {
                   {formSubmissionState === 'success' && (
                     <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg text-green-300">
                       <p className="font-semibold">Thank you for your interest!</p>
-                      <p>We will contact you within 2 business hours to schedule your free discovery consultation.</p>
+                      <p>We will contact you within 1 business hour to schedule your free discovery consultation.</p>
                     </div>
                   )}
                   
