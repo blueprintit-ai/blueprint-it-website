@@ -65,37 +65,37 @@ function App() {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  // CORRECTED FORM SUBMISSION FUNCTION WITH FORMDATA FALLBACK
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
     
     try {
-      // Create form data from the current state
-      const submitData = new URLSearchParams()
-      submitData.append('companyName', formData.companyName)
-      submitData.append('firstName', formData.firstName)
-      submitData.append('lastName', formData.lastName)
-      submitData.append('email', formData.email)
-      submitData.append('phone', formData.phone)
-      submitData.append('industry', formData.industry)
-      submitData.append('challenges', formData.challenges)
-      submitData.append('goals', formData.goals)
+      // Try FormData approach first (avoids CORS preflight)
+      const formDataToSend = new FormData()
+      formDataToSend.append('companyName', formData.companyName)
+      formDataToSend.append('firstName', formData.firstName)
+      formDataToSend.append('lastName', formData.lastName)
+      formDataToSend.append('email', formData.email)
+      formDataToSend.append('phone', formData.phone)
+      formDataToSend.append('industry', formData.industry)
+      formDataToSend.append('challenges', formData.challenges)
+      formDataToSend.append('goals', formData.goals)
       
-      console.log('Submitting form data:', Object.fromEntries(submitData))
+      console.log('Submitting form data (FormData):', Object.fromEntries(formDataToSend))
     
       const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
         method: 'POST',
-        mode: 'cors',
-        headers: { 
-          'Content-Type': 'application/x-www-form-urlencoded' 
-        },
-        body: submitData.toString()
+        body: formDataToSend // No headers needed with FormData - avoids CORS preflight
       })
       
-      const result = await response.text()
-      console.log('Response:', result)
+      console.log('Response status:', response.status)
+      console.log('Response OK:', response.ok)
       
-      if (response.ok) {
+      const result = await response.json()
+      console.log('Response data:', result)
+      
+      if (response.ok && result.success) {
         setFormSubmissionState('success')
         // Reset form
         setFormData({
@@ -113,6 +113,7 @@ function App() {
           consultationType: 'video'
         })
       } else {
+        console.error('Server returned error:', result)
         setFormSubmissionState('error')
       }
     } catch (error) {
@@ -662,7 +663,6 @@ function App() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
-                      <input type="hidden" name="industry" value={formData.industry} />
                     </div>
                   </div>
 
