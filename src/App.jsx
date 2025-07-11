@@ -613,11 +613,11 @@ function App() {
               <CardHeader>
                 <CardTitle className="text-white text-2xl">Schedule Your Consultation</CardTitle>
                 <CardDescription className="text-gray-300">
-                  Fill out the form below and we'll contact you within 2 business hours
+                  Fill out the form below and we'll contact you within 1 business hour
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true" name="contact-form" method="POST">
+                <form onSubmit={handleSubmit} class="space-y-6" name="contact-form" method="POST">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="companyName" className="text-white mb-3 block">Company Name *</Label>
