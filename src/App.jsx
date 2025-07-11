@@ -65,19 +65,73 @@ function App() {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  // CORRECTED FORM SUBMISSION FUNCTION WITH FORMDATA FALLBACK
-  const handleSubmit = async (e) => {
+  // SIMPLE IFRAME FORM SUBMISSION - BYPASSES ALL CORS ISSUES
+  const handleSubmit = (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
     
-    try {
-      // Try FormData approach first (avoids CORS preflight)
-      const formDataToSend = new FormData()
-      formDataToSend.append('companyName', formData.companyName)
-      formDataToSend.append('firstName', formData.firstName)
-      formDataToSend.append('lastName', formData.lastName)
-      formDataToSend.append('email', formData.email)
-      formDataToSend.append('phone', formData.phone)
+    // Create hidden iframe for form submission
+    const iframe = document.createElement('iframe')
+    iframe.name = 'hidden-iframe'
+    iframe.style.display = 'none'
+    document.body.appendChild(iframe)
+    
+    // Create form
+    const form = document.createElement('form')
+    form.method = 'POST'
+    form.action = 'https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec'
+    form.target = 'hidden-iframe'
+    
+    // Add form data as hidden inputs
+    const fields = {
+      companyName: formData.companyName,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      industry: formData.industry,
+      challenges: formData.challenges,
+      goals: formData.goals
+    }
+    
+    Object.entries(fields).forEach(([name, value]) => {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = name
+      input.value = value || ''
+      form.appendChild(input)
+    })
+    
+    // Submit form
+    document.body.appendChild(form)
+    form.submit()
+    
+    console.log('Form submitted via iframe - no CORS issues!')
+    
+    // Show success after a delay (since we can't read the response due to CORS)
+    setTimeout(() => {
+      setFormSubmissionState('success')
+      // Reset form
+      setFormData({
+        companyName: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        industry: '',
+        companySize: '',
+        challenges: '',
+        goals: '',
+        timeline: '',
+        budget: '',
+        consultationType: 'video'
+      })
+      
+      // Cleanup
+      if (document.body.contains(form)) document.body.removeChild(form)
+      if (document.body.contains(iframe)) document.body.removeChild(iframe)
+    }, 2000) // 2 second delay to allow submission to complete
+  })
       formDataToSend.append('industry', formData.industry)
       formDataToSend.append('challenges', formData.challenges)
       formDataToSend.append('goals', formData.goals)
