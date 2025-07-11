@@ -131,49 +131,6 @@ function App() {
       if (document.body.contains(form)) document.body.removeChild(form)
       if (document.body.contains(iframe)) document.body.removeChild(iframe)
     }, 2000) // 2 second delay to allow submission to complete
-  })
-      formDataToSend.append('industry', formData.industry)
-      formDataToSend.append('challenges', formData.challenges)
-      formDataToSend.append('goals', formData.goals)
-      
-      console.log('Submitting form data (FormData):', Object.fromEntries(formDataToSend))
-    
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
-        method: 'POST',
-        body: formDataToSend // No headers needed with FormData - avoids CORS preflight
-      })
-      
-      console.log('Response status:', response.status)
-      console.log('Response OK:', response.ok)
-      
-      const result = await response.json()
-      console.log('Response data:', result)
-      
-      if (response.ok && result.success) {
-        setFormSubmissionState('success')
-        // Reset form
-        setFormData({
-          companyName: '',
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          industry: '',
-          companySize: '',
-          challenges: '',
-          goals: '',
-          timeline: '',
-          budget: '',
-          consultationType: 'video'
-        })
-      } else {
-        console.error('Server returned error:', result)
-        setFormSubmissionState('error')
-      }
-    } catch (error) {
-      console.error('Form submission error:', error)
-      setFormSubmissionState('error')
-    }
   }
 
   const scrollToSection = (sectionId) => {
