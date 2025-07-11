@@ -217,7 +217,8 @@ function App() {
 <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
   Empowering cabinetry, millwork, closet, and custom wood manufacturers with advanced IT consulting and AI automation. We help you proactively monitor critical workstations while implementing intelligent automations that save time and drive growth. 
   <br />
-  As the industry evolves, manufacturers who leverage AI technology are positioning themselves as tomorrow's market leaders. Begin your competitive transformation with a free discovery call.
+<br>
+  As AI and the wood industry evolves, businesses who leverage AI technology are positioning themselves as tomorrow's market leaders. Begin your competitive transformation with a free discovery call.
 </p>  
             {/* Value Propositions */}
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
