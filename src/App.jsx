@@ -70,14 +70,30 @@ function App() {
     setFormSubmissionState('submitting')
     
     try {
-      const formElement = e.target
-      const formData = new FormData(formElement)
+      // Create form data from the current state
+      const submitData = new URLSearchParams()
+      submitData.append('companyName', formData.companyName)
+      submitData.append('firstName', formData.firstName)
+      submitData.append('lastName', formData.lastName)
+      submitData.append('email', formData.email)
+      submitData.append('phone', formData.phone)
+      submitData.append('industry', formData.industry)
+      submitData.append('challenges', formData.challenges)
+      submitData.append('goals', formData.goals)
+      
+      console.log('Submitting form data:', Object.fromEntries(submitData))
       
       const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
+        mode: 'cors',
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded' 
+        },
+        body: submitData.toString()
       })
+      
+      const result = await response.text()
+      console.log('Response:', result)
       
       if (response.ok) {
         setFormSubmissionState('success')
@@ -617,7 +633,7 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} class="space-y-6" name="contact-form" method="POST">
+                <form onSubmit={handleSubmit} className="space-y-6" name="contact-form" method="POST">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="companyName" className="text-white mb-3 block">Company Name *</Label>
@@ -841,4 +857,3 @@ function App() {
 }
 
 export default App
-
