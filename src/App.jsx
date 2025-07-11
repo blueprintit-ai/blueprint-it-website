@@ -73,7 +73,7 @@ function App() {
       const formElement = e.target
       const formData = new FormData(formElement)
       
-const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
@@ -620,7 +620,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
                 <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true" name="contact-form" method="POST">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="companyName" className="text-white">Company Name *</Label>
+                      <Label htmlFor="companyName" className="text-white mb-3 block">Company Name *</Label>
                       <Input
                         id="companyName"
                         name="companyName"
@@ -632,7 +632,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
                       />
                     </div>
                     <div>
-                      <Label htmlFor="industry" className="text-white">Industry</Label>
+                      <Label htmlFor="industry" className="text-white mb-3 block">Industry</Label>
                       <Select onValueChange={(value) => handleInputChange('industry', value)}>
                         <SelectTrigger className="bg-white/10 border-gray-600 text-white">
                           <SelectValue placeholder="Select industry" />
@@ -652,7 +652,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName" className="text-white">First Name *</Label>
+                      <Label htmlFor="firstName" className="text-white mb-3 block">First Name *</Label>
                       <Input
                         id="firstName"
                         name="firstName"
@@ -664,7 +664,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName" className="text-white">Last Name *</Label>
+                      <Label htmlFor="lastName" className="text-white mb-3 block">Last Name *</Label>
                       <Input
                         id="lastName"
                         name="lastName"
@@ -679,7 +679,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="email" className="text-white">Email Address *</Label>
+                      <Label htmlFor="email" className="text-white mb-3 block">Email Address *</Label>
                       <Input
                         id="email"
                         name="email"
@@ -692,7 +692,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
                       />
                     </div>
                     <div>
-                      <Label htmlFor="phone" className="text-white">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-white mb-3 block">Phone Number</Label>
                       <Input
                         id="phone"
                         name="phone"
@@ -705,7 +705,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
                   </div>
 
                   <div>
-                    <Label htmlFor="challenges" className="text-white">Current IT Challenges</Label>
+                    <Label htmlFor="challenges" className="text-white mb-3 block">Current IT Challenges</Label>
                     <Textarea
                       id="challenges"
                       name="challenges"
@@ -718,7 +718,7 @@ const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR
                   </div>
 
                   <div>
-                    <Label htmlFor="goals" className="text-white">Goals & Objectives</Label>
+                    <Label htmlFor="goals" className="text-white mb-3 block">Goals & Objectives</Label>
                     <Textarea
                       id="goals"
                       name="goals"
