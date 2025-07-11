@@ -73,7 +73,7 @@ function App() {
       const formElement = e.target
       const formData = new FormData(formElement)
       
-      const response = await fetch('/', {
+const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
