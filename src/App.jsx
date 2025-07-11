@@ -29,7 +29,7 @@ import {
 import './App.css'
 
 // Import images
-import heroImage from './assets/images/cnc-manufacturing-bg.jpg'
+import heroImage from './assets/images/AICarpenter.jpg'
 import aiBusinessImage from './assets/images/ai_business.jpg'
 import aiWorkflowImage from './assets/images/ai_workflow.jpg'
 import consultingImage from './assets/images/consulting_professional.png'
