@@ -639,7 +639,7 @@ function App() {
             {/* Contact Form */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
               <CardHeader>
-                <CardTitle className="text-white text-2xl">Schedule Your Consultation</CardTitle>
+                <CardTitle className="text-white text-2xl">Schedule Your Free Discovery Call</CardTitle>
                 <CardDescription className="text-gray-300">
                   Fill out the form below and we'll contact you within 1 business hour
                 </CardDescription>
