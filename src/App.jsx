@@ -283,7 +283,7 @@ function App() {
               <CardContent>
                 <CardDescription className="text-gray-300">
                   Comprehensive evaluation of your shop technology infrastructure, connectivity, and backup systems. 
-                  We assess your current vulnerabilities and provide recommendations to protect your critical data.
+                  We assess your current vulnerabilities and provide solutions to protect your critical data.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -631,7 +631,7 @@ function App() {
             <h2 className="text-4xl font-bold text-white mb-4">Schedule Your Free Discovery Call</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Take the first step toward strategic IT transformation. Our free discovery consultation provides immediate insights 
-              and actionable recommendations with no obligation.
+              and actionable solutions with no obligation.
             </p>
           </div>
 
@@ -835,8 +835,8 @@ function App() {
                         <span className="text-white text-sm font-bold">3</span>
                       </div>
                       <div>
-                        <h4 className="text-white font-semibold">Recommendations</h4>
-                        <p className="text-gray-300 text-sm">Recommendations and next steps provided in our discovery session</p>
+                        <h4 className="text-white font-semibold">Solutions</h4>
+                        <p className="text-gray-300 text-sm">Solutions and next steps provided in our discovery session</p>
                       </div>
                     </div>
                   </div>
