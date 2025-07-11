@@ -473,7 +473,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                To provide value to our industry. Most of us are small shops and we understand that building a business is hard. The cabinetry, millwork, and closet industry has welcomed us with open arms and we are grateful. We have the IT background and expertise to truly make a positive impact. The goal is simple; Save you time by helping you operate more efficiently and implement systems to keep your shop running.
+                To provide real value to our industry. As fellow business owners, we understand the challenges of building a business in today's challenging landscape. The wood community has welcomed us with open arms, and we're committed to giving back through our IT expertise. Our goal is simple: save you time, boost efficiency, and implement systems that keep your shop running smoothly — so you can focus on what you do best.
               </p>
             </div>
 
