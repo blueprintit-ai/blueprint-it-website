@@ -519,7 +519,7 @@ function App() {
 
           {/* Centered Video */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-4xl">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 w-full max-w-5xl">
               <video 
                 className="w-full h-auto rounded-lg"
                 autoPlay 
@@ -527,10 +527,17 @@ function App() {
                 muted 
                 playsInline
                 controls
+                preload="auto"
+                style={{ minHeight: '400px' }}
               >
-                <source src="/src/assets/n8n-workflow.mov" type="video/mp4" />
-                <source src="/src/assets/n8n-workflow.mov" type="video/quicktime" />
-                Your browser does not support the video tag.
+                <source src="./src/assets/n8n-workflow.mov" type="video/quicktime" />
+                <source src="./src/assets/n8n-workflow.mp4" type="video/mp4" />
+                <p className="text-white text-center p-8">
+                  Your browser does not support the video tag. 
+                  <a href="./src/assets/n8n-workflow.mov" className="text-blue-400 underline ml-2">
+                    Download the video to view the workflow
+                  </a>
+                </p>
               </video>
               <p className="text-gray-400 text-sm text-center mt-4">Live n8n AI Email Lead Response Workflow in Action</p>
             </div>
