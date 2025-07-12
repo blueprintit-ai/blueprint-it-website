@@ -232,7 +232,7 @@ function App() {
               </div>
               <div className="flex items-center text-white">
                 <Users className="text-orange-400 mr-3" size={24} />
-                <span className="text-lg font-semibold">INDUSTRY KNOWLEDGE</span>
+                <span className="text-lg font-semibold">INDUSTRY EXPERTISE</span>
               </div>
             </div>
 
@@ -300,10 +300,27 @@ function App() {
                 <CardTitle className="text-white text-xl">AI Automation</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 text-center">
+                <CardDescription className="text-gray-300 text-center mb-4">
                   Streamline your production workflows with intelligent automation. From AI powered customer response to inventory management, 
                   we develop custom solutions that integrate with your existing processes and systems.
                 </CardDescription>
+                
+                {/* n8n Workflow Video */}
+                <div className="mt-4 rounded-lg overflow-hidden bg-slate-900/50 p-2">
+                  <video 
+                    className="w-full h-auto rounded-md"
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline
+                    style={{ maxHeight: '200px' }}
+                  >
+                    <source src="/src/assets/n8n-workflow.mov" type="video/mp4" />
+                    <source src="/src/assets/n8n-workflow.mov" type="video/quicktime" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <p className="text-xs text-gray-400 text-center mt-2">Live AI Email Response Workflow</p>
+                </div>
               </CardContent>
             </Card>
 
@@ -479,7 +496,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Our Experience</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                Drawing from our direct experience in commercial cabinetry and closets, we understand the unique IT challenges facing this industry. From safeguarding mission-critical applications to implementing time-saving AI workflows, we've experienced these pain points firsthand and are passionate about sharing and developing proven solutions that make a real difference.
+                As commercial cabinetry and closet manufacturers ourselves, we understand the unique IT challenges of the industry. From protecting critical applications to implementing time saving AI workflows, we've lived the pain points and are excited to share and continue to develop proven solutions for the industry.
               </p>
             </div>
 
