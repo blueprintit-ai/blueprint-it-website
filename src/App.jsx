@@ -479,7 +479,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Our Experience</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                With our direct experience in commercial cabinetry and closets, we understand the unique IT challenges of the industry. From protecting critical applications to implementing time saving AI workflows, we've live the pain points and are excited to share and continue to develop proven solutions for the industry.
+                Drawing from our direct experience in commercial cabinetry and closets, we understand the unique IT challenges facing this industry. From safeguarding mission-critical applications to implementing time-saving AI workflows, we've experienced these pain points firsthand and are passionate about sharing and developing proven solutions that make a real difference.
               </p>
             </div>
 
