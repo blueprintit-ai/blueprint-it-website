@@ -232,7 +232,7 @@ function App() {
               </div>
               <div className="flex items-center text-white">
                 <Users className="text-orange-400 mr-3" size={24} />
-                <span className="text-lg font-semibold">INDUSTRY EXPERTISE</span>
+                <span className="text-lg font-semibold">INDUSTRY KNOWLEDGE</span>
               </div>
             </div>
 
