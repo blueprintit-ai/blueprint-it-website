@@ -24,13 +24,12 @@ import {
   Database,
   Server,
   Eye,
-  Lock,
-  Globe
+  Lock
 } from 'lucide-react'
 import './App.css'
 
 // Import images
-import heroImage from './assets/images/AICarpenter.jpg'
+import heroImage from './assets/images/cnc-manufacturing-bg.jpg'
 import aiBusinessImage from './assets/images/ai_business.jpg'
 import aiWorkflowImage from './assets/images/ai_workflow.jpg'
 import consultingImage from './assets/images/consulting_professional.png'
@@ -66,72 +65,44 @@ function App() {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  // SIMPLE IFRAME FORM SUBMISSION - BYPASSES ALL CORS ISSUES
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
     
-    // Create hidden iframe for form submission
-    const iframe = document.createElement('iframe')
-    iframe.name = 'hidden-iframe'
-    iframe.style.display = 'none'
-    document.body.appendChild(iframe)
-    
-    // Create form
-    const form = document.createElement('form')
-    form.method = 'POST'
-    form.action = 'https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec'
-    form.target = 'hidden-iframe'
-    
-    // Add form data as hidden inputs
-    const fields = {
-      companyName: formData.companyName,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      phone: formData.phone,
-      industry: formData.industry,
-      challenges: formData.challenges,
-      goals: formData.goals
-    }
-    
-    Object.entries(fields).forEach(([name, value]) => {
-      const input = document.createElement('input')
-      input.type = 'hidden'
-      input.name = name
-      input.value = value || ''
-      form.appendChild(input)
-    })
-    
-    // Submit form
-    document.body.appendChild(form)
-    form.submit()
-    
-    console.log('Form submitted via iframe - no CORS issues!')
-    
-    // Show success after a delay (since we can't read the response due to CORS)
-    setTimeout(() => {
-      setFormSubmissionState('success')
-      // Reset form
-      setFormData({
-        companyName: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        industry: '',
-        companySize: '',
-        challenges: '',
-        goals: '',
-        timeline: '',
-        budget: '',
-        consultationType: 'video'
+    try {
+      const formElement = e.target
+      const formData = new FormData(formElement)
+      
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
       })
       
-      // Cleanup
-      if (document.body.contains(form)) document.body.removeChild(form)
-      if (document.body.contains(iframe)) document.body.removeChild(iframe)
-    }, 2000) // 2 second delay to allow submission to complete
+      if (response.ok) {
+        setFormSubmissionState('success')
+        // Reset form
+        setFormData({
+          companyName: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          industry: '',
+          companySize: '',
+          challenges: '',
+          goals: '',
+          timeline: '',
+          budget: '',
+          consultationType: 'video'
+        })
+      } else {
+        setFormSubmissionState('error')
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setFormSubmissionState('error')
+    }
   }
 
   const scrollToSection = (sectionId) => {
@@ -206,20 +177,18 @@ function App() {
       <section className="relative pt-16 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-blue-900/90"></div>
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-10"
+          className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{ backgroundImage: `url(${heroImage})` }}
         ></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               IT Solutions for<br />
-              <span className="text-blue-400">the Wood Industry </span>
+              <span className="text-blue-400">the Cabinetry & Manufacturing</span> Industry
             </h1>
-<p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
-  Empowering cabinetry, millwork, closet, and custom wood manufacturers with advanced IT consulting and AI automation. We help you proactively monitor critical workstations while implementing intelligent automations that save time and drive growth. 
-  <br /><br />
-  As the industry evolves, manufacturers who leverage AI technology are positioning themselves as tomorrow's market leaders. Begin your competitive transformation with a free discovery call.
-</p>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
+              Specialized IT consulting and automation for cabinetry, millwork, and closet manufacturers. From proactively monitoring your critical workstations to implementing AI automations that save you time. We understand your business and what is important. Start with a free discovery call to blueprint your digital transformation journey.
+            </p>          
             {/* Value Propositions */}
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
               <div className="flex items-center text-white">
@@ -258,7 +227,7 @@ function App() {
             </p>
           </div>
 
-         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {/* Service 1: IT Consulting */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
               <CardHeader className="text-center">
@@ -268,7 +237,7 @@ function App() {
                 <CardTitle className="text-white text-xl">Workstation Monitoring</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 text-center">
+                <CardDescription className="text-gray-300">
                   Critical file backups for CNC applications, customer files, and manufacturing settings. Hot-swappable workstation 
                   configurations to minimize downtime. We understand that when your machines stop, your business stops - our solutions keep you running.
                 </CardDescription>
@@ -284,9 +253,9 @@ function App() {
                 <CardTitle className="text-white text-xl">Technology Assessment</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 text-center">
+                <CardDescription className="text-gray-300">
                   Comprehensive evaluation of your shop technology infrastructure, connectivity, and backup systems. 
-                  We assess your current vulnerabilities and provide solutions to protect your critical data.
+                  We assess your current vulnerabilities and provide recommendations to protect your critical data.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -300,29 +269,15 @@ function App() {
                 <CardTitle className="text-white text-xl">AI Automation</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 text-center">
+                <CardDescription className="text-gray-300">
                   Streamline your production workflows with intelligent automation. From AI powered customer response to inventory management, 
                   we develop custom solutions that integrate with your existing processes and systems.
                 </CardDescription>
               </CardContent>
             </Card>
-
-            {/* Service 4: Website Development */}
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Monitor className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">Website Development</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300">
-                  Professional websites designed specifically for wood manufacturers. From project galleries to lead capture forms, 
-                  we build modern, mobile-responsive sites that showcase your craftsmanship and convert visitors into customers.
-                </CardDescription>
-              </CardContent>
-            </Card>
           </div>
+        </div>
+      </section>
 
       {/* Managed IT Services Section */}
       <section className="py-20 bg-gradient-to-br from-blue-900/30 to-slate-800/50">
@@ -488,7 +443,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                To provide real value to our industry. As fellow business owners, we understand the challenges of building a business in today's challenging landscape. The wood community has welcomed us with open arms, and we're committed to giving back through our IT expertise. Our goal is simple: save you time, boost efficiency, and implement systems that keep your shop running smoothly — so you can focus on what you do best.
+                To provide value to our industry. Most of us are small shops and we understand that building a business is hard. The cabinetry, millwork, and closet industry has welcomed us with open arms and we are grateful. We have the IT background and expertise to truly make a positive impact. The goal is simple; Save you time by helping you operate more efficiently and implement systems to keep your shop running.
               </p>
             </div>
 
@@ -648,7 +603,7 @@ function App() {
             <h2 className="text-4xl font-bold text-white mb-4">Schedule Your Free Discovery Call</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Take the first step toward strategic IT transformation. Our free discovery consultation provides immediate insights 
-              and actionable solutions with no obligation.
+              and actionable recommendations with no obligation.
             </p>
           </div>
 
@@ -656,13 +611,13 @@ function App() {
             {/* Contact Form */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
               <CardHeader>
-                <CardTitle className="text-white text-2xl">Schedule Your Free Discovery Call</CardTitle>
+                <CardTitle className="text-white text-2xl">Schedule Your Consultation</CardTitle>
                 <CardDescription className="text-gray-300">
-                  Fill out the form below and we'll contact you within 1 business hour
+                  Fill out the form below and we'll contact you within 2 business hours
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6" name="contact-form" method="POST">
+                <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true" name="contact-form" method="POST">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="companyName" className="text-white mb-3 block">Company Name *</Label>
@@ -691,6 +646,7 @@ function App() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
+                      <input type="hidden" name="industry" value={formData.industry} />
                     </div>
                   </div>
 
@@ -787,7 +743,7 @@ function App() {
                   {formSubmissionState === 'success' && (
                     <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg text-green-300">
                       <p className="font-semibold">Thank you for your interest!</p>
-                      <p>We will contact you within 1 business hour to schedule your free discovery call.</p>
+                      <p>We will contact you within 2 business hours to schedule your free discovery consultation.</p>
                     </div>
                   )}
                   
@@ -852,8 +808,8 @@ function App() {
                         <span className="text-white text-sm font-bold">3</span>
                       </div>
                       <div>
-                        <h4 className="text-white font-semibold">Solutions</h4>
-                        <p className="text-gray-300 text-sm">Solutions and next steps provided in our discovery session</p>
+                        <h4 className="text-white font-semibold">Recommendations</h4>
+                        <p className="text-gray-300 text-sm">Recommendations and next steps provided in our discovery session</p>
                       </div>
                     </div>
                   </div>
