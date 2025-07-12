@@ -268,7 +268,7 @@ function App() {
                 <CardTitle className="text-white text-xl">Workstation Monitoring</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300 text-center">
                   Critical file backups for CNC applications, customer files, and manufacturing settings. Hot-swappable workstation 
                   configurations to minimize downtime. We understand that when your machines stop, your business stops - our solutions keep you running.
                 </CardDescription>
@@ -284,7 +284,7 @@ function App() {
                 <CardTitle className="text-white text-xl">Technology Assessment</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300 text-center">
                   Comprehensive evaluation of your shop technology infrastructure, connectivity, and backup systems. 
                   We assess your current vulnerabilities and provide solutions to protect your critical data.
                 </CardDescription>
@@ -300,7 +300,7 @@ function App() {
                 <CardTitle className="text-white text-xl">AI Automation</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300 text-center">
                   Streamline your production workflows with intelligent automation. From AI powered customer response to inventory management, 
                   we develop custom solutions that integrate with your existing processes and systems.
                 </CardDescription>
@@ -316,7 +316,7 @@ function App() {
                 <CardTitle className="text-white text-xl">Website Development</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300 text-center">
                   Professional websites designed specifically for wood industry manufacturers. Showcase your craftsmanship with 
                   project galleries, lead capture forms, and mobile-responsive designs that convert visitors into customers.
                 </CardDescription>
