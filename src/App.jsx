@@ -300,27 +300,10 @@ function App() {
                 <CardTitle className="text-white text-xl">AI Automation</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 text-center mb-4">
+                <CardDescription className="text-gray-300 text-center">
                   Streamline your production workflows with intelligent automation. From AI powered customer response to inventory management, 
                   we develop custom solutions that integrate with your existing processes and systems.
                 </CardDescription>
-                
-                {/* n8n Workflow Video */}
-                <div className="mt-4 rounded-lg overflow-hidden bg-slate-900/50 p-2">
-                  <video 
-                    className="w-full h-auto rounded-md"
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline
-                    style={{ maxHeight: '200px' }}
-                  >
-                    <source src="/src/assets/n8n-workflow.mov" type="video/mp4" />
-                    <source src="/src/assets/n8n-workflow.mov" type="video/quicktime" />
-                    Your browser does not support the video tag.
-                  </video>
-                  <p className="text-xs text-gray-400 text-center mt-2">Live AI Email Response Workflow</p>
-                </div>
               </CardContent>
             </Card>
 
@@ -534,15 +517,22 @@ function App() {
             <p className="text-xl text-gray-300 text-center mb-8">Here's a real example of an AI automation we built for ourselves</p>
           </div>
 
-          {/* Centered Image */}
+          {/* Centered Video */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-2xl">
-              <img 
-                src={aiEmailWorkflowImage} 
-                alt="AI Email Lead Responder Workflow" 
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-4xl">
+              <video 
                 className="w-full h-auto rounded-lg"
-              />
-              <p className="text-gray-400 text-sm text-center mt-4">Automated AI powered Email Lead Responder</p>
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                controls
+              >
+                <source src="/src/assets/n8n-workflow.mov" type="video/mp4" />
+                <source src="/src/assets/n8n-workflow.mov" type="video/quicktime" />
+                Your browser does not support the video tag.
+              </video>
+              <p className="text-gray-400 text-sm text-center mt-4">Live n8n AI Email Lead Response Workflow in Action</p>
             </div>
           </div>
 
