@@ -44,9 +44,6 @@ import anthropicLogo from './assets/images/anthropic-logo.png'
 import geminiLogo from './assets/images/gemini-logo.png'
 import perplexityLogo from './assets/images/perplexity-logo.webp'
 
-// Import video
-import n8nWorkflowVideo from './assets/n8n-workflow.mov'
-
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [formSubmissionState, setFormSubmissionState] = useState('idle') // 'idle', 'submitting', 'success', 'error'
@@ -235,7 +232,7 @@ function App() {
               </div>
               <div className="flex items-center text-white">
                 <Users className="text-orange-400 mr-3" size={24} />
-                <span className="text-lg font-semibold">INDUSTRY EXPERTISE</span>
+                <span className="text-lg font-semibold">INDUSTRY KNOWLEDGE</span>
               </div>
             </div>
 
@@ -482,7 +479,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Our Experience</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                As commercial cabinetry and closet manufacturers ourselves, we understand the unique IT challenges of the industry. From protecting critical applications to implementing time saving AI workflows, we've lived the pain points and are excited to share and continue to develop proven solutions for the industry.
+                Drawing from our direct experience in commercial cabinetry and closets, we understand the unique IT challenges facing this industry. From safeguarding mission-critical applications to implementing time-saving AI workflows, we've experienced these pain points firsthand and are passionate about sharing and developing proven solutions that make a real difference.
               </p>
             </div>
 
@@ -520,28 +517,15 @@ function App() {
             <p className="text-xl text-gray-300 text-center mb-8">Here's a real example of an AI automation we built for ourselves</p>
           </div>
 
-          {/* Centered Video */}
+          {/* Centered Image */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 w-full max-w-5xl">
-              <video 
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-2xl">
+              <img 
+                src={aiEmailWorkflowImage} 
+                alt="AI Email Lead Responder Workflow" 
                 className="w-full h-auto rounded-lg"
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                controls
-                preload="auto"
-                style={{ minHeight: '400px' }}
-              >
-                <source src={n8nWorkflowVideo} type="video/quicktime" />
-                <p className="text-white text-center p-8">
-                  Your browser does not support the video tag. 
-                  <a href={n8nWorkflowVideo} className="text-blue-400 underline ml-2">
-                    Download the video to view the workflow
-                  </a>
-                </p>
-              </video>
-              <p className="text-gray-400 text-sm text-center mt-4">Live n8n AI Email Lead Response Workflow in Action</p>
+              />
+              <p className="text-gray-400 text-sm text-center mt-4">Automated AI powered Email Lead Responder</p>
             </div>
           </div>
 
