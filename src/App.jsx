@@ -44,6 +44,9 @@ import anthropicLogo from './assets/images/anthropic-logo.png'
 import geminiLogo from './assets/images/gemini-logo.png'
 import perplexityLogo from './assets/images/perplexity-logo.webp'
 
+// Import video
+import n8nWorkflowVideo from './assets/n8n-workflow.mov'
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [formSubmissionState, setFormSubmissionState] = useState('idle') // 'idle', 'submitting', 'success', 'error'
@@ -530,11 +533,10 @@ function App() {
                 preload="auto"
                 style={{ minHeight: '400px' }}
               >
-                <source src="./src/assets/n8n-workflow.mov" type="video/quicktime" />
-                <source src="./src/assets/n8n-workflow.mp4" type="video/mp4" />
+                <source src={n8nWorkflowVideo} type="video/quicktime" />
                 <p className="text-white text-center p-8">
                   Your browser does not support the video tag. 
-                  <a href="./src/assets/n8n-workflow.mov" className="text-blue-400 underline ml-2">
+                  <a href={n8nWorkflowVideo} className="text-blue-400 underline ml-2">
                     Download the video to view the workflow
                   </a>
                 </p>
