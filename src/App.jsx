@@ -268,10 +268,10 @@ function App() {
                 <CardTitle className="text-white text-xl">Workstation Monitoring</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300"><center>
                   Critical file backups for CNC applications, customer files, and manufacturing settings. Hot-swappable workstation 
                   configurations to minimize downtime. We understand that when your machines stop, your business stops - our solutions keep you running.
-                </CardDescription>
+                </CardDescription></center>
               </CardContent>
             </Card>
 
