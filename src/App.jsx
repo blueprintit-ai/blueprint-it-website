@@ -258,7 +258,7 @@ function App() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Service 1: IT Consulting */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
               <CardHeader className="text-center">
@@ -268,10 +268,10 @@ function App() {
                 <CardTitle className="text-white text-xl">Workstation Monitoring</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300"><center>
+                <CardDescription className="text-gray-300 text-center">
                   Critical file backups for CNC applications, customer files, and manufacturing settings. Hot-swappable workstation 
                   configurations to minimize downtime. We understand that when your machines stop, your business stops - our solutions keep you running.
-                </CardDescription></center>
+                </CardDescription>
               </CardContent>
             </Card>
 
@@ -284,7 +284,7 @@ function App() {
                 <CardTitle className="text-white text-xl">Technology Assessment</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300 text-center">
                   Comprehensive evaluation of your shop technology infrastructure, connectivity, and backup systems. 
                   We assess your current vulnerabilities and provide solutions to protect your critical data.
                 </CardDescription>
@@ -300,7 +300,7 @@ function App() {
                 <CardTitle className="text-white text-xl">AI Automation</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-300 text-center">
                   Streamline your production workflows with intelligent automation. From AI powered customer response to inventory management, 
                   we develop custom solutions that integrate with your existing processes and systems.
                 </CardDescription>
@@ -311,20 +311,18 @@ function App() {
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Globe className="text-white" size={32} />
+                  <Monitor className="text-white" size={32} />
                 </div>
                 <CardTitle className="text-white text-xl">Website Development</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-300">
-                  Professional websites designed specifically for wood industry manufacturers. Showcase your craftsmanship with 
-                  project galleries, lead capture forms, and mobile-responsive designs that convert visitors into customers.
+                  Professional websites designed specifically for wood manufacturers. From project galleries to lead capture forms, 
+                  we build modern, mobile-responsive sites that showcase your craftsmanship and convert visitors into customers.
                 </CardDescription>
               </CardContent>
             </Card>
           </div>
-        </div>
-      </section>
 
       {/* Managed IT Services Section */}
       <section className="py-20 bg-gradient-to-br from-blue-900/30 to-slate-800/50">
