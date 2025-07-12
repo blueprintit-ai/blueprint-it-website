@@ -519,9 +519,8 @@ function App() {
 
           {/* Centered Image */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-2xl">
-              <img 
-                src={aiEmailWorkflowImage} 
+<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-3xl">
+  <img src={aiEmailWorkflowImage} 
                 alt="AI Email Lead Responder Workflow" 
                 className="w-full h-auto rounded-lg"
               />
