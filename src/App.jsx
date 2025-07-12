@@ -24,7 +24,8 @@ import {
   Database,
   Server,
   Eye,
-  Lock
+  Lock,
+  Globe
 } from 'lucide-react'
 import './App.css'
 
@@ -257,7 +258,7 @@ function App() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Service 1: IT Consulting */}
             <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
               <CardHeader className="text-center">
@@ -302,6 +303,22 @@ function App() {
                 <CardDescription className="text-gray-300">
                   Streamline your production workflows with intelligent automation. From AI powered customer response to inventory management, 
                   we develop custom solutions that integrate with your existing processes and systems.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            {/* Service 4: Website Development */}
+            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Globe className="text-white" size={32} />
+                </div>
+                <CardTitle className="text-white text-xl">Website Development</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-300">
+                  Professional websites designed specifically for wood industry manufacturers. Showcase your craftsmanship with 
+                  project galleries, lead capture forms, and mobile-responsive designs that convert visitors into customers.
                 </CardDescription>
               </CardContent>
             </Card>
