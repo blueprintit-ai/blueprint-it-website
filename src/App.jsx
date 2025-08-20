@@ -517,7 +517,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">What do you mean by AI Automation?</h2>
-            <p className="text-xl text-gray-300 text-center mb-8">Here's a real example of an AI automation we built for ourselves</p>
+            <p className="text-xl text-gray-300 text-center mb-8">Here's a real example of an AI automation we developed for a client</p>
           </div>
 
           {/* Centered Image */}
