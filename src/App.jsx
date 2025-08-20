@@ -470,7 +470,7 @@ function App() {
               <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Users className="text-white" size={32} />
               </div>
-             <center><h3 className="text-2xl font-bold text-white mb-4"><Our Experience</h3></center>
+             <h3 className="text-2xl font-bold text-white mb-4"><Our Experience</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
                 Drawing from our direct experience working with small businesses across various industries, we understand the unique IT challenges facing growing companies. From safeguarding mission-critical applications to implementing time-saving AI workflows, we've experienced these pain points firsthand and are passionate about developing proven solutions that make a real difference.
               </p>
@@ -480,7 +480,7 @@ function App() {
               <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="text-white" size={32} />
               </div>
-               <center><h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3></center>
+               <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
                 To provide real value to small businesses everywhere. As fellow business owners, we understand the challenges of building and growing a business in today's competitive landscape. The small business community has welcomed us with open arms, and we're committed to giving back through our IT expertise. Our goal is simple: save you time, boost efficiency, and implement systems that keep your business running smoothly — so you can focus on what you do best.
               </p>
@@ -490,7 +490,7 @@ function App() {
               <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Zap className="text-white" size={32} />
               </div>
-               <center><h3 className="text-2xl font-bold text-white mb-4">Our Technology</h3></center>
+               <h3 className="text-2xl font-bold text-white mb-4">Our Technology</h3>
               <p className="text-lg text-gray-300 max-w-3xl mx-auto">
                 We specialize in integrating modern IT solutions tailored for small businesses. Our technology platform automates critical patching and backups to keep you running. Our custom AI solutions can help solve problems and maximize efficiency across all the various systems and processes within your business operations.
               </p>
