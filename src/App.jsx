@@ -71,6 +71,9 @@ function App() {
     e.preventDefault()
     setFormSubmissionState('submitting')
     
+    // Immediately open Thank You page in new window for instant feedback
+    const thankYouWindow = window.open('/thank-you.html', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes')
+    
     // Create hidden iframe for form submission
     const iframe = document.createElement('iframe')
     iframe.name = 'hidden-iframe'
@@ -108,30 +111,32 @@ function App() {
     form.submit()
     
     console.log('Form submitted via iframe - no CORS issues!')
+    console.log('Thank you page opened in new window for immediate feedback')
     
-    // Show success after a delay (since we can't read the response due to CORS)
+    // Reset form and state immediately since user gets feedback in new window
+    setFormSubmissionState('success')
+    setFormData({
+      companyName: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      industry: '',
+      companySize: '',
+      challenges: '',
+      goals: '',
+      timeline: '',
+      budget: '',
+      consultationType: 'video'
+    })
+    
+    // Cleanup after a short delay
     setTimeout(() => {
-      setFormSubmissionState('success')
-      // Reset form
-      setFormData({
-        companyName: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        industry: '',
-        companySize: '',
-        challenges: '',
-        goals: '',
-        timeline: '',
-        budget: '',
-        consultationType: 'video'
-      })
-      
-      // Cleanup
       if (document.body.contains(form)) document.body.removeChild(form)
       if (document.body.contains(iframe)) document.body.removeChild(iframe)
-    }, 2000) // 2 second delay to allow submission to complete
+      // Reset state back to idle after cleanup
+      setFormSubmissionState('idle')
+    }, 1000) // Reduced to 1 second since we have immediate feedback
   }
 
   const scrollToSection = (sectionId) => {
