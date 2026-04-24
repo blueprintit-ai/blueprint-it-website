@@ -110,17 +110,10 @@ function App() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  // SIMPLE IFRAME FORM SUBMISSION - BYPASSES ALL CORS ISSUES
+  // Iframe-based form submission — bypasses CORS, stays inline (no popup)
   const handleSubmit = (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
-
-    // Immediately open Thank You page in new window for instant feedback
-    const thankYouWindow = window.open(
-      '/thank-you.html',
-      '_blank',
-      'width=800,height=600,scrollbars=yes,resizable=yes'
-    )
 
     // Create hidden iframe for form submission
     const iframe = document.createElement('iframe')
@@ -173,11 +166,12 @@ function App() {
       consultationType: 'video',
     })
 
+    // Clean up hidden DOM nodes shortly after submit; keep success state
+    // visible so the inline thank-you panel stays until the page is reloaded.
     setTimeout(() => {
       if (document.body.contains(form)) document.body.removeChild(form)
       if (document.body.contains(iframe)) document.body.removeChild(iframe)
-      setFormSubmissionState('idle')
-    }, 1000)
+    }, 2000)
   }
 
   const scrollToSection = (sectionId) => {
@@ -1049,29 +1043,71 @@ function App() {
                   <button
                     type="submit"
                     className="btn-ink w-full justify-center"
-                    disabled={formSubmissionState === 'submitting'}
+                    disabled={
+                      formSubmissionState === 'submitting' ||
+                      formSubmissionState === 'success'
+                    }
                   >
                     {formSubmissionState === 'submitting'
                       ? 'Scheduling…'
+                      : formSubmissionState === 'success'
+                      ? 'Submission Received'
                       : 'Schedule Free Discovery Call'}
                     <ArrowRight size={14} strokeWidth={2.2} />
                   </button>
-
-                  {formSubmissionState === 'success' && (
-                    <div className="border border-[color:var(--cyan)] bg-[color:var(--cyan)]/10 px-4 py-3 flex items-center gap-3">
-                      <Check
-                        size={16}
-                        className="text-[color:var(--cyan)]"
-                        strokeWidth={3}
-                      />
-                      <span className="font-mono text-sm text-[color:var(--ink)]">
-                        Received — we&apos;ll be in touch within 1 business
-                        hour.
-                      </span>
-                    </div>
-                  )}
                 </form>
               </Plate>
+
+              {/* Inline thank-you — rendered beneath the form plate */}
+              {formSubmissionState === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="mt-6"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <Plate accent="rust">
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="label label-rust">Submission Received</div>
+                      <div className="font-mono text-[11px] text-[color:var(--ink-mute)]">
+                        Drawing № 05 · Logged
+                      </div>
+                    </div>
+                    <h3 className="font-display text-4xl md:text-5xl leading-[0.95] tracking-[-0.02em]">
+                      Thank you —{' '}
+                      <span className="font-display-italic text-[color:var(--rust)]">
+                        your drawing is on the table.
+                      </span>
+                    </h3>
+                    <p className="mt-5 text-[color:var(--ink-soft)] leading-relaxed max-w-2xl">
+                      We&apos;ve received your inquiry and a human will
+                      respond within <strong>one business hour</strong>. Keep
+                      an eye on your inbox for a short reply and a link to
+                      schedule the discovery call.
+                    </p>
+                    <div className="mt-6 pt-5 border-t border-[color:var(--paper-line)] grid sm:grid-cols-2 gap-3 font-mono text-[12px] text-[color:var(--ink)]">
+                      <div className="flex items-center gap-3">
+                        <Check
+                          size={14}
+                          className="text-[color:var(--rust)]"
+                          strokeWidth={3}
+                        />
+                        <span>Details saved to our system</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Check
+                          size={14}
+                          className="text-[color:var(--rust)]"
+                          strokeWidth={3}
+                        />
+                        <span>Calendar link inbound</span>
+                      </div>
+                    </div>
+                  </Plate>
+                </motion.div>
+              )}
             </div>
 
             {/* Side info */}
