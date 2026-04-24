@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.env
+.env.local
+.vite
+
+# project uses pnpm — don't commit npm/yarn lockfiles
+package-lock.json
+yarn.lock

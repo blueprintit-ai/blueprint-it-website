@@ -1,52 +1,73 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button.jsx'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Textarea } from '@/components/ui/textarea.jsx'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
-import { 
-  Brain, 
-  Lightbulb, 
-  Users, 
-  Phone, 
-  Settings, 
-  Zap, 
-  CheckCircle, 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select.jsx'
+import {
   ArrowRight,
+  ArrowUpRight,
   Menu,
   X,
-  Mail,
+  Check,
   MapPin,
   Clock,
-  Shield,
-  Monitor,
-  Database,
-  Server,
-  Eye,
-  Lock,
-  Globe
+  Mail,
 } from 'lucide-react'
 import './App.css'
 
-// Import images
-import heroImage from './assets/images/AICarpenter.jpg'
-import aiBusinessImage from './assets/images/ai_business.jpg'
-import aiWorkflowImage from './assets/images/ai_workflow.jpg'
-import consultingImage from './assets/images/consulting_professional.png'
-import techInnovationImage from './assets/images/technology_innovation.jpg'
+// Assets
 import aiEmailWorkflowImage from './assets/images/ai-email-workflow.png'
-
-// Import partner logos
 import airtableLogo from './assets/images/airtable-logo.png'
 import n8nLogo from './assets/images/n8n-logo.png'
 import anthropicLogo from './assets/images/anthropic-logo.png'
 import geminiLogo from './assets/images/gemini-logo.png'
-import perplexityLogo from './assets/images/perplexity-logo.webp'
+
+// ---- small local components ------------------------------------------------
+
+const SectionTag = ({ id, children }) => (
+  <div className="flex items-center gap-4">
+    <span className="label label-cyan">§{id}</span>
+    <span className="h-px w-12 bg-[color:var(--cyan)] opacity-60" />
+    <span className="label">{children}</span>
+  </div>
+)
+
+const RegMark = ({ position = 'top-left' }) => {
+  const map = {
+    'top-left': 'left-[-10px] top-[-10px]',
+    'top-right': 'right-[-10px] top-[-10px]',
+    'bottom-left': 'left-[-10px] bottom-[-10px]',
+    'bottom-right': 'right-[-10px] bottom-[-10px]',
+  }
+  return <span aria-hidden className={`reg-mark ${map[position]}`} />
+}
+
+const Plate = ({ accent = 'cyan', children, className = '' }) => (
+  <div
+    className={`plate ${
+      accent === 'rust' ? 'plate-rust' : 'plate-cyan'
+    } ${className}`}
+  >
+    <RegMark position="top-left" />
+    <RegMark position="top-right" />
+    <RegMark position="bottom-left" />
+    <RegMark position="bottom-right" />
+    {children}
+  </div>
+)
+
+// -----------------------------------------------------------------------------
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [formSubmissionState, setFormSubmissionState] = useState('idle') // 'idle', 'submitting', 'success', 'error'
+  const [formSubmissionState, setFormSubmissionState] = useState('idle')
   const [formData, setFormData] = useState({
     companyName: '',
     firstName: '',
@@ -59,34 +80,61 @@ function App() {
     goals: '',
     timeline: '',
     budget: '',
-    consultationType: 'video'
+    consultationType: 'video',
   })
 
+  // Live clock in the header — tiny editorial flourish
+  const [clock, setClock] = useState(() =>
+    new Date().toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'America/New_York',
+    })
+  )
+  useEffect(() => {
+    const t = setInterval(() => {
+      setClock(
+        new Date().toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+          timeZone: 'America/New_York',
+        })
+      )
+    }, 15_000)
+    return () => clearInterval(t)
+  }, [])
+
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   // SIMPLE IFRAME FORM SUBMISSION - BYPASSES ALL CORS ISSUES
   const handleSubmit = (e) => {
     e.preventDefault()
     setFormSubmissionState('submitting')
-    
+
     // Immediately open Thank You page in new window for instant feedback
-    const thankYouWindow = window.open('/thank-you.html', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes')
-    
+    const thankYouWindow = window.open(
+      '/thank-you.html',
+      '_blank',
+      'width=800,height=600,scrollbars=yes,resizable=yes'
+    )
+
     // Create hidden iframe for form submission
     const iframe = document.createElement('iframe')
     iframe.name = 'hidden-iframe'
     iframe.style.display = 'none'
     document.body.appendChild(iframe)
-    
+
     // Create form
     const form = document.createElement('form')
     form.method = 'POST'
-    form.action = 'https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec'
+    form.action =
+      'https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec'
     form.target = 'hidden-iframe'
-    
-    // Add form data as hidden inputs
+
     const fields = {
       companyName: formData.companyName,
       firstName: formData.firstName,
@@ -95,9 +143,9 @@ function App() {
       phone: formData.phone,
       industry: formData.industry,
       challenges: formData.challenges,
-      goals: formData.goals
+      goals: formData.goals,
     }
-    
+
     Object.entries(fields).forEach(([name, value]) => {
       const input = document.createElement('input')
       input.type = 'hidden'
@@ -105,15 +153,10 @@ function App() {
       input.value = value || ''
       form.appendChild(input)
     })
-    
-    // Submit form
+
     document.body.appendChild(form)
     form.submit()
-    
-    console.log('Form submitted via iframe - no CORS issues!')
-    console.log('Thank you page opened in new window for immediate feedback')
-    
-    // Reset form and state immediately since user gets feedback in new window
+
     setFormSubmissionState('success')
     setFormData({
       companyName: '',
@@ -127,16 +170,14 @@ function App() {
       goals: '',
       timeline: '',
       budget: '',
-      consultationType: 'video'
+      consultationType: 'video',
     })
-    
-    // Cleanup after a short delay
+
     setTimeout(() => {
       if (document.body.contains(form)) document.body.removeChild(form)
       if (document.body.contains(iframe)) document.body.removeChild(iframe)
-      // Reset state back to idle after cleanup
       setFormSubmissionState('idle')
-    }, 1000) // Reduced to 1 second since we have immediate feedback
+    }, 1000)
   }
 
   const scrollToSection = (sectionId) => {
@@ -144,720 +185,1010 @@ function App() {
     setIsMenuOpen(false)
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-slate-900/95 backdrop-blur-sm border-b border-blue-800/30 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="text-2xl font-bold text-white">
-                Blueprint<span className="text-orange-500">IT</span>
-              </div>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Services
-                </button>
-                <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  About
-                </button>
-                <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Contact
-                </button>
-                <Button onClick={() => scrollToSection('contact')} className="bg-orange-600 hover:bg-orange-700 text-white">
-                  Free Discovery Call
-                </Button>
-              </div>
-            </div>
+  // Services after removing System Monitoring
+  const services = [
+    {
+      id: '01',
+      title: 'Technology Assessment',
+      tag: 'Diagnostic',
+      body: 'A structured, end-to-end audit of your infrastructure, connectivity, backups, and workflows. You receive a documented schematic of where your business stands — and a prioritized path forward.',
+      deliverables: [
+        'Infrastructure audit',
+        'Vulnerability review',
+        'Resilience plan',
+      ],
+      accent: 'cyan',
+    },
+    {
+      id: '02',
+      title: 'AI Automation',
+      tag: 'Systems of Work',
+      body: 'Custom automations that slot into the tools you already use. We design, build, and maintain intelligent workflows — from inbox triage to proposal generation — so your team reclaims hours per week.',
+      deliverables: [
+        'Lead & inbox automation',
+        'Process orchestration',
+        'Custom AI agents',
+      ],
+      accent: 'rust',
+    },
+    {
+      id: '03',
+      title: 'Website Development',
+      tag: 'Presentation Layer',
+      body: 'Distinctive, fast, conversion-focused websites built specifically for small businesses. Portfolio galleries, lead capture, and the polish of a brand that takes itself seriously.',
+      deliverables: [
+        'Custom design system',
+        'Lead capture & CRM',
+        'Mobile-first build',
+      ],
+      accent: 'cyan',
+    },
+  ]
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
+  const about = [
+    {
+      id: '01',
+      title: 'Experience',
+      body: 'We\'ve worked directly inside growing small businesses, felt the pain of brittle tools, and learned what separates infrastructure that supports growth from infrastructure that quietly drags it down. That perspective is in every recommendation we make.',
+    },
+    {
+      id: '02',
+      title: 'Mission',
+      body: 'Deliver real, measurable value — not retainers-for-retainers. As fellow business owners, we treat every engagement like it\'s our own shop: save time, add leverage, install systems that keep running without constant attention.',
+    },
+    {
+      id: '03',
+      title: 'Technology',
+      body: 'We specialize in integrating modern AI tooling with the everyday systems small businesses already rely on. The result is less manual work, fewer dropped balls, and infrastructure that scales with the business instead of against it.',
+    },
+  ]
+
+  const steps = [
+    {
+      n: '01',
+      title: 'Instant Lead Capture',
+      body: 'The moment someone submits an inquiry through your website, the system captures their details and project requirements.',
+    },
+    {
+      n: '02',
+      title: 'Smart Response Generation',
+      body: 'Our AI analyzes their project description, budget, and timeline, then searches your completed-projects database to surface the most relevant prior work.',
+    },
+    {
+      n: '03',
+      title: 'Human Review & Approval',
+      body: 'Before any email is sent, you can receive a notification with the proposed response. Approve as-is, request modifications, or decline.',
+    },
+    {
+      n: '04',
+      title: 'Professional Follow-Up',
+      body: 'Once approved, the system sends a polished email to your prospect — complete with relevant project examples.',
+    },
+    {
+      n: '05',
+      title: 'Organized Lead Management',
+      body: 'All leads are automatically organized in your database, with processed inquiries moved to a separate tracking sheet for follow-up.',
+    },
+  ]
+
+  const outcomes = [
+    {
+      label: 'Save Hours Daily',
+      body: 'No more manually responding to each inquiry or digging through old projects for examples.',
+    },
+    {
+      label: 'Respond While You Sleep',
+      body: 'Leads get professional responses within minutes, on your schedule — even after hours.',
+    },
+    {
+      label: 'Never Sound Unprepared',
+      body: 'Every response can include relevant project examples that prove your capability.',
+    },
+    {
+      label: 'Higher Conversion Rates',
+      body: 'Fast, professional responses with proof of work convert more inquiries into consultations.',
+    },
+    {
+      label: 'Stay Organized',
+      body: 'All leads flow into your management system with instant Telegram notifications for urgent follow-ups.',
+    },
+  ]
+
+  const partners = [
+    { logo: airtableLogo, name: 'Airtable', caption: 'Database / CRM' },
+    { logo: n8nLogo, name: 'n8n', caption: 'Automation' },
+    { logo: anthropicLogo, name: 'Anthropic', caption: 'AI Platform' },
+    { logo: geminiLogo, name: 'Google Gemini', caption: 'AI & Analytics' },
+  ]
+
+  const tickerWords = [
+    'AI AUTOMATION',
+    'TECHNOLOGY ASSESSMENT',
+    'WEBSITE DEVELOPMENT',
+    'LEAD WORKFLOWS',
+    'PROCESS DESIGN',
+    'SMALL BUSINESS',
+  ]
+
+  return (
+    <div className="bp-grid bp-grain min-h-screen text-[color:var(--ink)]">
+      {/* =========================================================
+          NAV
+      ==========================================================*/}
+      <nav className="sticky top-0 z-40 bg-[color:var(--paper)]/92 backdrop-blur border-b border-[color:var(--ink)]">
+        <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
+          <a
+            href="#top"
+            className="flex items-baseline gap-3"
+            onClick={(e) => {
+              e.preventDefault()
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+          >
+            <span className="font-display text-2xl leading-none tracking-tight">
+              Blueprint
+              <span className="font-display-italic text-[color:var(--rust)]">
+                IT
+              </span>
+            </span>
+            <span className="hidden md:inline font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--ink-mute)]">
+              / est. 2024 / Wake Forest · NC
+            </span>
+          </a>
+
+          <div className="hidden md:flex items-center gap-8">
+            {[
+              ['services', 'Services'],
+              ['about', 'Studio'],
+              ['workflow', 'Case'],
+              ['contact', 'Contact'],
+            ].map(([id, label]) => (
               <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-300 hover:text-white p-2"
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors"
               >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                {label}
               </button>
-            </div>
+            ))}
+            <span className="font-mono text-[11px] text-[color:var(--ink-mute)] tabular-nums">
+              {clock} EST
+            </span>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="btn-ink btn-rust"
+            >
+              Discovery Call
+              <ArrowUpRight size={14} strokeWidth={2} />
+            </button>
           </div>
+
+          <button
+            className="md:hidden text-[color:var(--ink)]"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Menu"
+          >
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900/95 backdrop-blur-sm">
-              <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-left">
-                Services
+          <div className="md:hidden border-t border-[color:var(--paper-line)] bg-[color:var(--paper)]">
+            <div className="px-6 py-4 flex flex-col gap-2">
+              {[
+                ['services', 'Services'],
+                ['about', 'Studio'],
+                ['workflow', 'Case'],
+                ['contact', 'Contact'],
+              ].map(([id, label]) => (
+                <button
+                  key={id}
+                  onClick={() => scrollToSection(id)}
+                  className="text-left font-mono text-xs uppercase tracking-[0.18em] py-2 text-[color:var(--ink-soft)]"
+                >
+                  {label}
+                </button>
+              ))}
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="btn-ink btn-rust mt-2 w-full justify-center"
+              >
+                Discovery Call <ArrowUpRight size={14} />
               </button>
-              <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-left">
-                About
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-left">
-                Contact
-              </button>
-              <Button onClick={() => scrollToSection('contact')} className="bg-orange-600 hover:bg-orange-700 text-white w-full mt-2">
-                Free Discovery Call
-              </Button>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-blue-900/90"></div>
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-10"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        ></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              AI and IT Solutions for<br />
-              <span className="text-blue-400">Small Businesses</span>
-            </h1>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
-              Empowering small businesses across all industries with advanced IT consulting and AI automation. We help you proactively monitor critical systems while implementing intelligent automations that save time and drive growth. 
-              <br /><br />
-              As technology evolves, businesses who leverage AI are positioning themselves as tomorrow's market leaders. Begin your competitive transformation with a free discovery call.
-            </p>
-            {/* Value Propositions */}
-            <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
-              <div className="flex items-center text-white">
-                <CheckCircle className="text-green-400 mr-3" size={24} />
-                <span className="text-lg font-semibold">STRATEGIC</span>
-              </div>
-              <div className="flex items-center text-white">
-                <Lightbulb className="text-blue-400 mr-3" size={24} />
-                <span className="text-lg font-semibold">INNOVATIVE</span>
-              </div>
-              <div className="flex items-center text-white">
-                <Users className="text-orange-400 mr-3" size={24} />
-                <span className="text-lg font-semibold">BUSINESS FOCUSED</span>
-              </div>
-            </div>
+      {/* =========================================================
+          HERO
+      ==========================================================*/}
+      <section id="top" className="relative overflow-hidden">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 pt-14 md:pt-24 pb-20 md:pb-32">
+          <div className="grid md:grid-cols-12 gap-8 items-end">
+            <div className="md:col-span-8">
+              <SectionTag id="00">Drawing № 01 · Introduction</SectionTag>
 
-            <Button 
-              onClick={() => scrollToSection('contact')} 
-              size="lg" 
-              className="bg-orange-600 hover:bg-orange-700 text-white text-lg px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105"
-            >
-              Schedule Your Free Discovery Call
-              <ArrowRight className="ml-2" size={20} />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-slate-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Information Technology Expertise + Small Business Experience</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Specialized solutions for small businesses who understand that downtime costs money
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Service 1: IT Consulting */}
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-slate-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Settings className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">System Monitoring</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 text-center">
-                  Critical file backups for business applications, customer files, and system configurations. Hot-swappable workstation 
-                  configurations to minimize downtime. We understand that when your systems fail, your business suffers - our solutions keep you running.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            {/* Service 2: Discovery Calls */}
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">Technology Assessment</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 text-center">
-                  Comprehensive evaluation of your business technology infrastructure, connectivity, and backup systems. 
-                  We assess your current vulnerabilities and provide solutions to protect your critical data.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            {/* Service 3: AI Automation */}
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Brain className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">AI Automation</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 text-center">
-                  Streamline your business workflows with intelligent automation. From AI-powered customer response to process management, 
-                  we develop custom solutions that integrate with your existing systems and operations.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            {/* Service 4: Website Development */}
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Globe className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">Website Development</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 text-center">
-                  Professional websites designed specifically for small businesses. Showcase your services and expertise with 
-                  portfolio galleries, lead capture forms, and mobile-responsive designs that convert visitors into customers.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Managed IT Services Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-900/30 to-slate-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Managed IT Services
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Powered by our enterprise-grade platform, our system provides active monitoring, automated protection, and recovery options for your critical business systems.
-            </p>
-            <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-lg inline-block font-semibold text-lg">
-              🎯 30-Day Free Trial - No Obligation
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Monitor className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">RMM Platform</CardTitle>
-                <CardDescription className="text-blue-300 font-semibold">Remote Monitoring & Management</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 mb-4">
-                  Comprehensive monitoring and management of all your business workstations and servers. Real-time visibility into system health, automated patch management, and remote troubleshooting capabilities to minimize business downtime.
-                </CardDescription>
-                <div className="space-y-2">
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">24/7 Real-time Monitoring</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Automated Patch Management</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Secure Remote Access</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Automated Self-Healing</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Database className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">Cove Data Protection</CardTitle>
-                <CardDescription className="text-green-300 font-semibold">Cloud-First Backup & Recovery</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 mb-4">
-                  Advanced cloud backup solution protecting your critical business systems and data. TrueDelta technology enables backups every 15 minutes with 60x more efficiency than traditional methods, ensuring your data is always protected.
-                </CardDescription>
-                <div className="space-y-2">
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">15-Minute Backup Intervals</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Ransomware Protection</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Instant File Recovery</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Workstation Backup and Restoration</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30 hover:bg-white/15 transition-all duration-300 transform hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="text-white" size={32} />
-                </div>
-                <CardTitle className="text-white text-xl">EDR Platform</CardTitle>
-                <CardDescription className="text-red-300 font-semibold">Endpoint Detection & Response</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 mb-4">
-                  AI-powered endpoint security that goes beyond traditional antivirus. Behavioral threat detection, automated remediation, and rollback capabilities protect your workstations from advanced threats and ransomware attacks.
-                </CardDescription>
-                <div className="space-y-2">
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">AI Behavioral Detection</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">Automated Remediation</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">System Rollback</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={16} className="mr-2" />
-                    <span className="text-sm">24/7 Threat Monitoring</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-800/30 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-white mb-4">Ready to Protect Your Business?</h3>
-              <p className="text-gray-300 mb-6">
-                Experience enterprise-grade IT management designed specifically for small business environments. Our enterprise-grade solutions ensure your systems and critical data are always protected and accessible.
-              </p>
-              <Button 
-                onClick={() => scrollToSection('contact')} 
-                size="lg" 
-                className="bg-orange-600 hover:bg-orange-700 text-white"
+              <motion.h1
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
+                className="font-display mt-8 text-[clamp(2.6rem,8vw,7.2rem)] leading-[0.92] tracking-[-0.03em] text-[color:var(--ink)]"
               >
-                Start Your Free 30-Day Trial
-                <ArrowRight className="ml-2" size={20} />
-              </Button>
-              <p className="text-gray-400 text-sm mt-4">No credit card required • Full access</p>
+                Schematics for the{' '}
+                <span className="font-display-italic text-[color:var(--cyan)]">
+                  AI‑native
+                </span>
+                <br />
+                small business.
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.8 }}
+                className="mt-8 max-w-2xl text-lg md:text-xl leading-[1.55] text-[color:var(--ink-soft)]"
+              >
+                Blueprint IT designs precise, production‑grade systems for
+                growing small businesses. We pair focused IT consulting with
+                custom AI automation — so your team spends more time on the
+                work that matters and less on the work that shouldn&apos;t exist.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="mt-10 flex flex-wrap items-center gap-5"
+              >
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="btn-ink"
+                >
+                  Schedule Discovery Call
+                  <ArrowRight size={14} strokeWidth={2.2} />
+                </button>
+                <button
+                  onClick={() => scrollToSection('services')}
+                  className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors underline-offset-[6px] hover:underline"
+                >
+                  ↓ View the drawing set
+                </button>
+              </motion.div>
+            </div>
+
+            {/* Right spec plate */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="md:col-span-4"
+            >
+              <Plate accent="cyan">
+                <div className="label label-cyan mb-4">Spec sheet</div>
+                <dl className="divide-y divide-[color:var(--paper-line)] font-mono text-xs">
+                  {[
+                    ['Practice', 'IT Consulting + AI'],
+                    ['Client Size', '1–50 staff'],
+                    ['Locale', 'Wake Forest, NC'],
+                    ['Stack', 'Custom · Open tools'],
+                    ['Response', '< 1 business hr'],
+                    ['Obligation', 'None'],
+                  ].map(([k, v]) => (
+                    <div
+                      key={k}
+                      className="flex items-baseline justify-between py-2.5"
+                    >
+                      <dt className="uppercase tracking-[0.14em] text-[color:var(--ink-mute)]">
+                        {k}
+                      </dt>
+                      <dd className="text-[color:var(--ink)] font-medium">
+                        {v}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </Plate>
+            </motion.div>
+          </div>
+
+          {/* Value props row */}
+          <div className="mt-16 md:mt-24 border-t border-[color:var(--ink)]">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[color:var(--paper-line)]">
+              {[
+                [
+                  'STR / 01',
+                  'Strategic',
+                  'Every recommendation tied to a business outcome, not a feature list.',
+                ],
+                [
+                  'INV / 02',
+                  'Innovative',
+                  'Selecting the sharpest tool for the job — even when it\'s new.',
+                ],
+                [
+                  'FOC / 03',
+                  'Business-focused',
+                  'We speak small-business. Margins, speed, and trust, first.',
+                ],
+              ].map(([tag, head, body]) => (
+                <div key={tag} className="p-6 md:p-8">
+                  <div className="label label-cyan">{tag}</div>
+                  <div className="font-display text-3xl md:text-4xl mt-3">
+                    {head}
+                  </div>
+                  <p className="mt-3 text-[color:var(--ink-soft)] max-w-xs">
+                    {body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Marquee ticker */}
+        <div className="border-y border-[color:var(--ink)] bg-[color:var(--ink)] text-[color:var(--paper)] overflow-hidden">
+          <div className="py-3">
+            <div className="bp-ticker font-mono text-[12px] uppercase tracking-[0.35em]">
+              {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
+                <span key={i} className="flex items-center gap-12">
+                  <span>✦</span>
+                  <span>{w}</span>
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-{/* About Section */}
-<section id="about" className="py-20 bg-slate-900/50">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="grid lg:grid-cols-3 gap-12">
-      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-800/30">
-        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Users className="text-white" size={32} />
-        </div>
-        {/* Added text-center here */}
-        <h3 className="text-2xl font-bold text-white mb-4 text-center">Our Experience</h3>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto text-left">
-          Drawing from our direct experience working with small businesses across various industries,
-          we understand the unique IT challenges facing growing companies. From safeguarding mission-critical
-          applications to implementing time-saving AI workflows, we've experienced these pain points firsthand
-          and are passionate about developing proven solutions that make a real difference.
-        </p>
-      </div>
-
-      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-800/30">
-        <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="text-white" size={32} />
-        </div>
-        {/* Added text-center here */}
-        <h3 className="text-2xl font-bold text-white mb-4 text-center">Our Mission</h3>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto text-left">
-          To provide real value to small businesses everywhere. As fellow business owners, we understand the
-          challenges of building and growing a business in today's competitive landscape. The small business
-          community has welcomed us with open arms, and we're committed to giving back through our IT expertise.
-          Our goal is simple: save you time, boost efficiency, and implement systems that keep your business
-          running smoothly — so you can focus on what you do best.
-        </p>
-      </div>
-
-      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-800/30">
-        <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Zap className="text-white" size={32} />
-        </div>
-        {/* Added text-center here */}
-        <h3 className="text-2xl font-bold text-white mb-4 text-center">Our Technology</h3>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto text-left">
-          We specialize in integrating modern IT solutions tailored for small businesses. Our technology platform
-          automates critical patching and backups to keep you running. Our custom AI solutions can help solve
-          problems and maximize efficiency across all the various systems and processes within your business operations.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-      {/* AI Automation Section */}
-      <section className="py-20 bg-slate-900/70">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">What do you mean by AI Automation?</h2>
-            <p className="text-xl text-gray-300 text-center mb-8">Here's a real example of an AI automation we developed for a client</p>
+      {/* =========================================================
+          SERVICES
+      ==========================================================*/}
+      <section id="services" className="relative">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28">
+          <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
+            <div className="md:col-span-5">
+              <SectionTag id="01">Drawing № 02 · Services</SectionTag>
+              <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                Three practices,{' '}
+                <span className="font-display-italic text-[color:var(--rust)]">
+                  one drafting table.
+                </span>
+              </h2>
+            </div>
+            <div className="md:col-span-6 md:col-start-7 md:pt-8">
+              <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                We stay narrow on purpose. Three disciplines, all sharpened by
+                the same operating principle: the smallest intervention that
+                moves the business forward.
+              </p>
+            </div>
           </div>
 
-          {/* Centered Image */}
-          <div className="flex justify-center mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 max-w-4xl">
-              <img src={aiEmailWorkflowImage} 
-                alt="AI Email Lead Responder Workflow" 
-                className="w-full h-auto rounded-lg"
+          <div className="grid md:grid-cols-3 gap-8">
+            {services.map((s, i) => (
+              <motion.div
+                key={s.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10%' }}
+                transition={{ duration: 0.7, delay: i * 0.12 }}
+              >
+                <Plate accent={s.accent}>
+                  <div className="flex items-baseline justify-between mb-6">
+                    <span className="font-display text-5xl leading-none text-[color:var(--ink)]">
+                      {s.id}
+                    </span>
+                    <span
+                      className={`label ${
+                        s.accent === 'rust' ? 'label-rust' : 'label-cyan'
+                      }`}
+                    >
+                      {s.tag}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
+                    {s.title}
+                  </h3>
+                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
+                    {s.body}
+                  </p>
+                  <div className="pt-5 border-t border-[color:var(--paper-line)] space-y-2">
+                    {s.deliverables.map((d) => (
+                      <div
+                        key={d}
+                        className="flex items-center gap-3 font-mono text-[12px]"
+                      >
+                        <span
+                          className={`inline-block h-1.5 w-4 ${
+                            s.accent === 'rust'
+                              ? 'bg-[color:var(--rust)]'
+                              : 'bg-[color:var(--cyan)]'
+                          }`}
+                        />
+                        <span>{d}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Plate>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          STUDIO / ABOUT
+      ==========================================================*/}
+      <section id="about" className="relative bg-[color:var(--paper-2)]">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28">
+          <div className="grid md:grid-cols-12 gap-10 md:gap-16">
+            <div className="md:col-span-5">
+              <SectionTag id="02">Drawing № 03 · Studio</SectionTag>
+              <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                Small operation.{' '}
+                <span className="font-display-italic">Senior hands.</span>
+              </h2>
+              <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
+                Blueprint IT is a boutique practice. You talk to the people
+                doing the work. No layered account managers, no handoffs, no
+                ticketing mazes — just direct work with practitioners who&apos;ve
+                been inside businesses like yours.
+              </p>
+
+              <div className="mt-10 border-t border-[color:var(--ink)]">
+                <dl className="divide-y divide-[color:var(--paper-line)]">
+                  {[
+                    ['Based', 'Wake Forest, NC'],
+                    ['Engagement', 'Fractional + project'],
+                    ['First step', 'Free discovery call'],
+                  ].map(([k, v]) => (
+                    <div
+                      key={k}
+                      className="flex items-baseline justify-between py-4 font-mono text-sm"
+                    >
+                      <dt className="uppercase tracking-[0.14em] text-[color:var(--ink-mute)]">
+                        {k}
+                      </dt>
+                      <dd className="text-[color:var(--ink)]">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+
+            <div className="md:col-span-7 md:col-start-6 space-y-5">
+              {about.map((b, i) => (
+                <motion.div
+                  key={b.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-10%' }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="grid grid-cols-12 gap-4 md:gap-6 border-b border-[color:var(--paper-line)] pb-8 last:border-b-0"
+                >
+                  <div className="col-span-2">
+                    <div className="label label-cyan">§{b.id}</div>
+                  </div>
+                  <div className="col-span-10">
+                    <h3 className="font-display text-3xl md:text-4xl leading-[1.05] tracking-[-0.015em]">
+                      {b.title}
+                    </h3>
+                    <p className="mt-3 text-[color:var(--ink-soft)] leading-relaxed">
+                      {b.body}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          CASE — AI AUTOMATION WORKFLOW
+      ==========================================================*/}
+      <section id="workflow" className="relative">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28">
+          <div className="grid md:grid-cols-12 gap-8 mb-14">
+            <div className="md:col-span-7">
+              <SectionTag id="03">Drawing № 04 · Case Study</SectionTag>
+              <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                A worked example:
+                <br />
+                <span className="font-display-italic text-[color:var(--cyan)]">
+                  the lead that answers itself.
+                </span>
+              </h2>
+            </div>
+            <div className="md:col-span-4 md:col-start-9 md:pt-10">
+              <p className="text-[color:var(--ink-soft)] leading-relaxed">
+                What do we mean by <em>AI automation</em>? Here&apos;s a real
+                workflow we built for a client — a system that turns a
+                website inquiry into an approved, personalized reply in
+                minutes, not hours.
+              </p>
+            </div>
+          </div>
+
+          {/* Workflow figure */}
+          <figure className="relative mb-16 md:mb-20">
+            <div className="plate plate-cyan p-5 md:p-8 bg-white/60">
+              <RegMark position="top-left" />
+              <RegMark position="top-right" />
+              <RegMark position="bottom-left" />
+              <RegMark position="bottom-right" />
+              <img
+                src={aiEmailWorkflowImage}
+                alt="AI Email Lead Responder Workflow diagram"
+                className="w-full h-auto rounded-[1px]"
               />
-              <p className="text-gray-400 text-sm text-center mt-4">Automated AI powered Email Lead Responder</p>
             </div>
+            <figcaption className="mt-4 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--ink-mute)]">
+              <span className="h-px w-10 bg-[color:var(--ink-mute)]" />
+              Fig. 01 — AI-powered email lead responder · client build
+            </figcaption>
+          </figure>
+
+          {/* How it works — numbered steps, wide editorial layout */}
+          <div className="grid md:grid-cols-12 gap-10 mb-20">
+            <div className="md:col-span-4">
+              <div className="label label-rust mb-3">How it works</div>
+              <h3 className="font-display text-4xl md:text-5xl leading-[0.98] tracking-[-0.02em]">
+                Respond in minutes, not hours.
+              </h3>
+              <p className="mt-5 text-[color:var(--ink-soft)] leading-relaxed">
+                When a potential customer submits an inquiry, the system
+                immediately springs into action — capturing, analyzing, and
+                drafting a tailored response.
+              </p>
+            </div>
+
+            <ol className="md:col-span-8 border-t border-[color:var(--ink)]">
+              {steps.map((s, i) => (
+                <motion.li
+                  key={s.n}
+                  initial={{ opacity: 0, x: 10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-10%' }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="grid grid-cols-12 gap-4 md:gap-8 py-6 border-b border-[color:var(--paper-line)]"
+                >
+                  <div className="col-span-2 md:col-span-1">
+                    <div className="font-display text-3xl md:text-4xl leading-none text-[color:var(--cyan)]">
+                      {s.n}
+                    </div>
+                  </div>
+                  <div className="col-span-10 md:col-span-11">
+                    <h4 className="font-display text-xl md:text-2xl tracking-[-0.01em]">
+                      {s.title}
+                    </h4>
+                    <p className="mt-2 text-[color:var(--ink-soft)] leading-relaxed max-w-2xl">
+                      {s.body}
+                    </p>
+                  </div>
+                </motion.li>
+              ))}
+            </ol>
           </div>
 
-          {/* Centered Content */}
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg inline-block font-semibold text-xl mb-6">
-                AI-Powered Email Lead Responder
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Never Miss Another Lead - Respond Professionally in Minutes, Not Hours</h3>
+          {/* Outcomes */}
+          <div className="grid md:grid-cols-12 gap-8">
+            <div className="md:col-span-4">
+              <div className="label label-cyan mb-3">Outcomes</div>
+              <h3 className="font-display text-4xl md:text-5xl leading-[0.98] tracking-[-0.02em]">
+                What this means
+                <br />
+                <span className="font-display-italic">for your business.</span>
+              </h3>
             </div>
-            
-            <div className="mb-8">
-              <h4 className="text-xl font-semibold text-blue-400 mb-4 text-center">How It Works</h4>
-              <p className="text-gray-300 mb-4 text-center">When a potential customer fills out your contact form, our AI system immediately springs into action:</p>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">1</div>
-                    <div>
-                      <h5 className="font-semibold text-white">Instant Lead Capture</h5>
-                      <p className="text-gray-300 text-sm">The moment someone submits an inquiry through your website, the system captures their details and project requirements.</p>
-                    </div>
+            <div className="md:col-span-8 grid sm:grid-cols-2 gap-4">
+              {outcomes.map((o, i) => (
+                <motion.div
+                  key={o.label}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  className="border border-[color:var(--paper-line)] bg-[color:var(--card)] p-6 hover:border-[color:var(--ink)] transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <Check
+                      size={14}
+                      className="text-[color:var(--cyan)]"
+                      strokeWidth={3}
+                    />
+                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--ink-soft)]">
+                      {o.label}
+                    </span>
                   </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">2</div>
-                    <div>
-                      <h5 className="font-semibold text-white">Smart Response Generation</h5>
-                      <p className="text-gray-300 text-sm">Our AI analyzes their project description, budget, and timeline, then searches through your completed projects database to find similar work you've done.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">3</div>
-                    <div>
-                      <h5 className="font-semibold text-white">Human Review & Approval</h5>
-                      <p className="text-gray-300 text-sm">Before any email is sent, you have the option to receive a notification with the proposed response. You can approve it as-is, request modifications, or decline.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">4</div>
-                    <div>
-                      <h5 className="font-semibold text-white">Professional Follow-Up</h5>
-                      <p className="text-gray-300 text-sm">Once approved, the system sends a polished email to your prospect, complete with relevant project examples.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">5</div>
-                    <div>
-                      <h5 className="font-semibold text-white">Organized Lead Management</h5>
-                      <p className="text-gray-300 text-sm">All leads are automatically organized in your database, with processed inquiries moved to a separate tracking sheet for follow-up.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-xl font-semibold text-green-400 mb-4 text-center">What This Means for Your Business</h4>
-                <div className="space-y-3">
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={20} className="mr-3 flex-shrink-0" />
-                    <span><strong>Save Hours Daily</strong> - No more manually responding to each inquiry or searching through old projects for examples.</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={20} className="mr-3 flex-shrink-0" />
-                    <span><strong>Respond While You Sleep</strong> - Leads can get professional responses within minutes, even when you're busy with installations or after hours. You set the rules of when responses are sent.</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={20} className="mr-3 flex-shrink-0" />
-                    <span><strong>Never Sound Unprepared</strong> - Every response can include relevant project examples that prove your capability to handle their specific needs.</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={20} className="mr-3 flex-shrink-0" />
-                    <span><strong>Higher Conversion Rates</strong> - Fast, professional responses with proof of your work convert more inquiries into consultations.</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <CheckCircle size={20} className="mr-3 flex-shrink-0" />
-                    <span><strong>Stay Organized</strong> - All leads automatically flow into your management system with instant Telegram notifications for urgent follow-ups.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
-      </section>
-
-      {/* Technology Partners Section */}
-      <section className="py-16 bg-slate-800/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">AI & Productivity Partners</h2>
-            <p className="text-gray-300">Leveraging cutting-edge AI automations to streamline your operations</p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 items-center justify-center">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center hover:bg-white/15 transition-all duration-300">
-              <img src={airtableLogo} alt="Airtable" className="h-12 w-auto mx-auto mb-2 object-contain filter brightness-0 invert" />
-              <div className="text-gray-400 text-xs">Database & CRM</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center hover:bg-white/15 transition-all duration-300">
-              <img src={n8nLogo} alt="n8n" className="h-12 w-auto mx-auto mb-2 object-contain filter brightness-0 invert" />
-              <div className="text-gray-400 text-xs">Automation</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center hover:bg-white/15 transition-all duration-300">
-              <img src={anthropicLogo} alt="Anthropic" className="h-12 w-auto mx-auto mb-2 object-contain filter brightness-0 invert" />
-              <div className="text-gray-400 text-xs">AI Platform</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center hover:bg-white/15 transition-all duration-300">
-              <img src={geminiLogo} alt="Google Gemini" className="h-12 w-auto mx-auto mb-2 object-contain filter brightness-0 invert" />
-              <div className="text-gray-400 text-xs">AI & Analytics</div>
+                  <p className="text-[color:var(--ink)] leading-relaxed">
+                    {o.body}
+                  </p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-slate-900/70">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Schedule Your Free Discovery Call</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Take the first step toward strategic IT transformation. Our free discovery consultation provides immediate insights 
-              and actionable solutions with no obligation.
-            </p>
+      {/* =========================================================
+          PARTNERS
+      ==========================================================*/}
+      <section className="bg-[color:var(--ink)] text-[color:var(--paper)] relative overflow-hidden">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-24">
+          <div className="grid md:grid-cols-12 gap-8 mb-14 items-end">
+            <div className="md:col-span-7">
+              <div className="flex items-center gap-4">
+                <span className="label" style={{ color: '#5ea8d8' }}>
+                  §04
+                </span>
+                <span
+                  className="h-px w-12 opacity-60"
+                  style={{ background: '#5ea8d8' }}
+                />
+                <span className="label" style={{ color: '#c9d4df' }}>
+                  Toolchain
+                </span>
+              </div>
+              <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em] text-[color:var(--paper)]">
+                Built with the{' '}
+                <span className="font-display-italic text-[color:var(--rust-soft)]">
+                  sharpest tools
+                </span>{' '}
+                in the shop.
+              </h2>
+            </div>
+            <div className="md:col-span-4 md:col-start-9">
+              <p className="text-[color:#c9d4df] leading-relaxed">
+                We&apos;re picky about our toolchain so you don&apos;t have to
+                be. Every platform we use earns its place by making your
+                business faster, safer, or smarter.
+              </p>
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
-              <CardHeader>
-                <CardTitle className="text-white text-2xl">Schedule Your Free Discovery Call</CardTitle>
-                <CardDescription className="text-gray-300">
-                  Fill out the form below and we'll contact you within 1 business hour
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6" name="contact-form" method="POST">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="companyName" className="text-white mb-3 block">Company Name *</Label>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[color:#223549]">
+            {partners.map((p) => (
+              <div
+                key={p.name}
+                className="bg-[color:var(--ink)] p-8 md:p-10 flex flex-col items-center text-center hover:bg-[color:#102842] transition-colors"
+              >
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  className="h-10 w-auto mb-4 object-contain filter brightness-0 invert"
+                />
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:#9cb0c5]">
+                  {p.caption}
+                </div>
+                <div className="font-display text-xl mt-2 text-[color:var(--paper)]">
+                  {p.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          CONTACT
+      ==========================================================*/}
+      <section id="contact" className="relative">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28">
+          <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
+            <div className="md:col-span-7">
+              <SectionTag id="05">Drawing № 05 · Commission</SectionTag>
+              <h2 className="font-display text-5xl md:text-7xl leading-[0.92] mt-6 tracking-[-0.025em]">
+                Let&apos;s draft
+                <br />
+                <span className="font-display-italic text-[color:var(--rust)]">
+                  something together.
+                </span>
+              </h2>
+            </div>
+            <div className="md:col-span-4 md:col-start-9 md:pt-10">
+              <p className="text-[color:var(--ink-soft)] leading-relaxed">
+                The first move is a free discovery call. 15–30 minutes, no
+                obligation. You walk away with real insight whether we work
+                together or not.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-10">
+            {/* Form */}
+            <div className="lg:col-span-7">
+              <Plate accent="cyan">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="label label-cyan">Discovery Intake</div>
+                  <div className="font-mono text-[11px] text-[color:var(--ink-mute)]">
+                    {'< 1 business hr reply'}
+                  </div>
+                </div>
+
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                  name="contact-form"
+                  method="POST"
+                >
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <Field label="Company name *" htmlFor="companyName">
                       <Input
                         id="companyName"
                         name="companyName"
                         value={formData.companyName}
-                        onChange={(e) => handleInputChange('companyName', e.target.value)}
-                        className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
-                        placeholder="Your company name"
+                        onChange={(e) =>
+                          handleInputChange('companyName', e.target.value)
+                        }
+                        className="bp-input"
+                        placeholder="Your company"
                         required
                       />
-                    </div>
-                    <div>
-                      <Label htmlFor="industry" className="text-white mb-3 block">Industry</Label>
-                      <Select onValueChange={(value) => handleInputChange('industry', value)}>
-                        <SelectTrigger className="bg-white/10 border-gray-600 text-white">
+                    </Field>
+                    <Field label="Industry" htmlFor="industry">
+                      <Select
+                        onValueChange={(value) =>
+                          handleInputChange('industry', value)
+                        }
+                      >
+                        <SelectTrigger className="bp-input h-11">
                           <SelectValue placeholder="Select industry" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="professional-services">Professional Services</SelectItem>
+                          <SelectItem value="professional-services">
+                            Professional Services
+                          </SelectItem>
                           <SelectItem value="retail">Retail</SelectItem>
                           <SelectItem value="healthcare">Healthcare</SelectItem>
-                          <SelectItem value="real-estate">Real Estate</SelectItem>
-                          <SelectItem value="construction">Construction</SelectItem>
-                          <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                          <SelectItem value="real-estate">
+                            Real Estate
+                          </SelectItem>
+                          <SelectItem value="construction">
+                            Construction
+                          </SelectItem>
+                          <SelectItem value="manufacturing">
+                            Manufacturing
+                          </SelectItem>
                           <SelectItem value="technology">Technology</SelectItem>
                           <SelectItem value="finance">Finance</SelectItem>
                           <SelectItem value="education">Education</SelectItem>
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
+                    </Field>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="firstName" className="text-white mb-3 block">First Name *</Label>
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <Field label="First name *" htmlFor="firstName">
                       <Input
                         id="firstName"
                         name="firstName"
                         value={formData.firstName}
-                        onChange={(e) => handleInputChange('firstName', e.target.value)}
-                        className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
-                        placeholder="Your first name"
+                        onChange={(e) =>
+                          handleInputChange('firstName', e.target.value)
+                        }
+                        className="bp-input"
+                        placeholder="First"
                         required
                       />
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName" className="text-white mb-3 block">Last Name *</Label>
+                    </Field>
+                    <Field label="Last name *" htmlFor="lastName">
                       <Input
                         id="lastName"
                         name="lastName"
                         value={formData.lastName}
-                        onChange={(e) => handleInputChange('lastName', e.target.value)}
-                        className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
-                        placeholder="Your last name"
+                        onChange={(e) =>
+                          handleInputChange('lastName', e.target.value)
+                        }
+                        className="bp-input"
+                        placeholder="Last"
                         required
                       />
-                    </div>
+                    </Field>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="email" className="text-white mb-3 block">Email Address *</Label>
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <Field label="Email *" htmlFor="email">
                       <Input
                         id="email"
                         name="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
-                        placeholder="your.email@company.com"
+                        onChange={(e) =>
+                          handleInputChange('email', e.target.value)
+                        }
+                        className="bp-input"
+                        placeholder="you@company.com"
                         required
                       />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone" className="text-white mb-3 block">Phone Number</Label>
+                    </Field>
+                    <Field label="Phone" htmlFor="phone">
                       <Input
                         id="phone"
                         name="phone"
                         value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
+                        onChange={(e) =>
+                          handleInputChange('phone', e.target.value)
+                        }
+                        className="bp-input"
                         placeholder="(555) 123-4567"
                       />
-                    </div>
+                    </Field>
                   </div>
 
-                  <div>
-                    <Label htmlFor="challenges" className="text-white mb-3 block">Current IT Challenges</Label>
+                  <Field label="Current IT challenges" htmlFor="challenges">
                     <Textarea
                       id="challenges"
                       name="challenges"
                       value={formData.challenges}
-                      onChange={(e) => handleInputChange('challenges', e.target.value)}
-                      className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
-                      placeholder="Describe your main technology pain points..."
+                      onChange={(e) =>
+                        handleInputChange('challenges', e.target.value)
+                      }
+                      className="bp-input"
+                      placeholder="What's breaking? Where are the bottlenecks?"
                       rows={3}
                     />
-                  </div>
+                  </Field>
 
-                  <div>
-                    <Label htmlFor="goals" className="text-white mb-3 block">Goals & Objectives</Label>
+                  <Field label="Goals & objectives" htmlFor="goals">
                     <Textarea
                       id="goals"
                       name="goals"
                       value={formData.goals}
-                      onChange={(e) => handleInputChange('goals', e.target.value)}
-                      className="bg-white/10 border-gray-600 text-white placeholder-gray-400"
-                      placeholder="What you hope to achieve..."
+                      onChange={(e) =>
+                        handleInputChange('goals', e.target.value)
+                      }
+                      className="bp-input"
+                      placeholder="What would 'solved' look like?"
                       rows={3}
                     />
-                  </div>
+                  </Field>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 text-lg"
+                  <button
+                    type="submit"
+                    className="btn-ink w-full justify-center"
                     disabled={formSubmissionState === 'submitting'}
                   >
-                    {formSubmissionState === 'submitting' ? 'Scheduling...' : 'Schedule Free Discovery Call'}
-                    <ArrowRight className="ml-2" size={20} />
-                  </Button>
+                    {formSubmissionState === 'submitting'
+                      ? 'Scheduling…'
+                      : 'Schedule Free Discovery Call'}
+                    <ArrowRight size={14} strokeWidth={2.2} />
+                  </button>
 
                   {formSubmissionState === 'success' && (
-                    <div className="bg-green-600/20 border border-green-600/30 rounded-lg p-4 text-center">
-                      <CheckCircle className="text-green-400 mx-auto mb-2" size={24} />
-                      <p className="text-green-400 font-semibold">Thank you! We'll contact you within 1 business hour.</p>
+                    <div className="border border-[color:var(--cyan)] bg-[color:var(--cyan)]/10 px-4 py-3 flex items-center gap-3">
+                      <Check
+                        size={16}
+                        className="text-[color:var(--cyan)]"
+                        strokeWidth={3}
+                      />
+                      <span className="font-mono text-sm text-[color:var(--ink)]">
+                        Received — we&apos;ll be in touch within 1 business
+                        hour.
+                      </span>
                     </div>
                   )}
                 </form>
-              </CardContent>
-            </Card>
+              </Plate>
+            </div>
 
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-xl">Contact Information</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center text-gray-300">
-                    <MapPin className="mr-3 text-blue-400" size={20} />
-                    <span>5101 Unicon Drive, Suite B - Wake Forest, NC</span>
+            {/* Side info */}
+            <div className="lg:col-span-5 space-y-6">
+              <Plate accent="rust">
+                <div className="label label-rust mb-5">Contact</div>
+                <div className="space-y-4 font-mono text-[13px]">
+                  <div className="flex items-start gap-3">
+                    <MapPin
+                      size={14}
+                      className="mt-1 text-[color:var(--rust)]"
+                      strokeWidth={2}
+                    />
+                    <span className="text-[color:var(--ink)]">
+                      5101 Unicon Drive, Suite B
+                      <br />
+                      Wake Forest, NC
+                    </span>
                   </div>
-                  <div className="flex items-center text-gray-300">
-                    <Clock className="mr-3 text-green-400" size={20} />
-                    <span>Response within 1 business hour</span>
+                  <div className="flex items-center gap-3">
+                    <Clock
+                      size={14}
+                      className="text-[color:var(--rust)]"
+                      strokeWidth={2}
+                    />
+                    <span className="text-[color:var(--ink)]">
+                      Response within 1 business hour
+                    </span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </Plate>
 
-              <Card className="bg-white/10 backdrop-blur-sm border-blue-800/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-xl">What Happens Next?</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">1</div>
-                    <div>
-                      <h4 className="font-semibold text-white">Schedule your Discovery Call</h4>
-                      <p className="text-gray-300 text-sm">Fill out the form and a link to our calendar will be emailed to you for scheduling</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">2</div>
-                    <div>
-                      <h4 className="font-semibold text-white">Discovery Session</h4>
-                      <p className="text-gray-300 text-sm">15-30 minute discovery consultation (no cost, no obligation)</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1 flex-shrink-0">3</div>
-                    <div>
-                      <h4 className="font-semibold text-white">Solutions</h4>
-                      <p className="text-gray-300 text-sm">Solutions and next steps provided in our discovery session</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <Plate accent="cyan">
+                <div className="label label-cyan mb-5">What happens next</div>
+                <ol className="divide-y divide-[color:var(--paper-line)]">
+                  {[
+                    [
+                      '01',
+                      'Schedule your call',
+                      'Fill out the intake. A calendar link lands in your inbox.',
+                    ],
+                    [
+                      '02',
+                      'Discovery session',
+                      '15–30 minute consultation. No cost, no obligation.',
+                    ],
+                    [
+                      '03',
+                      'Solutions',
+                      'Walk away with prioritized next steps — whether we work together or not.',
+                    ],
+                  ].map(([n, h, b]) => (
+                    <li key={n} className="py-4 grid grid-cols-12 gap-3">
+                      <div className="col-span-2 font-display text-2xl leading-none text-[color:var(--cyan)]">
+                        {n}
+                      </div>
+                      <div className="col-span-10">
+                        <div className="font-display text-lg leading-snug">
+                          {h}
+                        </div>
+                        <p className="text-sm text-[color:var(--ink-soft)] leading-relaxed mt-1">
+                          {b}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </Plate>
             </div>
           </div>
         </div>
       </section>
+
+      {/* =========================================================
+          FOOTER
+      ==========================================================*/}
+      <footer className="border-t border-[color:var(--ink)] bg-[color:var(--paper-2)]">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-xl">
+              Blueprint
+              <span className="font-display-italic text-[color:var(--rust)]">
+                IT
+              </span>
+            </span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--ink-mute)]">
+              © {new Date().getFullYear()} · All rights reserved
+            </span>
+          </div>
+          <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--ink-mute)]">
+            <a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection('services') }} className="hover:text-[color:var(--ink)]">
+              Services
+            </a>
+            <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about') }} className="hover:text-[color:var(--ink)]">
+              Studio
+            </a>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact') }} className="hover:text-[color:var(--ink)]">
+              Contact
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+// ---- Form field wrapper -----------------------------------------------------
+function Field({ label, htmlFor, children }) {
+  return (
+    <div>
+      <Label
+        htmlFor={htmlFor}
+        className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] mb-2 block"
+      >
+        {label}
+      </Label>
+      {children}
     </div>
   )
 }
