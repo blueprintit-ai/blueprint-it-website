@@ -132,7 +132,7 @@ function App() {
     const form = document.createElement('form')
     form.method = 'POST'
     form.action =
-      'https://script.google.com/macros/s/AKfycbxyXTP7zgR2KPlMjSJTAUBHAD-vuZgR8IKewKJDXzkr_HAAtt_weEAijX31zDmE1JHR/exec'
+      'https://script.google.com/macros/s/AKfycbx7zmF1s-Zai8dw75o9URi43m-J-_aOHAWZPco1cPnmlljFh5gt0TuiE41eVaeLqDyM/exec'
     form.target = 'hidden-iframe'
 
     const fields = {
