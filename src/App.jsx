@@ -1093,7 +1093,7 @@ function App() {
                       We&apos;ve received your inquiry and a human will
                       respond within <strong>one business hour</strong>. Keep
                       an eye on your inbox for a short reply and a link to
-                      schedule the discovery call.
+                      schedule our discovery call.
                     </p>
                     <div className="mt-6 pt-5 border-t border-[color:var(--paper-line)] grid sm:grid-cols-2 gap-3 font-mono text-[12px] text-[color:var(--ink)]">
                       <div className="flex items-center gap-3">
