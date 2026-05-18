@@ -559,7 +559,7 @@ function App() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 items-stretch">
             {services.map((s, i) => (
               <motion.div
                 key={s.id}
@@ -567,8 +567,9 @@ function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-10%' }}
                 transition={{ duration: 0.7, delay: i * 0.12 }}
+                className="h-full"
               >
-                <Plate accent={s.accent}>
+                <Plate accent={s.accent} className="h-full flex flex-col">
                   <div className="flex items-baseline justify-between mb-6">
                     <span className="font-display text-5xl leading-none text-[color:var(--ink)]">
                       {s.id}
@@ -584,10 +585,10 @@ function App() {
                   <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
                     {s.title}
                   </h3>
-                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
+                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6 flex-1">
                     {s.body}
                   </p>
-                  <div className="pt-5 border-t border-[color:var(--paper-line)] space-y-2">
+                  <div className="pt-5 border-t border-[color:var(--paper-line)] space-y-2 mt-auto">
                     {s.deliverables.map((d) => (
                       <div
                         key={d}
