@@ -943,6 +943,13 @@ function App() {
                           <SelectItem value="construction">
                             Construction
                           </SelectItem>
+                          <SelectItem value="residential-cabinetry">
+                            Residential Cabinetry
+                          </SelectItem>
+                          <SelectItem value="commercial-cabinetry">
+                            Commercial Cabinetry
+                          </SelectItem>
+                          <SelectItem value="closets">Closets</SelectItem>
                           <SelectItem value="manufacturing">
                             Manufacturing
                           </SelectItem>
