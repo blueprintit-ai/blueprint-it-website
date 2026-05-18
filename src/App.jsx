@@ -414,7 +414,7 @@ function App() {
                   AI‑native
                 </span>
                 <br />
-                small business.
+                business.
               </motion.h1>
 
               <motion.p
