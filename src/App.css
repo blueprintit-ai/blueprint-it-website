@@ -383,3 +383,15 @@ div[style*="position: fixed"][style*="bottom"][style*="right"],
 button[style*="position: fixed"][style*="bottom"][style*="right"] {
   display: none !important;
 }
+
+/* -----------------------------------------------------------
+   Shop OS page — blueprint canvas background
+------------------------------------------------------------*/
+.bp-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
