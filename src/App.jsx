@@ -12,9 +12,6 @@ import {
 } from '@/components/ui/select.jsx'
 import {
   ArrowRight,
-  ArrowUpRight,
-  Menu,
-  X,
   Check,
   MapPin,
   Clock,
@@ -22,6 +19,8 @@ import {
 } from 'lucide-react'
 import './App.css'
 import { SectionTag, RegMark, Plate } from '@/components/blueprint.jsx'
+import SiteNav from '@/components/SiteNav.jsx'
+import SiteFooter from '@/components/SiteFooter.jsx'
 
 // Assets
 import aiEmailWorkflowImage from './assets/images/ai-email-workflow.png'
@@ -33,7 +32,6 @@ import geminiLogo from './assets/images/gemini-logo.png'
 // -----------------------------------------------------------------------------
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [formSubmissionState, setFormSubmissionState] = useState('idle')
   const thankYouRef = useRef(null)
   const [formData, setFormData] = useState({
@@ -50,29 +48,6 @@ function App() {
     budget: '',
     consultationType: 'video',
   })
-
-  // Live clock in the header — tiny editorial flourish
-  const [clock, setClock] = useState(() =>
-    new Date().toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-      timeZone: 'America/New_York',
-    })
-  )
-  useEffect(() => {
-    const t = setInterval(() => {
-      setClock(
-        new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-          timeZone: 'America/New_York',
-        })
-      )
-    }, 15_000)
-    return () => clearInterval(t)
-  }, [])
 
   useEffect(() => {
     if (formSubmissionState !== 'success') return
@@ -152,7 +127,6 @@ function App() {
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
-    setIsMenuOpen(false)
   }
 
   // Services after removing System Monitoring
@@ -285,90 +259,16 @@ function App() {
       {/* =========================================================
           NAV
       ==========================================================*/}
-      <nav className="sticky top-0 z-40 bg-[color:var(--paper)]/92 backdrop-blur border-b border-[color:var(--ink)]">
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
-          <a
-            href="#top"
-            className="flex items-baseline gap-3"
-            onClick={(e) => {
-              e.preventDefault()
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
-          >
-            <span className="font-display text-2xl leading-none tracking-tight">
-              Blueprint
-              <span className="font-display-italic text-[color:var(--rust)]">
-                IT
-              </span>
-            </span>
-            <span className="hidden md:inline font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--ink-mute)]">
-              / est. 2024 / Wake Forest · NC
-            </span>
-          </a>
-
-          <div className="hidden md:flex items-center gap-8">
-            {[
-              ['services', 'Services'],
-              ['about', 'Studio'],
-              ['workflow', 'Case'],
-              ['contact', 'Contact'],
-            ].map(([id, label]) => (
-              <button
-                key={id}
-                onClick={() => scrollToSection(id)}
-                className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors"
-              >
-                {label}
-              </button>
-            ))}
-            <span className="font-mono text-[11px] text-[color:var(--ink-mute)] tabular-nums">
-              {clock} EST
-            </span>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="btn-ink btn-rust"
-            >
-              Discovery Call
-              <ArrowUpRight size={14} strokeWidth={2} />
-            </button>
-          </div>
-
-          <button
-            className="md:hidden text-[color:var(--ink)]"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Menu"
-          >
-            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-
-        {isMenuOpen && (
-          <div className="md:hidden border-t border-[color:var(--paper-line)] bg-[color:var(--paper)]">
-            <div className="px-6 py-4 flex flex-col gap-2">
-              {[
-                ['services', 'Services'],
-                ['about', 'Studio'],
-                ['workflow', 'Case'],
-                ['contact', 'Contact'],
-              ].map(([id, label]) => (
-                <button
-                  key={id}
-                  onClick={() => scrollToSection(id)}
-                  className="text-left font-mono text-xs uppercase tracking-[0.18em] py-2 text-[color:var(--ink-soft)]"
-                >
-                  {label}
-                </button>
-              ))}
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="btn-ink btn-rust mt-2 w-full justify-center"
-              >
-                Discovery Call <ArrowUpRight size={14} />
-              </button>
-            </div>
-          </div>
-        )}
-      </nav>
+      <SiteNav
+        ctaLabel="Discovery Call"
+        onCtaClick={() => scrollToSection('contact')}
+        navItems={[
+          { kind: 'button', label: 'Services', onClick: () => scrollToSection('services') },
+          { kind: 'button', label: 'Studio', onClick: () => scrollToSection('about') },
+          { kind: 'button', label: 'Case', onClick: () => scrollToSection('workflow') },
+          { kind: 'button', label: 'Contact', onClick: () => scrollToSection('contact') },
+        ]}
+      />
 
       {/* =========================================================
           HERO
@@ -1169,32 +1069,13 @@ function App() {
       {/* =========================================================
           FOOTER
       ==========================================================*/}
-      <footer className="border-t border-[color:var(--ink)] bg-[color:var(--paper-2)]">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-baseline gap-4">
-            <span className="font-display text-xl">
-              Blueprint
-              <span className="font-display-italic text-[color:var(--rust)]">
-                IT
-              </span>
-            </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--ink-mute)]">
-              © {new Date().getFullYear()} · All rights reserved
-            </span>
-          </div>
-          <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--ink-mute)]">
-            <a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection('services') }} className="hover:text-[color:var(--ink)]">
-              Services
-            </a>
-            <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about') }} className="hover:text-[color:var(--ink)]">
-              Studio
-            </a>
-            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact') }} className="hover:text-[color:var(--ink)]">
-              Contact
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter
+        links={[
+          { label: 'Services', href: '#services', onAnchor: () => scrollToSection('services') },
+          { label: 'Studio', href: '#about', onAnchor: () => scrollToSection('about') },
+          { label: 'Contact', href: '#contact', onAnchor: () => scrollToSection('contact') },
+        ]}
+      />
     </div>
   )
 }
