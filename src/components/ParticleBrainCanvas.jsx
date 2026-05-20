@@ -7,6 +7,10 @@ import * as THREE from 'three'
 
 const TOTAL_PARTICLES = 9000
 const MOBILE_PARTICLES = 4000
+const MIGRATION_LINES = 1100
+const MOBILE_MIGRATION_LINES = 400
+const GHOST_THREADS = 32
+const MOBILE_GHOST_THREADS = 12
 
 // Brand stops (sRGB normalized 0..1).
 const C_SLATE = [0x6a / 255, 0x77 / 255, 0x88 / 255]
@@ -258,6 +262,62 @@ export default function ParticleBrainCanvas() {
     brainGroup.add(points)
     scene.add(brainGroup)
 
+    const lineCount = isMobile ? MOBILE_MIGRATION_LINES : MIGRATION_LINES
+    const threadCount = isMobile ? MOBILE_GHOST_THREADS : GHOST_THREADS
+
+    // --- Migration lines: pick nearest-neighbor pairs --------------------
+    const linePositions = new Float32Array(lineCount * 2 * 3)
+    const linePairs = new Array(lineCount)
+    for (let l = 0; l < lineCount; l++) {
+      const a = Math.floor(Math.random() * actualCount)
+      let b = a + Math.floor((Math.random() - 0.5) * 200)
+      b = Math.max(0, Math.min(actualCount - 1, b))
+      if (b === a) b = (a + 1) % actualCount
+      linePairs[l] = [a, b]
+    }
+
+    const lineGeometry = new THREE.BufferGeometry()
+    lineGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(linePositions, 3)
+    )
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]),
+      transparent: true,
+      opacity: 0.0,
+      depthWrite: false,
+    })
+    const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial)
+    brainGroup.add(lineSegments)
+
+    // --- Ghost threads: persistent radial lines from brain edge outward ---
+    const threadPositions = new Float32Array(threadCount * 2 * 3)
+    for (let t = 0; t < threadCount; t++) {
+      const angle = (t / threadCount) * Math.PI * 2
+      const innerR = 1.4
+      const outerR = 3.2 + Math.random() * 1.0
+      const i6 = t * 6
+      threadPositions[i6 + 0] = Math.cos(angle) * innerR
+      threadPositions[i6 + 1] = Math.sin(angle) * innerR
+      threadPositions[i6 + 2] = 0
+      threadPositions[i6 + 3] = Math.cos(angle) * outerR
+      threadPositions[i6 + 4] = Math.sin(angle) * outerR
+      threadPositions[i6 + 5] = 0
+    }
+    const threadGeometry = new THREE.BufferGeometry()
+    threadGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(threadPositions, 3)
+    )
+    const threadMaterial = new THREE.LineBasicMaterial({
+      color: new THREE.Color(C_GOLD[0], C_GOLD[1], C_GOLD[2]),
+      transparent: true,
+      opacity: 0.0,
+      depthWrite: false,
+    })
+    const ghostThreads = new THREE.LineSegments(threadGeometry, threadMaterial)
+    brainGroup.add(ghostThreads)
+
     // --- Scroll progress scalars -----------------------------------------
     // pA: scatter intensity     — 1 at top, 0 once hero exits
     // pB: migration progress    — 0 before hero exits, 1 at §02 top
@@ -345,6 +405,28 @@ export default function ParticleBrainCanvas() {
         }
         positionAttr.needsUpdate = true
 
+        // Migration lines: positions follow the two endpoint particles each frame
+        const lineAttr = lineGeometry.getAttribute('position')
+        for (let l = 0; l < lineCount; l++) {
+          const [a, b] = linePairs[l]
+          const i6 = l * 6
+          lineAttr.array[i6 + 0] = livePositions[a * 3 + 0]
+          lineAttr.array[i6 + 1] = livePositions[a * 3 + 1]
+          lineAttr.array[i6 + 2] = livePositions[a * 3 + 2]
+          lineAttr.array[i6 + 3] = livePositions[b * 3 + 0]
+          lineAttr.array[i6 + 4] = livePositions[b * 3 + 1]
+          lineAttr.array[i6 + 5] = livePositions[b * 3 + 2]
+        }
+        lineAttr.needsUpdate = true
+        const lineFade = Math.sin(Math.min(1, pB) * Math.PI) * 0.35
+        lineMaterial.opacity = lineFade * material.uniforms.uAlpha.value
+
+        const threadFade =
+          Math.max(0, Math.min(1, (pB - 0.7) / 0.3)) *
+          material.uniforms.uAlpha.value *
+          0.4
+        threadMaterial.opacity = threadFade
+
         // Phase C: drift brainGroup toward §02 anatomy center
         const driftT = pC * pC * (3 - 2 * pC)
         brainGroup.position.x = driftTarget.x * driftT
@@ -389,6 +471,10 @@ export default function ParticleBrainCanvas() {
       window.removeEventListener('scroll', recomputeProgress)
       geometry.dispose()
       material.dispose()
+      lineGeometry.dispose()
+      lineMaterial.dispose()
+      threadGeometry.dispose()
+      threadMaterial.dispose()
       renderer.dispose()
     }
   }, [])
