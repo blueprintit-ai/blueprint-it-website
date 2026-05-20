@@ -156,8 +156,27 @@ export default function ParticleBrainCanvas() {
     // (actualCount may be slightly less than `count` due to emoji edge density.
     //  Use actualCount when sizing buffers below.)
 
+    // --- Scatter source positions (Phase A — right-half cloud) -----------
+    const vFov = (camera.fov * Math.PI) / 180
+    const visibleH = 2 * Math.tan(vFov / 2) * camera.position.z
+    const visibleW = visibleH * camera.aspect
+
+    const scatterPositions = new Float32Array(actualCount * 3)
+    for (let i = 0; i < actualCount; i++) {
+      const x = visibleW * (0.05 + Math.random() * 0.4)
+      const y = visibleH * (Math.random() - 0.5) * 0.9
+      const z = (Math.random() - 0.5) * 0.4
+      scatterPositions[i * 3 + 0] = x
+      scatterPositions[i * 3 + 1] = y
+      scatterPositions[i * 3 + 2] = z
+    }
+    const targetPositions = positions // alias for clarity
+    // Working buffer that gets interpolated each frame.
+    const livePositions = new Float32Array(actualCount * 3)
+    livePositions.set(scatterPositions)
+
     const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('position', new THREE.BufferAttribute(livePositions, 3))
 
     const material = new THREE.PointsMaterial({
       color: new THREE.Color(C_RUST[0], C_RUST[1], C_RUST[2]),
@@ -171,10 +190,69 @@ export default function ParticleBrainCanvas() {
     const points = new THREE.Points(geometry, material)
     scene.add(points)
 
+    // --- Scroll progress scalars -----------------------------------------
+    // pA: scatter intensity     — 1 at top, 0 once hero exits
+    // pB: migration progress    — 0 before hero exits, 1 at §02 top
+    // pC: drift toward §02      — 0 at §02 top, 1 at §03 top
+    // pD: collapse + fade       — 0 at §03 top, 1 at §05 top
+    const sectionIds = [
+      'shop-os-top',
+      'shop-gap',
+      'shop-anatomy',
+      'shop-14-days',
+      'shop-operator',
+      'shop-ready',
+    ]
+    const sectionTops = {} // recomputed on resize
+
+    function cacheSectionOffsets() {
+      for (const id of sectionIds) {
+        const el = document.getElementById(id)
+        sectionTops[id] = el
+          ? el.getBoundingClientRect().top + window.scrollY
+          : 0
+      }
+    }
+    cacheSectionOffsets()
+
+    function lerpProgress(y, start, end) {
+      if (end <= start) return y >= start ? 1 : 0
+      return Math.max(0, Math.min(1, (y - start) / (end - start)))
+    }
+
+    let pA = 1, pB = 0, pC = 0, pD = 0
+    function recomputeProgress() {
+      const y = window.scrollY
+      pB = lerpProgress(y, sectionTops['shop-os-top'] || 0, sectionTops['shop-anatomy'] || 1)
+      pA = 1 - pB
+      pC = lerpProgress(y, sectionTops['shop-anatomy'] || 0, sectionTops['shop-14-days'] || 1)
+      pD = lerpProgress(y, sectionTops['shop-14-days'] || 0, sectionTops['shop-ready'] || 1)
+    }
+
+    window.addEventListener('scroll', recomputeProgress, { passive: true })
+    recomputeProgress()
+
     // --- Render loop -----------------------------------------------------
+    const positionAttr = geometry.getAttribute('position')
+
     let rafId = 0
     function loop() {
       if (!document.hidden) {
+        // Smoothstep pB for nicer easing
+        const t = pB * pB * (3 - 2 * pB)
+        for (let i = 0; i < actualCount; i++) {
+          const i3 = i * 3
+          livePositions[i3 + 0] =
+            scatterPositions[i3 + 0] +
+            (targetPositions[i3 + 0] - scatterPositions[i3 + 0]) * t
+          livePositions[i3 + 1] =
+            scatterPositions[i3 + 1] +
+            (targetPositions[i3 + 1] - scatterPositions[i3 + 1]) * t
+          livePositions[i3 + 2] =
+            scatterPositions[i3 + 2] +
+            (targetPositions[i3 + 2] - scatterPositions[i3 + 2]) * t
+        }
+        positionAttr.needsUpdate = true
         renderer.render(scene, camera)
       }
       rafId = requestAnimationFrame(loop)
@@ -187,6 +265,8 @@ export default function ParticleBrainCanvas() {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
       renderer.setSize(window.innerWidth, window.innerHeight, false)
+      cacheSectionOffsets()
+      recomputeProgress()
     }
     function debouncedResize() {
       window.clearTimeout(resizeTimer)
@@ -199,6 +279,7 @@ export default function ParticleBrainCanvas() {
       cancelAnimationFrame(rafId)
       window.clearTimeout(resizeTimer)
       window.removeEventListener('resize', debouncedResize)
+      window.removeEventListener('scroll', recomputeProgress)
       geometry.dispose()
       material.dispose()
       renderer.dispose()
