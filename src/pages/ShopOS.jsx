@@ -401,6 +401,80 @@ function ShopOS() {
               </div>
             </div>
           </section>
+
+          {/* =========================================================
+              §04 — Drawing № 05 · The Operator
+          ==========================================================*/}
+          <section id="shop-operator" className="relative bg-[color:var(--paper-2)]/60">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
+              <div className="grid md:grid-cols-12 gap-10 md:gap-16 mb-14 md:mb-20">
+                <div className="md:col-span-6">
+                  <SectionTag id="04">Drawing № 05 · The Operator</SectionTag>
+                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    Who runs Shop OS{' '}
+                    <span className="font-display-italic text-[color:var(--cyan)]">
+                      after we leave.
+                    </span>
+                  </h2>
+                </div>
+                <div className="md:col-span-6">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Every successful implementation has one thing in common. An internal
+                    owner who runs the Shop Brain after we leave. Not a new full-time
+                    hire. A few hours a week, owned by someone already on the team. We
+                    pick them with you in week one and train them in parallel with the
+                    build.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5">
+                {[
+                  {
+                    n: '01',
+                    title: 'Maintains the Shop Brain',
+                    body: 'Updates context as strategy shifts, products change, people join. The Shop Brain stays current, so every output stays accurate. Minutes a day, not hours.',
+                  },
+                  {
+                    n: '02',
+                    title: 'Ships New Automations',
+                    body: 'Takes the patterns from the two proof builds and applies them to the next workflow. And the next. The Shop Brain compounds because the Operator keeps building.',
+                  },
+                  {
+                    n: '03',
+                    title: 'Onboards Teammates',
+                    body: 'Shows new hires how the Shop Brain works on day one. Adoption stops being a leadership problem and becomes a built-in onboarding step.',
+                  },
+                  {
+                    n: '04',
+                    title: 'Internal Point of Contact',
+                    body: 'When a teammate has an AI question, the Operator is the first stop. Not IT. Not the CEO. Real position, not a side gig.',
+                  },
+                ].map((op, i) => (
+                  <motion.div
+                    key={op.n}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-10%' }}
+                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                    className="grid grid-cols-12 gap-4 md:gap-6 border-b border-[color:var(--paper-line)] pb-8 last:border-b-0 md:border-b-0 md:pb-0 md:p-6 md:bg-[color:var(--card)] md:border md:border-[color:var(--paper-line)]"
+                  >
+                    <div className="col-span-2">
+                      <div className="font-display text-4xl leading-none">{op.n}</div>
+                    </div>
+                    <div className="col-span-10">
+                      <h3 className="font-display text-2xl md:text-3xl leading-[1.1] tracking-[-0.015em]">
+                        {op.title}
+                      </h3>
+                      <p className="mt-2 text-[color:var(--ink-soft)] leading-relaxed">
+                        {op.body}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
         </main>
 
         <SiteFooter
