@@ -11,6 +11,8 @@ const MOBILE_PARTICLES = 4000
 // Brand stops (sRGB normalized 0..1).
 const C_SLATE = [0x6a / 255, 0x77 / 255, 0x88 / 255]
 const C_RUST = [0xc2 / 255, 0x46 / 255, 0x1f / 255]
+const C_CYAN = [0x1c / 255, 0x6e / 255, 0xa4 / 255]
+const C_GOLD = [0xb6 / 255, 0x8a / 255, 0x2c / 255]
 
 // Rasterize 🧠 emoji to an offscreen canvas, sample non-background pixels,
 // return their world-space positions. Particles will use these as targets.
@@ -177,13 +179,77 @@ export default function ParticleBrainCanvas() {
 
     const geometry = new THREE.BufferGeometry()
     geometry.setAttribute('position', new THREE.BufferAttribute(livePositions, 3))
+    geometry.setAttribute('aLayer', new THREE.BufferAttribute(brain.layers, 1))
 
-    const material = new THREE.PointsMaterial({
-      color: new THREE.Color(C_RUST[0], C_RUST[1], C_RUST[2]),
-      size: 0.018,
-      sizeAttenuation: true,
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uProgress: { value: 0 },
+        uAlpha: { value: 1 },
+        uSize: { value: 0.018 },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uColorSlate: { value: new THREE.Color(C_SLATE[0], C_SLATE[1], C_SLATE[2]) },
+        uColorCyan: { value: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]) },
+        uColorGold: { value: new THREE.Color(C_GOLD[0], C_GOLD[1], C_GOLD[2]) },
+        uColorRust: { value: new THREE.Color(C_RUST[0], C_RUST[1], C_RUST[2]) },
+      },
+      vertexShader: `
+        uniform float uProgress;
+        uniform float uSize;
+        uniform float uPixelRatio;
+        attribute float aLayer;
+        varying float vProgress;
+        varying float vLayer;
+        void main() {
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+          gl_PointSize = uSize * (300.0 / -mvPosition.z) * uPixelRatio;
+          vProgress = uProgress;
+          vLayer = aLayer;
+        }
+      `,
+      fragmentShader: `
+        uniform float uAlpha;
+        uniform vec3 uColorSlate;
+        uniform vec3 uColorCyan;
+        uniform vec3 uColorGold;
+        uniform vec3 uColorRust;
+        varying float vProgress;
+        varying float vLayer;
+
+        vec3 brandGradient(float t) {
+          // 4-stop: slate (0) → cyan (0.33) → gold (0.66) → rust (1)
+          t = clamp(t, 0.0, 1.0);
+          if (t < 0.333) {
+            float s = t / 0.333;
+            s = s * s * (3.0 - 2.0 * s);
+            return mix(uColorSlate, uColorCyan, s);
+          } else if (t < 0.666) {
+            float s = (t - 0.333) / 0.333;
+            s = s * s * (3.0 - 2.0 * s);
+            return mix(uColorCyan, uColorGold, s);
+          } else {
+            float s = (t - 0.666) / 0.334;
+            s = s * s * (3.0 - 2.0 * s);
+            return mix(uColorGold, uColorRust, s);
+          }
+        }
+
+        void main() {
+          // Circular sprite shape with soft edge
+          vec2 uv = gl_PointCoord - 0.5;
+          float d = length(uv);
+          if (d > 0.5) discard;
+          float edge = smoothstep(0.5, 0.35, d);
+
+          // Silhouette particles bias warmer; interior particles bias cooler.
+          float tint = vProgress * (vLayer > 0.5 ? 1.0 : 0.85);
+
+          vec3 col = brandGradient(tint);
+          float alpha = edge * uAlpha * (vProgress * 0.7 + 0.3);
+          gl_FragColor = vec4(col, alpha);
+        }
+      `,
       transparent: true,
-      opacity: 0.85,
       depthWrite: false,
     })
 
@@ -240,6 +306,7 @@ export default function ParticleBrainCanvas() {
       if (!document.hidden) {
         // Smoothstep pB for nicer easing
         const t = pB * pB * (3 - 2 * pB)
+        material.uniforms.uProgress.value = t
         for (let i = 0; i < actualCount; i++) {
           const i3 = i * 3
           livePositions[i3 + 0] =
@@ -265,6 +332,8 @@ export default function ParticleBrainCanvas() {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
       renderer.setSize(window.innerWidth, window.innerHeight, false)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
       cacheSectionOffsets()
       recomputeProgress()
     }
