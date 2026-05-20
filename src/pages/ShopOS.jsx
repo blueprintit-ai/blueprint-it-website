@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
 import BlueprintCanvas from '@/components/BlueprintCanvas.jsx'
@@ -9,6 +10,25 @@ const CALENDLY_URL = 'https://calendly.com/blueprintit/15-ai-shop-os-discovery'
 const openCalendly = () => window.open(CALENDLY_URL, '_blank', 'noopener,noreferrer')
 
 function ShopOS() {
+  useEffect(() => {
+    const prevTitle = document.title
+    document.title = 'Shop OS — AI Operating System Installed in 14 Days · Blueprint IT'
+
+    // Update og:title and og:description meta tags if present
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    const ogDesc = document.querySelector('meta[property="og:description"]')
+    const prevOgTitle = ogTitle?.getAttribute('content')
+    const prevOgDesc = ogDesc?.getAttribute('content')
+    ogTitle?.setAttribute('content', 'Shop OS — AI Operating System Installed in 14 Days · Blueprint IT')
+    ogDesc?.setAttribute('content', 'Blueprint IT installs your Shop OS in 14 days — a Shop Brain wired into your stack, two proof automations, and a team that owns it on day one.')
+
+    return () => {
+      document.title = prevTitle
+      if (prevOgTitle) ogTitle?.setAttribute('content', prevOgTitle)
+      if (prevOgDesc) ogDesc?.setAttribute('content', prevOgDesc)
+    }
+  }, [])
+
   return (
     <MotionConfig reducedMotion="user">
       <div className="bp-grid bp-grain min-h-screen text-[color:var(--ink)] relative">
@@ -472,6 +492,38 @@ function ShopOS() {
                     </div>
                   </motion.div>
                 ))}
+              </div>
+            </div>
+          </section>
+
+          {/* =========================================================
+              Final CTA — Drawing № 06 · Ready
+          ==========================================================*/}
+          <section id="shop-ready" className="relative">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-36 border-t border-[color:var(--ink)] text-center">
+              <SectionTag id="05">Drawing № 06 · Ready</SectionTag>
+              <motion.h2
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-15%' }}
+                transition={{ duration: 0.8 }}
+                className="font-display mt-8 text-[clamp(3rem,9vw,8rem)] leading-[0.92] tracking-[-0.03em]"
+              >
+                Install your{' '}
+                <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
+              </motion.h2>
+              <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
+                14 days from kickoff to a working system your team owns. One call to
+                scope it. One handoff to run it.
+              </p>
+              <div className="mt-10 flex flex-col items-center gap-4">
+                <button onClick={openCalendly} className="btn-ink btn-rust">
+                  Start the 14-day install
+                  <ArrowUpRight size={14} strokeWidth={2.2} />
+                </button>
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
+                  Straight to a real call. No funnel. No email gauntlet.
+                </div>
               </div>
             </div>
           </section>
