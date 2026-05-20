@@ -133,6 +133,29 @@ export default function ParticleBrainCanvas() {
     const canvas = canvasRef.current
     if (!canvas) return
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // WebGL detection via throwaway canvas
+    const probe = document.createElement('canvas')
+    const hasWebgl = !!(
+      probe.getContext('webgl2') || probe.getContext('webgl')
+    )
+
+    if (!hasWebgl) {
+      const ctx2d = canvas.getContext('2d')
+      if (ctx2d) {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        ctx2d.globalAlpha = 0.3
+        ctx2d.font =
+          '320px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
+        ctx2d.textAlign = 'center'
+        ctx2d.textBaseline = 'middle'
+        ctx2d.fillText('\u{1F9E0}', canvas.width / 2, canvas.height / 2)
+      }
+      return () => {}
+    }
+
     const isMobile = window.innerWidth < 768
     const count = isMobile ? MOBILE_PARTICLES : TOTAL_PARTICLES
 
@@ -443,7 +466,19 @@ export default function ParticleBrainCanvas() {
       }
       rafId = requestAnimationFrame(loop)
     }
-    rafId = requestAnimationFrame(loop)
+    if (reducedMotion) {
+      pB = 1; pA = 0; pC = 0; pD = 0
+      material.uniforms.uProgress.value = 1
+      material.uniforms.uAlpha.value = 0.7
+      lineMaterial.opacity = 0
+      threadMaterial.opacity = 0
+      livePositions.set(targetPositions)
+      const positionAttr = geometry.getAttribute('position')
+      positionAttr.needsUpdate = true
+      renderer.render(scene, camera)
+    } else {
+      rafId = requestAnimationFrame(loop)
+    }
 
     // --- Resize handling (debounced) -------------------------------------
     let resizeTimer = 0
