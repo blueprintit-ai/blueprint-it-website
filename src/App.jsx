@@ -21,6 +21,7 @@ import {
   Mail,
 } from 'lucide-react'
 import './App.css'
+import { SectionTag, RegMark, Plate } from '@/components/blueprint.jsx'
 
 // Assets
 import aiEmailWorkflowImage from './assets/images/ai-email-workflow.png'
@@ -28,40 +29,6 @@ import airtableLogo from './assets/images/airtable-logo.png'
 import n8nLogo from './assets/images/n8n-logo.png'
 import anthropicLogo from './assets/images/anthropic-logo.png'
 import geminiLogo from './assets/images/gemini-logo.png'
-
-// ---- small local components ------------------------------------------------
-
-const SectionTag = ({ id, children }) => (
-  <div className="flex items-center gap-4">
-    <span className="label label-cyan">§{id}</span>
-    <span className="h-px w-12 bg-[color:var(--cyan)] opacity-60" />
-    <span className="label">{children}</span>
-  </div>
-)
-
-const RegMark = ({ position = 'top-left' }) => {
-  const map = {
-    'top-left': 'left-[-10px] top-[-10px]',
-    'top-right': 'right-[-10px] top-[-10px]',
-    'bottom-left': 'left-[-10px] bottom-[-10px]',
-    'bottom-right': 'right-[-10px] bottom-[-10px]',
-  }
-  return <span aria-hidden className={`reg-mark ${map[position]}`} />
-}
-
-const Plate = ({ accent = 'cyan', children, className = '' }) => (
-  <div
-    className={`plate ${
-      accent === 'rust' ? 'plate-rust' : 'plate-cyan'
-    } ${className}`}
-  >
-    <RegMark position="top-left" />
-    <RegMark position="top-right" />
-    <RegMark position="bottom-left" />
-    <RegMark position="bottom-right" />
-    {children}
-  </div>
-)
 
 // -----------------------------------------------------------------------------
 
