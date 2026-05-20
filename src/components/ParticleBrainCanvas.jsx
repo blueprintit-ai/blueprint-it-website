@@ -393,11 +393,14 @@ export default function ParticleBrainCanvas() {
       return Math.max(0, Math.min(1, (y - start) / (end - start)))
     }
 
-    let pA = 1, pB = 0, pC = 0, pD = 0
+    // pA (scatter intensity, = 1 - pB) is not currently consumed by any
+    // render code — material alpha and position interpolation both use pB
+    // directly. Drop the binding to keep lint clean; reintroduce if a
+    // future effect (e.g. scatter-only haze) needs the explicit signal.
+    let pB = 0, pC = 0, pD = 0
     function recomputeProgress() {
       const y = window.scrollY
       pB = lerpProgress(y, sectionTops['shop-os-top'] || 0, sectionTops['shop-anatomy'] || 1)
-      pA = 1 - pB
       pC = lerpProgress(y, sectionTops['shop-anatomy'] || 0, sectionTops['shop-14-days'] || 1)
       pD = lerpProgress(y, sectionTops['shop-14-days'] || 0, sectionTops['shop-ready'] || 1)
     }
@@ -467,7 +470,7 @@ export default function ParticleBrainCanvas() {
       rafId = requestAnimationFrame(loop)
     }
     if (reducedMotion) {
-      pB = 1; pA = 0; pC = 0; pD = 0
+      pB = 1; pC = 0; pD = 0
       material.uniforms.uProgress.value = 1
       material.uniforms.uAlpha.value = 0.7
       lineMaterial.opacity = 0
