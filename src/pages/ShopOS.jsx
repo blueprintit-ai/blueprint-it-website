@@ -197,29 +197,25 @@ function GrowthChart() {
 
   // Build SVG paths
   const samples = 60
-  const instPath = ['M']
-  const scatPath = ['M']
-  for (let i = 0; i <= samples; i++) {
-    const t = i / samples
-    const px = padL + t * innerW
-    const py1 = padT + innerH * (1 - instY(t))
-    const py2 = padT + innerH * (1 - scatY(t))
-    instPath.push(`${px.toFixed(1)},${py1.toFixed(1)}`)
-    scatPath.push(`${px.toFixed(1)},${py2.toFixed(1)}`)
-    if (i === 0) {
-      instPath.push('L')
-      scatPath.push('L')
+  const buildPath = (yFn) => {
+    const points = []
+    for (let i = 0; i <= samples; i++) {
+      const t = i / samples
+      const px = padL + t * innerW
+      const py = padT + innerH * (1 - yFn(t))
+      points.push(`${px.toFixed(1)},${py.toFixed(1)}`)
     }
+    return `M ${points[0]} L ${points.slice(1).join(' ')}`
   }
-  // Remove trailing "L"
-  const instD = instPath.join(' ').replace(/L$/, '').trim()
-  const scatD = scatPath.join(' ').replace(/L$/, '').trim()
+  const instD = buildPath(instY)
+  const scatD = buildPath(scatY)
 
   return (
     <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full h-auto">
       {/* dotted grid background */}
       <defs>
         <pattern id="dotgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+          {/* Hard-coded color mirrors var(--cyan) at 0.18 — SVG <pattern> can't read CSS vars from fill */}
           <circle cx="1" cy="1" r="0.8" fill="rgba(28, 110, 164, 0.18)" />
         </pattern>
       </defs>
