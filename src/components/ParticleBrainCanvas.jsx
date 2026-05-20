@@ -254,7 +254,9 @@ export default function ParticleBrainCanvas() {
     })
 
     const points = new THREE.Points(geometry, material)
-    scene.add(points)
+    const brainGroup = new THREE.Group()
+    brainGroup.add(points)
+    scene.add(brainGroup)
 
     // --- Scroll progress scalars -----------------------------------------
     // pA: scatter intensity     — 1 at top, 0 once hero exits
@@ -280,6 +282,28 @@ export default function ParticleBrainCanvas() {
       }
     }
     cacheSectionOffsets()
+
+    // Map a DOM bounding rect center to world coords at z=0.
+    function domCenterToWorld(elementId) {
+      const el = document.getElementById(elementId)
+      if (!el) return new THREE.Vector3(0, 0, 0)
+      const rect = el.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const ndcX = (cx / window.innerWidth) * 2 - 1
+      const ndcY = -((cy / window.innerHeight) * 2 - 1)
+      const vec = new THREE.Vector3(ndcX, ndcY, 0.5)
+      vec.unproject(camera)
+      const dir = vec.sub(camera.position).normalize()
+      const distance = -camera.position.z / dir.z
+      return camera.position.clone().add(dir.multiplyScalar(distance))
+    }
+
+    let driftTarget = new THREE.Vector3(0, 0, 0)
+    function cacheDriftTarget() {
+      driftTarget = domCenterToWorld('shop-anatomy')
+    }
+    cacheDriftTarget()
 
     function lerpProgress(y, start, end) {
       if (end <= start) return y >= start ? 1 : 0
@@ -320,6 +344,19 @@ export default function ParticleBrainCanvas() {
             (targetPositions[i3 + 2] - scatterPositions[i3 + 2]) * t
         }
         positionAttr.needsUpdate = true
+
+        // Phase C: drift brainGroup toward §02 anatomy center
+        const driftT = pC * pC * (3 - 2 * pC)
+        brainGroup.position.x = driftTarget.x * driftT
+        brainGroup.position.y = driftTarget.y * driftT
+        // Slight rotation for life
+        brainGroup.rotation.z = (driftT - 0.5) * 0.18
+
+        // Phase D: collapse + fade
+        const scale = 1.0 - 0.7 * (pD * pD * (3 - 2 * pD))
+        brainGroup.scale.set(scale, scale, scale)
+        material.uniforms.uAlpha.value = Math.max(0, 1 - pD)
+
         renderer.render(scene, camera)
       }
       rafId = requestAnimationFrame(loop)
@@ -336,6 +373,7 @@ export default function ParticleBrainCanvas() {
       material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
       cacheSectionOffsets()
       recomputeProgress()
+      cacheDriftTarget()
     }
     function debouncedResize() {
       window.clearTimeout(resizeTimer)
