@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+// eslint-disable-next-line no-unused-vars -- motion is used via JSX member access (<motion.div>, etc.)
 import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'

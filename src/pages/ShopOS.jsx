@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
 import BlueprintCanvas from '@/components/BlueprintCanvas.jsx'
+// eslint-disable-next-line no-unused-vars -- motion is used via JSX member access (<motion.div>, etc.)
 import { motion, MotionConfig } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { SectionTag, Plate } from '@/components/blueprint.jsx'
