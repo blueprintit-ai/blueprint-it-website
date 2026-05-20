@@ -151,6 +151,153 @@ function ShopOS() {
               </div>
             </div>
           </section>
+
+          {/* =========================================================
+              §02 — Drawing № 03 · The Anatomy
+          ==========================================================*/}
+          <section id="shop-anatomy" className="relative bg-[color:var(--paper-2)]/60">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
+              <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
+                <div className="md:col-span-6">
+                  <SectionTag id="02">Drawing № 03 · The Anatomy</SectionTag>
+                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    The{' '}
+                    <span className="font-display-italic text-[color:var(--cyan)]">anatomy</span>{' '}
+                    of your AI Operating System.
+                  </h2>
+                </div>
+                <div className="md:col-span-5 md:col-start-8 md:pt-8">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Two deliverables, installed in 14 days. A Shop Brain that plugs into
+                    your stack, and two proof automations running on top. Owned by you
+                    on day one of handoff.
+                  </p>
+                </div>
+              </div>
+
+              {/* Orbit diagram */}
+              <OrbitDiagram />
+
+              {/* Two deliverable plates */}
+              <div className="grid md:grid-cols-2 gap-8 mt-16 md:mt-20">
+                <Plate accent="cyan" className="h-full">
+                  <div className="flex items-baseline justify-between mb-6">
+                    <span className="font-display text-5xl leading-none">01</span>
+                    <span className="label label-cyan">Deliverable</span>
+                  </div>
+                  <div className="label mb-3">context · queryable · operator-owned</div>
+                  <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
+                    A working Shop Brain.
+                  </h3>
+                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
+                    Every AI interaction on your team reads from one centralized place:
+                    customer history, SOPs, brand voice, commercial rules. The
+                    institutional knowledge that lives in ten people&apos;s heads,
+                    queryable by every person and every automation. Plugs into your
+                    existing stack without replacing anything.
+                  </p>
+                  <div className="pt-5 border-t border-[color:var(--paper-line)]">
+                    <div className="label label-cyan mb-3">What your team gets</div>
+                    <ul className="space-y-2 mb-5">
+                      {[
+                        'One source of truth for every AI interaction',
+                        'Auto-ingestion from calls, email, and docs',
+                        'Connects to your CRM, calendar, and tools',
+                      ].map((d) => (
+                        <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
+                          <span className="inline-block h-1.5 w-4 bg-[color:var(--cyan)]" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="label mb-3">At handoff</div>
+                    <ul className="space-y-2">
+                      {[
+                        'Operator trained to extend the Brain',
+                        'System owned by your team, not ours',
+                      ].map((d) => (
+                        <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
+                          <span className="inline-block h-1.5 w-4 bg-[color:var(--ink-soft)]" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Plate>
+
+                <Plate accent="rust" className="h-full">
+                  <div className="flex items-baseline justify-between mb-6">
+                    <span className="font-display text-5xl leading-none">02</span>
+                    <span className="label label-rust">Deliverable</span>
+                  </div>
+                  <div className="label mb-3">scheduled · autonomous · template for the rest</div>
+                  <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
+                    Two proof automations.
+                  </h3>
+                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
+                    End-to-end automations built on top of the Shop Brain in week two.
+                    Picked from your highest-leverage repetitive workflows. They run on
+                    real systems, unprompted, and they become the template your Operator
+                    uses to build the next ten without us.
+                  </p>
+                  <div className="pt-5 border-t border-[color:var(--paper-line)]">
+                    <div className="label label-rust mb-3">Example shapes</div>
+                    <ul className="space-y-2 mb-5">
+                      {[
+                        'Inbound call → CRM update + follow-up tasks',
+                        'Weekly ops digest auto-sent to leadership',
+                        'Deal qualification and routing on autopilot',
+                      ].map((d) => (
+                        <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
+                          <span className="inline-block h-1.5 w-4 bg-[color:var(--rust)]" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="label mb-3">Why two</div>
+                    <ul className="space-y-2">
+                      {[
+                        'One proves the Brain works on real data',
+                        'One proves the pattern repeats',
+                      ].map((d) => (
+                        <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
+                          <span className="inline-block h-1.5 w-4 bg-[color:var(--ink-soft)]" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Plate>
+              </div>
+
+              {/* Seed Imports strip */}
+              <div className="mt-12 border-t border-[color:var(--paper-line)] pt-8">
+                <div className="flex items-baseline gap-4 mb-5">
+                  <div className="label label-cyan">Seed Imports</div>
+                  <div className="font-mono text-[11px] text-[color:var(--ink-mute)] uppercase tracking-[0.18em]">
+                    one-time at onboarding
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {[
+                    'Past Contracts',
+                    'Email Archives',
+                    'Call Library',
+                    'Slack / Teams History',
+                    'Spreadsheets & CSVs',
+                    'PDF Library',
+                  ].map((chip) => (
+                    <div
+                      key={chip}
+                      className="border border-dashed border-[color:var(--ink-soft)] bg-[color:var(--paper)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--ink-soft)]"
+                    >
+                      {chip}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
         </main>
 
         <SiteFooter
@@ -337,6 +484,154 @@ function GrowthChart() {
         Scattered Context
       </text>
     </svg>
+  )
+}
+
+function OrbitDiagram() {
+  // 8 chips arranged at 45° intervals on a ring around a center Shop Brain card.
+  const chips = [
+    'Email', 'Calls', 'Calendar', 'Docs',
+    'CRM', 'Sheets', 'Messaging', 'Contracts',
+  ]
+  const VBW = 800
+  const VBH = 560
+  const cx = VBW / 2
+  const cy = VBH / 2
+  const r = 220
+
+  return (
+    <>
+      {/* Desktop orbit */}
+      <div className="hidden md:block">
+        <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full h-auto">
+          {/* Orbit ring */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={r}
+            fill="none"
+            stroke="var(--paper-line)"
+            strokeWidth="1"
+            strokeDasharray="2 4"
+          />
+
+          {/* Center Shop Brain card */}
+          <g>
+            <rect
+              x={cx - 120}
+              y={cy - 56}
+              width="240"
+              height="112"
+              fill="var(--card)"
+              stroke="var(--ink)"
+              strokeWidth="1"
+            />
+            <rect
+              x={cx - 114}
+              y={cy - 50}
+              width="228"
+              height="100"
+              fill="none"
+              stroke="var(--paper-line)"
+              strokeWidth="1"
+            />
+            <text
+              x={cx}
+              y={cy - 8}
+              fontFamily="Fraunces"
+              fontSize="22"
+              fill="var(--ink)"
+              textAnchor="middle"
+              fontStyle="italic"
+            >
+              The Shop Brain
+            </text>
+            <text
+              x={cx}
+              y={cy + 20}
+              fontFamily="JetBrains Mono"
+              fontSize="10"
+              letterSpacing="2"
+              fill="var(--cyan)"
+              textAnchor="middle"
+            >
+              LIVE · CONNECTED
+            </text>
+          </g>
+
+          {/* Chips with connecting lines */}
+          {chips.map((chip, i) => {
+            const angle = (i / chips.length) * Math.PI * 2 - Math.PI / 2
+            const x = cx + Math.cos(angle) * r
+            const y = cy + Math.sin(angle) * r
+            // Inner ring end-point — just outside the center card
+            const innerR = 70
+            const ix = cx + Math.cos(angle) * innerR
+            const iy = cy + Math.sin(angle) * innerR
+            return (
+              <motion.g
+                key={chip}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-15%' }}
+                transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+              >
+                {/* Connection line */}
+                <line
+                  x1={ix}
+                  y1={iy}
+                  x2={x}
+                  y2={y}
+                  stroke="var(--cyan)"
+                  strokeWidth="1"
+                  opacity="0.5"
+                />
+                {/* Chip background */}
+                <rect
+                  x={x - 50}
+                  y={y - 14}
+                  width="100"
+                  height="28"
+                  fill="var(--paper)"
+                  stroke="var(--cyan)"
+                  strokeWidth="1"
+                />
+                <text
+                  x={x}
+                  y={y + 4}
+                  fontFamily="JetBrains Mono"
+                  fontSize="11"
+                  letterSpacing="1.5"
+                  fill="var(--cyan)"
+                  textAnchor="middle"
+                  style={{ textTransform: 'uppercase' }}
+                >
+                  {chip}
+                </text>
+              </motion.g>
+            )
+          })}
+        </svg>
+      </div>
+
+      {/* Mobile fallback — vertical stack */}
+      <div className="md:hidden">
+        <Plate accent="cyan" className="text-center mb-4">
+          <div className="font-display italic text-2xl mb-1">The Shop Brain</div>
+          <div className="label label-cyan">LIVE · CONNECTED</div>
+        </Plate>
+        <div className="grid grid-cols-2 gap-2">
+          {chips.map((chip) => (
+            <div
+              key={chip}
+              className="border border-[color:var(--cyan)] bg-[color:var(--paper)] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[color:var(--cyan)] text-center"
+            >
+              {chip}
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   )
 }
 
