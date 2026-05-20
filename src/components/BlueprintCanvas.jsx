@@ -80,6 +80,8 @@ export default function BlueprintCanvas() {
         })
       }
       edges = []
+      dimLines = []
+      dimSpawnTimer = 0
       graphFadeOut = 0
       graphResetTimer = 0
     }
@@ -244,7 +246,7 @@ export default function BlueprintCanvas() {
     }
 
     // --- Main loop ---------------------------------------------------------
-    function drawFrame(dt) {
+    function drawFrame() {
       ctx.clearRect(0, 0, width, height)
       drawGrid()
       drawDimLines()
@@ -302,7 +304,7 @@ export default function BlueprintCanvas() {
         last = now - (elapsed % frameInterval)
         if (!document.hidden) {
           tick(dt)
-          drawFrame(dt)
+          drawFrame()
         }
       }
       rafId = requestAnimationFrame(loop)
@@ -310,7 +312,6 @@ export default function BlueprintCanvas() {
 
     function drawStaticFrame() {
       // Seed once, draw once. No animation.
-      seedNodes()
       // Pre-populate a few edges and dim lines for visual interest
       for (let i = 0; i < 4; i++) spawnEdge()
       for (const e of edges) e.drawn = 1
@@ -318,7 +319,7 @@ export default function BlueprintCanvas() {
         spawnDimLine()
         dimLines[dimLines.length - 1].age = 1.0 // hold in dwell phase
       }
-      drawFrame(0)
+      drawFrame()
     }
 
     // 150ms debounce on resize per spec.
@@ -334,7 +335,6 @@ export default function BlueprintCanvas() {
     if (reducedMotion) {
       drawStaticFrame()
     } else {
-      seedNodes()
       rafId = requestAnimationFrame(loop)
     }
 
