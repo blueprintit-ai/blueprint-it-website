@@ -298,6 +298,109 @@ function ShopOS() {
               </div>
             </div>
           </section>
+
+          {/* =========================================================
+              §03 — Drawing № 04 · The 14 Days
+          ==========================================================*/}
+          <section id="shop-14-days" className="relative">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
+              <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
+                <div className="md:col-span-6">
+                  <SectionTag id="03">Drawing № 04 · The 14 Days</SectionTag>
+                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    Three phases. Two weeks.{' '}
+                    <span className="font-display-italic text-[color:var(--rust)]">
+                      One handoff.
+                    </span>
+                  </h2>
+                </div>
+                <div className="md:col-span-5 md:col-start-8 md:pt-8">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Every engagement runs the same playbook. By day 14, the system is
+                    live, the proof automations are running, and your internal Operator
+                    owns it without us in the room.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8 items-stretch">
+                {[
+                  {
+                    tag: 'Phase 01 · Days 1–4',
+                    range: '01',
+                    title: 'Discovery',
+                    body: 'Live screen-share sessions. We watch how the business actually runs, not how the docs say it runs. Real workflows, real friction, real handoffs between tools and people.',
+                    outputs: [
+                      'Operational map grounded in observation',
+                      'Two proof automations scoped and confirmed',
+                    ],
+                    accent: 'cyan',
+                  },
+                  {
+                    tag: 'Phase 02 · Days 5–10',
+                    range: '02',
+                    title: 'Shop Brain Setup',
+                    body: 'We build the Shop Brain: project structure, knowledge base, decision log, modular connectors. The substrate every future automation will run on.',
+                    outputs: [
+                      'Centralized context layer, populated and wired',
+                      'Connector layer live with your stack',
+                    ],
+                    accent: 'cyan',
+                  },
+                  {
+                    tag: 'Phase 03 · Days 11–14',
+                    range: '03',
+                    title: 'Proof + Handoff',
+                    body: 'Two end-to-end automations shipped on top of the Shop Brain. Live team workshop. Operator trained on extension patterns so the team keeps building without us.',
+                    outputs: [
+                      'Two proof automations running on real data',
+                      'System fully owned by your team',
+                    ],
+                    accent: 'rust',
+                  },
+                ].map((phase, i) => (
+                  <motion.div
+                    key={phase.range}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-10%' }}
+                    transition={{ duration: 0.7, delay: i * 0.12 }}
+                    className="h-full"
+                  >
+                    <Plate accent={phase.accent} className="h-full flex flex-col">
+                      <div className="flex items-baseline justify-between mb-6">
+                        <span className="font-display text-5xl leading-none">{phase.range}</span>
+                        <span className={`label ${phase.accent === 'rust' ? 'label-rust' : 'label-cyan'}`}>
+                          {phase.tag}
+                        </span>
+                      </div>
+                      <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
+                        {phase.title}
+                      </h3>
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6 flex-1">
+                        {phase.body}
+                      </p>
+                      <div className="pt-5 border-t border-[color:var(--paper-line)]">
+                        <div className={`label ${phase.accent === 'rust' ? 'label-rust' : 'label-cyan'} mb-3`}>
+                          Output
+                        </div>
+                        <ul className="space-y-2">
+                          {phase.outputs.map((o) => (
+                            <li key={o} className="flex items-center gap-3 font-mono text-[12px]">
+                              <span
+                                className={`inline-block h-1.5 w-4 ${phase.accent === 'rust' ? 'bg-[color:var(--rust)]' : 'bg-[color:var(--cyan)]'}`}
+                              />
+                              <span>{o}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </Plate>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
         </main>
 
         <SiteFooter
