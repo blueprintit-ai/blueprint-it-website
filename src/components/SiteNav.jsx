@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Menu, X, ArrowUpRight } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function SiteNav({ onCtaClick, navItems, ctaLabel = 'Discovery Call' }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -97,9 +98,21 @@ export default function SiteNav({ onCtaClick, navItems, ctaLabel = 'Discovery Ca
 }
 
 function NavItem({ item, mobile, onAfterClick }) {
+  const location = useLocation()
+  const activeClass = 'text-[color:var(--ink)]'
+  const inactiveClass = 'text-[color:var(--ink-soft)]'
+
+  // Determine active: route matches current path; "/" matches both "/" and "/#..."
+  let isActive = false
+  if (item.kind === 'route' && location.pathname === item.to) isActive = true
+  // For 'button' or 'link' kinds, active state is implied by being on the home route
+  // and the item targeting the home route's sections — we leave them inactive (subtle).
+
+  const colorClass = isActive ? activeClass : inactiveClass
+
   const baseClass = mobile
-    ? 'text-left font-mono text-xs uppercase tracking-[0.18em] py-2 text-[color:var(--ink-soft)]'
-    : 'font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors'
+    ? `text-left font-mono text-xs uppercase tracking-[0.18em] py-2 ${colorClass}`
+    : `font-mono text-[11px] uppercase tracking-[0.18em] ${colorClass} hover:text-[color:var(--ink)] transition-colors`
 
   if (item.kind === 'button') {
     return (
@@ -115,8 +128,17 @@ function NavItem({ item, mobile, onAfterClick }) {
     )
   }
 
-  // kind === 'link' — plain anchor (used for hash links and externals)
-  // We render a plain <a>. Router replaces this in Task 4 with <Link>.
+  if (item.kind === 'route') {
+    return (
+      <Link to={item.to} onClick={() => onAfterClick?.()} className={baseClass}>
+        {item.label}
+      </Link>
+    )
+  }
+
+  // kind === 'link' — plain anchor (used for cross-page hash links like /#services).
+  // We use a plain <a> on purpose: browser handles scroll-to-hash automatically after
+  // the home page loads, which avoids needing a custom ScrollToHash router helper.
   return (
     <a
       href={item.href}

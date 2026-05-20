@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function SiteFooter({ links }) {
   return (
     <footer className="border-t border-[color:var(--ink)] bg-[color:var(--paper-2)]">
@@ -12,21 +14,30 @@ export default function SiteFooter({ links }) {
           </span>
         </div>
         <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--ink-mute)]">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              onClick={(e) => {
-                if (l.onAnchor) {
-                  e.preventDefault()
-                  l.onAnchor()
-                }
-              }}
-              className="hover:text-[color:var(--ink)]"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) => {
+            if (l.to) {
+              return (
+                <Link key={l.label} to={l.to} className="hover:text-[color:var(--ink)]">
+                  {l.label}
+                </Link>
+              )
+            }
+            return (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={(e) => {
+                  if (l.onAnchor) {
+                    e.preventDefault()
+                    l.onAnchor()
+                  }
+                }}
+                className="hover:text-[color:var(--ink)]"
+              >
+                {l.label}
+              </a>
+            )
+          })}
         </div>
       </div>
     </footer>
