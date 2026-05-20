@@ -1,28 +1,29 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
-// Faithful benaios.com-style particle brain background.
-// Phase A (this task): scatter cloud only. Future tasks add brain assembly,
-// scroll choreography, migration lines, ghost threads, fades.
+// Particle brain background — benaios.com-style WebGL effect retuned to
+// Blueprint IT palette. ~14k particles render an assembled 🧠 silhouette
+// in the right half of the hero from page load. On scroll, the brain
+// drifts from right-half to the §02 OrbitDiagram center, then scales down
+// and fades by §05. Cyan body, gold edge accents.
 
-const TOTAL_PARTICLES = 9000
-const MOBILE_PARTICLES = 4000
-const MIGRATION_LINES = 1100
-const MOBILE_MIGRATION_LINES = 400
+const TOTAL_PARTICLES = 14000
+const MOBILE_PARTICLES = 6000
+const STATIC_LINES = 1100
+const MOBILE_STATIC_LINES = 400
 const GHOST_THREADS = 32
 const MOBILE_GHOST_THREADS = 12
 
 // Brand stops (sRGB normalized 0..1).
-const C_SLATE = [0x6a / 255, 0x77 / 255, 0x88 / 255]
-const C_RUST = [0xc2 / 255, 0x46 / 255, 0x1f / 255]
 const C_CYAN = [0x1c / 255, 0x6e / 255, 0xa4 / 255]
 const C_GOLD = [0xb6 / 255, 0x8a / 255, 0x2c / 255]
+const C_INK_MUTE = [0x6a / 255, 0x77 / 255, 0x88 / 255]
 
-// Rasterize 🧠 emoji to an offscreen canvas, sample non-background pixels,
-// return their world-space positions. Particles will use these as targets.
-// Returns { positions: Float32Array, layers: Float32Array (1=silhouette, 0=interior), count }.
-function buildPointillistBrain(maxTargets, worldScale = 1.55) {
-  const SIZE = 1024
+// Rasterize 🧠 emoji to an offscreen canvas; return brain particle targets.
+// Captures silhouette edges + interior gradient edges (gyri/sulci) for
+// anatomical recognizability at any density.
+function buildPointillistBrain(maxTargets, worldScale = 2.4) {
+  const SIZE = 1280
   const canvas2d = document.createElement('canvas')
   canvas2d.width = SIZE
   canvas2d.height = SIZE
@@ -30,10 +31,10 @@ function buildPointillistBrain(maxTargets, worldScale = 1.55) {
   ctx2d.fillStyle = '#ffffff'
   ctx2d.fillRect(0, 0, SIZE, SIZE)
   ctx2d.font =
-    '820px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
+    '1080px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
   ctx2d.textAlign = 'center'
   ctx2d.textBaseline = 'middle'
-  ctx2d.fillText('\u{1F9E0}', SIZE / 2, SIZE / 2 + 32)
+  ctx2d.fillText('\u{1F9E0}', SIZE / 2, SIZE / 2 + 40)
 
   const img = ctx2d.getImageData(0, 0, SIZE, SIZE)
   const data = img.data
@@ -54,34 +55,53 @@ function buildPointillistBrain(maxTargets, worldScale = 1.55) {
   for (let py = 0; py < SIZE; py += STRIDE) {
     for (let px = 0; px < SIZE; px += STRIDE) {
       if (isBackground(px, py)) continue
+      // Silhouette: at least one background neighbor
       const onSilhouette =
         isBackground(px - STRIDE, py) ||
         isBackground(px + STRIDE, py) ||
         isBackground(px, py - STRIDE) ||
         isBackground(px, py + STRIDE)
+      // Interior gradient edge: high local pixel-sum variance (gyri / sulci)
+      let isGradientEdge = false
+      if (!onSilhouette) {
+        const here = pxSum(px, py)
+        const maxFine = Math.max(
+          Math.abs(pxSum(px - 2, py) - here),
+          Math.abs(pxSum(px + 2, py) - here),
+          Math.abs(pxSum(px, py - 2) - here),
+          Math.abs(pxSum(px, py + 2) - here)
+        )
+        const maxMid = Math.max(
+          Math.abs(pxSum(px - 6, py) - here),
+          Math.abs(pxSum(px + 6, py) - here),
+          Math.abs(pxSum(px, py - 6) - here),
+          Math.abs(pxSum(px, py + 6) - here)
+        )
+        isGradientEdge = maxFine > 70 || maxMid > 100
+      }
+      if (!onSilhouette && !isGradientEdge) continue
       const wx = ((px - SIZE / 2) / worldRadiusPx) * worldScale
       const wy = -((py - SIZE / 2) / worldRadiusPx) * worldScale
-      const wz = (Math.random() - 0.5) * 0.08 * worldScale
+      const wz = (Math.random() - 0.5) * 0.06 * worldScale
       positions.push(wx, wy, wz)
       layers.push(onSilhouette ? 1 : 0)
     }
   }
 
-  // Fallback if emoji didn't render (no color emoji font available).
-  // Draw a simple brain-shaped ellipse + stem curve.
+  // Fallback if no emoji font available — draw simple brain ellipse + stem.
   if (positions.length / 3 < 500) {
     positions.length = 0
     layers.length = 0
     ctx2d.fillStyle = '#ffffff'
     ctx2d.fillRect(0, 0, SIZE, SIZE)
     ctx2d.strokeStyle = '#000'
-    ctx2d.lineWidth = 3
+    ctx2d.lineWidth = 4
     ctx2d.beginPath()
-    ctx2d.ellipse(SIZE / 2, SIZE / 2, 220, 170, 0, 0, Math.PI * 2)
+    ctx2d.ellipse(SIZE / 2, SIZE / 2, 280, 220, 0, 0, Math.PI * 2)
     ctx2d.stroke()
     ctx2d.beginPath()
-    ctx2d.moveTo(SIZE / 2 - 200, SIZE / 2 + 20)
-    ctx2d.quadraticCurveTo(SIZE / 2, SIZE / 2 + 40, SIZE / 2 + 200, SIZE / 2 + 20)
+    ctx2d.moveTo(SIZE / 2 - 260, SIZE / 2 + 30)
+    ctx2d.quadraticCurveTo(SIZE / 2, SIZE / 2 + 60, SIZE / 2 + 260, SIZE / 2 + 30)
     ctx2d.stroke()
     const img2 = ctx2d.getImageData(0, 0, SIZE, SIZE).data
     for (let py = 0; py < SIZE; py += STRIDE) {
@@ -91,7 +111,7 @@ function buildPointillistBrain(maxTargets, worldScale = 1.55) {
           positions.push(
             ((px - SIZE / 2) / worldRadiusPx) * worldScale,
             -((py - SIZE / 2) / worldRadiusPx) * worldScale,
-            (Math.random() - 0.5) * 0.08 * worldScale
+            (Math.random() - 0.5) * 0.06 * worldScale
           )
           layers.push(1)
         }
@@ -99,7 +119,7 @@ function buildPointillistBrain(maxTargets, worldScale = 1.55) {
     }
   }
 
-  // Uniformly subsample down to maxTargets.
+  // Uniformly subsample to maxTargets.
   const totalCandidates = positions.length / 3
   let finalPositions = positions
   let finalLayers = layers
@@ -135,11 +155,9 @@ export default function ParticleBrainCanvas() {
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // WebGL detection via throwaway canvas
+    // WebGL detection via throwaway canvas (real one stays untouched).
     const probe = document.createElement('canvas')
-    const hasWebgl = !!(
-      probe.getContext('webgl2') || probe.getContext('webgl')
-    )
+    const hasWebgl = !!(probe.getContext('webgl2') || probe.getContext('webgl'))
 
     if (!hasWebgl) {
       const ctx2d = canvas.getContext('2d')
@@ -178,31 +196,17 @@ export default function ParticleBrainCanvas() {
     renderer.setSize(window.innerWidth, window.innerHeight, false)
     renderer.setClearColor(0x000000, 0)
 
-    // --- Brain targets (this task: snap particles directly to brain) -----
-    const brain = buildPointillistBrain(count)
-    const positions = brain.positions
-    const actualCount = brain.count
-    // (actualCount may be slightly less than `count` due to emoji edge density.
-    //  Use actualCount when sizing buffers below.)
-
-    // --- Scatter source positions (Phase A — right-half cloud) -----------
+    // Visible world extent at z=0 plane (recomputed on resize)
     const vFov = (camera.fov * Math.PI) / 180
-    const visibleH = 2 * Math.tan(vFov / 2) * camera.position.z
-    const visibleW = visibleH * camera.aspect
+    let visibleH = 2 * Math.tan(vFov / 2) * camera.position.z
+    let visibleW = visibleH * camera.aspect
 
-    const scatterPositions = new Float32Array(actualCount * 3)
-    for (let i = 0; i < actualCount; i++) {
-      const x = visibleW * (0.05 + Math.random() * 0.4)
-      const y = visibleH * (Math.random() - 0.5) * 0.9
-      const z = (Math.random() - 0.5) * 0.4
-      scatterPositions[i * 3 + 0] = x
-      scatterPositions[i * 3 + 1] = y
-      scatterPositions[i * 3 + 2] = z
-    }
-    const targetPositions = positions // alias for clarity
-    // Working buffer that gets interpolated each frame.
+    // --- Build brain particles (assembled from page load) ----------------
+    const brain = buildPointillistBrain(count, 2.4)
+    const targetPositions = brain.positions
+    const actualCount = brain.count
     const livePositions = new Float32Array(actualCount * 3)
-    livePositions.set(scatterPositions)
+    livePositions.set(targetPositions)
 
     const geometry = new THREE.BufferGeometry()
     geometry.setAttribute('position', new THREE.BufferAttribute(livePositions, 3))
@@ -210,69 +214,53 @@ export default function ParticleBrainCanvas() {
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        uProgress: { value: 0 },
         uAlpha: { value: 1 },
-        uSize: { value: 0.018 },
+        uSize: { value: 0.022 },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-        uColorSlate: { value: new THREE.Color(C_SLATE[0], C_SLATE[1], C_SLATE[2]) },
         uColorCyan: { value: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]) },
         uColorGold: { value: new THREE.Color(C_GOLD[0], C_GOLD[1], C_GOLD[2]) },
-        uColorRust: { value: new THREE.Color(C_RUST[0], C_RUST[1], C_RUST[2]) },
+        uColorMute: { value: new THREE.Color(C_INK_MUTE[0], C_INK_MUTE[1], C_INK_MUTE[2]) },
       },
       vertexShader: `
-        uniform float uProgress;
         uniform float uSize;
         uniform float uPixelRatio;
         attribute float aLayer;
-        varying float vProgress;
         varying float vLayer;
+        varying vec3 vWorldPos;
         void main() {
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
           gl_Position = projectionMatrix * mvPosition;
           gl_PointSize = uSize * (300.0 / -mvPosition.z) * uPixelRatio;
-          vProgress = uProgress;
           vLayer = aLayer;
+          vWorldPos = position;
         }
       `,
       fragmentShader: `
         uniform float uAlpha;
-        uniform vec3 uColorSlate;
         uniform vec3 uColorCyan;
         uniform vec3 uColorGold;
-        uniform vec3 uColorRust;
-        varying float vProgress;
+        uniform vec3 uColorMute;
         varying float vLayer;
-
-        vec3 brandGradient(float t) {
-          // 4-stop: slate (0) → cyan (0.33) → gold (0.66) → rust (1)
-          t = clamp(t, 0.0, 1.0);
-          if (t < 0.333) {
-            float s = t / 0.333;
-            s = s * s * (3.0 - 2.0 * s);
-            return mix(uColorSlate, uColorCyan, s);
-          } else if (t < 0.666) {
-            float s = (t - 0.333) / 0.333;
-            s = s * s * (3.0 - 2.0 * s);
-            return mix(uColorCyan, uColorGold, s);
-          } else {
-            float s = (t - 0.666) / 0.334;
-            s = s * s * (3.0 - 2.0 * s);
-            return mix(uColorGold, uColorRust, s);
-          }
-        }
+        varying vec3 vWorldPos;
 
         void main() {
-          // Circular sprite shape with soft edge
+          // Circular sprite with soft edge
           vec2 uv = gl_PointCoord - 0.5;
           float d = length(uv);
           if (d > 0.5) discard;
-          float edge = smoothstep(0.5, 0.35, d);
+          float edge = smoothstep(0.5, 0.25, d);
 
-          // Silhouette particles bias warmer; interior particles bias cooler.
-          float tint = vProgress * (vLayer > 0.5 ? 1.0 : 0.85);
-
-          vec3 col = brandGradient(tint);
-          float alpha = edge * uAlpha * (vProgress * 0.7 + 0.3);
+          // Silhouette = warm gold-cyan blend (anatomical edges glow).
+          // Interior = cool cyan body with a hint of mute haze on lower particles
+          // for subtle depth shading.
+          vec3 col;
+          if (vLayer > 0.5) {
+            col = mix(uColorGold, uColorCyan, 0.3);
+          } else {
+            float yFactor = clamp((vWorldPos.y + 1.5) / 3.0, 0.0, 1.0);
+            col = mix(uColorMute, uColorCyan, 0.55 + 0.35 * yFactor);
+          }
+          float alpha = edge * uAlpha * 0.9;
           gl_FragColor = vec4(col, alpha);
         }
       `,
@@ -285,40 +273,51 @@ export default function ParticleBrainCanvas() {
     brainGroup.add(points)
     scene.add(brainGroup)
 
-    const lineCount = isMobile ? MOBILE_MIGRATION_LINES : MIGRATION_LINES
+    // Initial brain position: right-half of hero, slightly below vertical center.
+    // Recomputed on resize.
+    function setInitialBrainPosition() {
+      visibleH = 2 * Math.tan(vFov / 2) * camera.position.z
+      visibleW = visibleH * camera.aspect
+      brainGroup.position.x = visibleW * 0.22
+      brainGroup.position.y = -visibleH * 0.04
+    }
+    setInitialBrainPosition()
+
+    // --- Static connector lines (anatomical net within the brain) --------
+    const lineCount = isMobile ? MOBILE_STATIC_LINES : STATIC_LINES
     const threadCount = isMobile ? MOBILE_GHOST_THREADS : GHOST_THREADS
 
-    // --- Migration lines: pick nearest-neighbor pairs --------------------
     const linePositions = new Float32Array(lineCount * 2 * 3)
-    const linePairs = new Array(lineCount)
     for (let l = 0; l < lineCount; l++) {
       const a = Math.floor(Math.random() * actualCount)
-      let b = a + Math.floor((Math.random() - 0.5) * 200)
+      let b = a + Math.floor((Math.random() - 0.5) * 80)
       b = Math.max(0, Math.min(actualCount - 1, b))
       if (b === a) b = (a + 1) % actualCount
-      linePairs[l] = [a, b]
+      const i6 = l * 6
+      linePositions[i6 + 0] = targetPositions[a * 3 + 0]
+      linePositions[i6 + 1] = targetPositions[a * 3 + 1]
+      linePositions[i6 + 2] = targetPositions[a * 3 + 2]
+      linePositions[i6 + 3] = targetPositions[b * 3 + 0]
+      linePositions[i6 + 4] = targetPositions[b * 3 + 1]
+      linePositions[i6 + 5] = targetPositions[b * 3 + 2]
     }
-
     const lineGeometry = new THREE.BufferGeometry()
-    lineGeometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(linePositions, 3)
-    )
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3))
     const lineMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]),
       transparent: true,
-      opacity: 0.0,
+      opacity: 0.18,
       depthWrite: false,
     })
     const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial)
     brainGroup.add(lineSegments)
 
-    // --- Ghost threads: persistent radial lines from brain edge outward ---
+    // --- Ghost threads: gold radial lines radiating from brain edge ------
     const threadPositions = new Float32Array(threadCount * 2 * 3)
     for (let t = 0; t < threadCount; t++) {
       const angle = (t / threadCount) * Math.PI * 2
-      const innerR = 1.4
-      const outerR = 3.2 + Math.random() * 1.0
+      const innerR = 1.8
+      const outerR = 4.0 + Math.random() * 1.5
       const i6 = t * 6
       threadPositions[i6 + 0] = Math.cos(angle) * innerR
       threadPositions[i6 + 1] = Math.sin(angle) * innerR
@@ -328,24 +327,19 @@ export default function ParticleBrainCanvas() {
       threadPositions[i6 + 5] = 0
     }
     const threadGeometry = new THREE.BufferGeometry()
-    threadGeometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(threadPositions, 3)
-    )
+    threadGeometry.setAttribute('position', new THREE.BufferAttribute(threadPositions, 3))
     const threadMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(C_GOLD[0], C_GOLD[1], C_GOLD[2]),
       transparent: true,
-      opacity: 0.0,
+      opacity: 0.35,
       depthWrite: false,
     })
     const ghostThreads = new THREE.LineSegments(threadGeometry, threadMaterial)
     brainGroup.add(ghostThreads)
 
-    // --- Scroll progress scalars -----------------------------------------
-    // pA: scatter intensity     — 1 at top, 0 once hero exits
-    // pB: migration progress    — 0 before hero exits, 1 at §02 top
-    // pC: drift toward §02      — 0 at §02 top, 1 at §03 top
-    // pD: collapse + fade       — 0 at §03 top, 1 at §05 top
+    // --- Scroll progress -------------------------------------------------
+    // pDrift: 0 in hero, 1 at §02 anatomy — drives drift from right-half toward §02 center
+    // pFade:  0 at §03 14-days, 1 at §05 final CTA — drives scale-down + fade-out
     const sectionIds = [
       'shop-os-top',
       'shop-gap',
@@ -354,19 +348,15 @@ export default function ParticleBrainCanvas() {
       'shop-operator',
       'shop-ready',
     ]
-    const sectionTops = {} // recomputed on resize
-
+    const sectionTops = {}
     function cacheSectionOffsets() {
       for (const id of sectionIds) {
         const el = document.getElementById(id)
-        sectionTops[id] = el
-          ? el.getBoundingClientRect().top + window.scrollY
-          : 0
+        sectionTops[id] = el ? el.getBoundingClientRect().top + window.scrollY : 0
       }
     }
     cacheSectionOffsets()
 
-    // Map a DOM bounding rect center to world coords at z=0.
     function domCenterToWorld(elementId) {
       const el = document.getElementById(elementId)
       if (!el) return new THREE.Vector3(0, 0, 0)
@@ -393,91 +383,55 @@ export default function ParticleBrainCanvas() {
       return Math.max(0, Math.min(1, (y - start) / (end - start)))
     }
 
-    // pA (scatter intensity, = 1 - pB) is not currently consumed by any
-    // render code — material alpha and position interpolation both use pB
-    // directly. Drop the binding to keep lint clean; reintroduce if a
-    // future effect (e.g. scatter-only haze) needs the explicit signal.
-    let pB = 0, pC = 0, pD = 0
+    let pDrift = 0, pFade = 0
     function recomputeProgress() {
       const y = window.scrollY
-      pB = lerpProgress(y, sectionTops['shop-os-top'] || 0, sectionTops['shop-anatomy'] || 1)
-      pC = lerpProgress(y, sectionTops['shop-anatomy'] || 0, sectionTops['shop-14-days'] || 1)
-      pD = lerpProgress(y, sectionTops['shop-14-days'] || 0, sectionTops['shop-ready'] || 1)
+      pDrift = lerpProgress(y, sectionTops['shop-os-top'] || 0, sectionTops['shop-anatomy'] || 1)
+      pFade = lerpProgress(y, sectionTops['shop-14-days'] || 0, sectionTops['shop-ready'] || 1)
     }
 
     window.addEventListener('scroll', recomputeProgress, { passive: true })
     recomputeProgress()
 
     // --- Render loop -----------------------------------------------------
-    const positionAttr = geometry.getAttribute('position')
-
     let rafId = 0
+    const startTime = performance.now()
+
+    function renderFrame() {
+      const elapsed = (performance.now() - startTime) / 1000
+      // Subtle idle motion so the brain feels alive even without scrolling
+      const idleRot = Math.sin(elapsed * 0.3) * 0.025
+      const idleFloat = Math.sin(elapsed * 0.5) * 0.05
+
+      // Drift: right-half initial → §02 center as pDrift ramps 0→1
+      const driftT = pDrift * pDrift * (3 - 2 * pDrift)
+      const initialX = visibleW * 0.22
+      const initialY = -visibleH * 0.04
+      brainGroup.position.x = initialX * (1 - driftT) + driftTarget.x * driftT
+      brainGroup.position.y = initialY * (1 - driftT) + driftTarget.y * driftT + idleFloat
+      brainGroup.rotation.z = pDrift * 0.12 + idleRot
+
+      // Fade + scale near the end
+      const scale = 1.0 - 0.7 * (pFade * pFade * (3 - 2 * pFade))
+      brainGroup.scale.set(scale, scale, scale)
+      const a = Math.max(0, 1 - pFade)
+      material.uniforms.uAlpha.value = a
+      lineMaterial.opacity = 0.18 * a
+      threadMaterial.opacity = 0.35 * a
+
+      renderer.render(scene, camera)
+    }
+
     function loop() {
-      if (!document.hidden) {
-        // Smoothstep pB for nicer easing
-        const t = pB * pB * (3 - 2 * pB)
-        material.uniforms.uProgress.value = t
-        for (let i = 0; i < actualCount; i++) {
-          const i3 = i * 3
-          livePositions[i3 + 0] =
-            scatterPositions[i3 + 0] +
-            (targetPositions[i3 + 0] - scatterPositions[i3 + 0]) * t
-          livePositions[i3 + 1] =
-            scatterPositions[i3 + 1] +
-            (targetPositions[i3 + 1] - scatterPositions[i3 + 1]) * t
-          livePositions[i3 + 2] =
-            scatterPositions[i3 + 2] +
-            (targetPositions[i3 + 2] - scatterPositions[i3 + 2]) * t
-        }
-        positionAttr.needsUpdate = true
-
-        // Migration lines: positions follow the two endpoint particles each frame
-        const lineAttr = lineGeometry.getAttribute('position')
-        for (let l = 0; l < lineCount; l++) {
-          const [a, b] = linePairs[l]
-          const i6 = l * 6
-          lineAttr.array[i6 + 0] = livePositions[a * 3 + 0]
-          lineAttr.array[i6 + 1] = livePositions[a * 3 + 1]
-          lineAttr.array[i6 + 2] = livePositions[a * 3 + 2]
-          lineAttr.array[i6 + 3] = livePositions[b * 3 + 0]
-          lineAttr.array[i6 + 4] = livePositions[b * 3 + 1]
-          lineAttr.array[i6 + 5] = livePositions[b * 3 + 2]
-        }
-        lineAttr.needsUpdate = true
-        const lineFade = Math.sin(Math.min(1, pB) * Math.PI) * 0.35
-        lineMaterial.opacity = lineFade * material.uniforms.uAlpha.value
-
-        const threadFade =
-          Math.max(0, Math.min(1, (pB - 0.7) / 0.3)) *
-          material.uniforms.uAlpha.value *
-          0.4
-        threadMaterial.opacity = threadFade
-
-        // Phase C: drift brainGroup toward §02 anatomy center
-        const driftT = pC * pC * (3 - 2 * pC)
-        brainGroup.position.x = driftTarget.x * driftT
-        brainGroup.position.y = driftTarget.y * driftT
-        // Slight rotation for life
-        brainGroup.rotation.z = (driftT - 0.5) * 0.18
-
-        // Phase D: collapse + fade
-        const scale = 1.0 - 0.7 * (pD * pD * (3 - 2 * pD))
-        brainGroup.scale.set(scale, scale, scale)
-        material.uniforms.uAlpha.value = Math.max(0, 1 - pD)
-
-        renderer.render(scene, camera)
-      }
+      if (!document.hidden) renderFrame()
       rafId = requestAnimationFrame(loop)
     }
+
     if (reducedMotion) {
-      pB = 1; pC = 0; pD = 0
-      material.uniforms.uProgress.value = 1
+      // Static frame: brain assembled, slight transparency
       material.uniforms.uAlpha.value = 0.7
-      lineMaterial.opacity = 0
-      threadMaterial.opacity = 0
-      livePositions.set(targetPositions)
-      const positionAttr = geometry.getAttribute('position')
-      positionAttr.needsUpdate = true
+      lineMaterial.opacity = 0.12
+      threadMaterial.opacity = 0.25
       renderer.render(scene, camera)
     } else {
       rafId = requestAnimationFrame(loop)
@@ -491,9 +445,10 @@ export default function ParticleBrainCanvas() {
       renderer.setSize(window.innerWidth, window.innerHeight, false)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
+      setInitialBrainPosition()
       cacheSectionOffsets()
-      recomputeProgress()
       cacheDriftTarget()
+      recomputeProgress()
     }
     function debouncedResize() {
       window.clearTimeout(resizeTimer)
@@ -501,7 +456,6 @@ export default function ParticleBrainCanvas() {
     }
     window.addEventListener('resize', debouncedResize)
 
-    // --- Cleanup ---------------------------------------------------------
     return () => {
       cancelAnimationFrame(rafId)
       window.clearTimeout(resizeTimer)
