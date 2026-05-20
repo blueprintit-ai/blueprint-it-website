@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'
@@ -68,6 +68,7 @@ const Plate = ({ accent = 'cyan', children, className = '' }) => (
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [formSubmissionState, setFormSubmissionState] = useState('idle')
+  const thankYouRef = useRef(null)
   const [formData, setFormData] = useState({
     companyName: '',
     firstName: '',
@@ -105,6 +106,14 @@ function App() {
     }, 15_000)
     return () => clearInterval(t)
   }, [])
+
+  useEffect(() => {
+    if (formSubmissionState !== 'success') return
+    const id = requestAnimationFrame(() => {
+      thankYouRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+    return () => cancelAnimationFrame(id)
+  }, [formSubmissionState])
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -1069,10 +1078,11 @@ function App() {
               {/* Inline thank-you — rendered beneath the form plate */}
               {formSubmissionState === 'success' && (
                 <motion.div
+                  ref={thankYouRef}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="mt-6"
+                  className="mt-6 scroll-mt-24"
                   role="status"
                   aria-live="polite"
                 >
