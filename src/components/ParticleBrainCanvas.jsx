@@ -55,12 +55,13 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
     return pxSum(x, y) > 690
   }
 
-  const STRIDE = 2
+  const STRIDE = 3
   const worldRadiusPx = SIZE * 0.42
   const positions = []
   const layers = []
 
   for (let py = 0; py < SIZE; py += STRIDE) {
+    if (py > SIZE * 0.84) continue  // clip shark-fin stem at bottom of emoji
     for (let px = 0; px < SIZE; px += STRIDE) {
       if (isBackground(px, py)) continue
       // Silhouette: at least one background neighbor
@@ -85,7 +86,7 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
           Math.abs(pxSum(px, py - 6) - here),
           Math.abs(pxSum(px, py + 6) - here)
         )
-        isGradientEdge = maxFine > 70 || maxMid > 100
+        isGradientEdge = maxFine > 110 || maxMid > 145
       }
       if (!onSilhouette && !isGradientEdge) continue
       const wx = ((px - SIZE / 2) / worldRadiusPx) * worldScale
@@ -213,7 +214,7 @@ export default function ParticleBrainCanvas() {
     // Desktop: worldScale=1.45 (~42% of viewport width). Mobile: half size
     // (0.725) so the brain shape stays recognizable on narrow viewports
     // instead of overflowing as an unrecognizable cloud.
-    const worldScale = isMobile ? 1.0 : 2.0
+    const worldScale = isMobile ? 0.85 : 1.7
     const brain = buildPointillistBrain(count, worldScale)
     const targetPositions = brain.positions
     const actualCount = brain.count
@@ -361,8 +362,7 @@ export default function ParticleBrainCanvas() {
     const linePositions = new Float32Array(lineCount * 2 * 3)
     for (let l = 0; l < lineCount; l++) {
       const a = Math.floor(Math.random() * actualCount)
-      let b = a + Math.floor((Math.random() - 0.5) * 80)
-      b = Math.max(0, Math.min(actualCount - 1, b))
+      let b = Math.floor(Math.random() * actualCount)
       if (b === a) b = (a + 1) % actualCount
       const i6 = l * 6
       linePositions[i6 + 0] = targetPositions[a * 3 + 0]
@@ -377,7 +377,7 @@ export default function ParticleBrainCanvas() {
     const lineMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]),
       transparent: true,
-      opacity: 0.18,
+      opacity: 0.10,
       depthWrite: false,
     })
     const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial)
@@ -388,8 +388,8 @@ export default function ParticleBrainCanvas() {
     for (let t = 0; t < threadCount; t++) {
       const angle = (t / threadCount) * Math.PI * 2
       // Scaled to match worldScale=1.2 brain radius.
-      const innerR = 1.25
-      const outerR = 2.75 + Math.random() * 1.0
+      const innerR = 1.06
+      const outerR = 2.35 + Math.random() * 0.85
       const i6 = t * 6
       threadPositions[i6 + 0] = Math.cos(angle) * innerR
       threadPositions[i6 + 1] = Math.sin(angle) * innerR
@@ -473,7 +473,7 @@ export default function ParticleBrainCanvas() {
       const hideT = pHide * pHide * (3 - 2 * pHide)
       const a = Math.max(0, 1 - hideT)
       material.uniforms.uAlpha.value = a
-      lineMaterial.opacity = 0.18 * a
+      lineMaterial.opacity = 0.10 * a
       threadMaterial.opacity = 0.35 * a
 
       renderer.render(scene, camera)
