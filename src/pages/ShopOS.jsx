@@ -374,7 +374,7 @@ function ShopOS() {
                     tag: 'Phase 03 · Days 8–10',
                     range: '03',
                     title: 'Proof + Handoff',
-                    body: 'Two end-to-end automations shipped on top of the Shop Brain. Live team workshop. Operator trained on extension patterns so the team keeps building without us.',
+                    body: 'Two end-to-end automations shipped on top of the Shop Brain. Operator trained to grow and maintain the brain and introduced to the skills required to start building without us.',
                     outputs: [
                       'Two proof automations running on real data',
                       'System fully owned by your team',
