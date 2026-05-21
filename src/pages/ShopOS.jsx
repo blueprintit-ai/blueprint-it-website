@@ -14,15 +14,15 @@ const openCalendly = () => window.open(CALENDLY_URL, '_blank', 'noopener,norefer
 function ShopOS() {
   useEffect(() => {
     const prevTitle = document.title
-    document.title = 'Shop OS — AI Operating System Installed in 14 Days · Blueprint IT'
+    document.title = 'Shop OS — AI Operating System Installed in 10 Days · Blueprint IT'
 
     // Update og:title and og:description meta tags if present
     const ogTitle = document.querySelector('meta[property="og:title"]')
     const ogDesc = document.querySelector('meta[property="og:description"]')
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
-    ogTitle?.setAttribute('content', 'Shop OS — AI Operating System Installed in 14 Days · Blueprint IT')
-    ogDesc?.setAttribute('content', 'Blueprint IT installs your Shop OS in 14 days — a Shop Brain wired into your stack, two proof automations, and a team that owns it on day one.')
+    ogTitle?.setAttribute('content', 'Shop OS — AI Operating System Installed in 10 Days · Blueprint IT')
+    ogDesc?.setAttribute('content', 'Blueprint IT installs your Shop OS in 10 days — a Shop Brain wired into your stack, two proof automations, and a team that owns it on day one.')
 
     return () => {
       document.title = prevTitle
@@ -68,7 +68,7 @@ function ShopOS() {
                     <span className="font-display-italic text-[color:var(--cyan)]">AI</span>{' '}
                     operating system for your small business —{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      installed in 14 days.
+                      installed in 10 days.
                     </span>
                   </motion.h1>
 
@@ -91,7 +91,7 @@ function ShopOS() {
                     className="mt-10 flex flex-wrap items-center gap-5"
                   >
                     <button onClick={openCalendly} className="btn-ink">
-                      Start the 14-day install
+                      Start the 10-day install
                       <ArrowRight size={14} strokeWidth={2.2} />
                     </button>
                     <a
@@ -115,7 +115,7 @@ function ShopOS() {
                     <dl className="divide-y divide-[color:var(--paper-line)] font-mono text-xs">
                       {[
                         ['Practice', 'AI Operating System'],
-                        ['Duration', '14 days, kickoff to live'],
+                        ['Duration', '10 days, kickoff to live'],
                         ['Includes', 'Shop Brain + 2 automations'],
                         ['Stack', 'Plugs into yours'],
                         ['Handoff', 'Owned by your team'],
@@ -190,7 +190,7 @@ function ShopOS() {
                 </div>
                 <div className="md:col-span-5 md:col-start-8 md:pt-8">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Two deliverables, installed in 14 days. A Shop Brain that plugs into
+                    Two deliverables, installed in 10 days. A Shop Brain that plugs into
                     your stack, and two proof automations running on top. Owned by you
                     on day one of handoff.
                   </p>
@@ -322,13 +322,13 @@ function ShopOS() {
           </section>
 
           {/* =========================================================
-              §03 — Drawing № 04 · The 14 Days
+              §03 — Drawing № 04 · The 10 Days
           ==========================================================*/}
-          <section id="shop-14-days" className="relative">
+          <section id="shop-10-days" className="relative">
             <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
               <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
                 <div className="md:col-span-6">
-                  <SectionTag id="03">Drawing № 04 · The 14 Days</SectionTag>
+                  <SectionTag id="03">Drawing № 04 · The 10 Days</SectionTag>
                   <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
                     Three phases. Two weeks.{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
@@ -338,7 +338,7 @@ function ShopOS() {
                 </div>
                 <div className="md:col-span-5 md:col-start-8 md:pt-8">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Every engagement runs the same playbook. By day 14, the system is
+                    Every engagement runs the same playbook. By day 10, the system is
                     live, the proof automations are running, and your internal Operator
                     owns it without us in the room.
                   </p>
@@ -348,7 +348,7 @@ function ShopOS() {
               <div className="grid md:grid-cols-3 gap-8 items-stretch">
                 {[
                   {
-                    tag: 'Phase 01 · Days 1–4',
+                    tag: 'Phase 01 · Days 1–3',
                     range: '01',
                     title: 'Discovery',
                     body: 'Live screen-share sessions. We watch how the business actually runs, not how the docs say it runs. Real workflows, real friction, real handoffs between tools and people.',
@@ -359,7 +359,7 @@ function ShopOS() {
                     accent: 'cyan',
                   },
                   {
-                    tag: 'Phase 02 · Days 5–10',
+                    tag: 'Phase 02 · Days 4–7',
                     range: '02',
                     title: 'Shop Brain Setup',
                     body: 'We build the Shop Brain: project structure, knowledge base, decision log, modular connectors. The substrate every future automation will run on.',
@@ -370,7 +370,7 @@ function ShopOS() {
                     accent: 'cyan',
                   },
                   {
-                    tag: 'Phase 03 · Days 11–14',
+                    tag: 'Phase 03 · Days 8–10',
                     range: '03',
                     title: 'Proof + Handoff',
                     body: 'Two end-to-end automations shipped on top of the Shop Brain. Live team workshop. Operator trained on extension patterns so the team keeps building without us.',
@@ -515,12 +515,12 @@ function ShopOS() {
                 <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                14 days from kickoff to a working system your team owns. One call to
+                10 days from kickoff to a working system your team owns. One call to
                 scope it. One handoff to run it.
               </p>
               <div className="mt-10 flex flex-col items-center gap-4">
                 <button onClick={openCalendly} className="btn-ink btn-rust">
-                  Start the 14-day install
+                  Start the 10-day install
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
@@ -556,7 +556,7 @@ function GrowthChart() {
   // X positions for tick labels
   const ticks = [
     { x: 0.0, label: 'Day 0' },
-    { x: 0.18, label: 'Day 14' },
+    { x: 0.18, label: 'Day 10' },
     { x: 0.34, label: 'Mo 1' },
     { x: 0.56, label: 'Mo 3' },
     { x: 0.78, label: 'Mo 6' },
@@ -609,7 +609,7 @@ function GrowthChart() {
       <line x1={padL} y1={padT + innerH} x2={padL + innerW} y2={padT + innerH} stroke="var(--ink)" strokeWidth="1" />
       <line x1={padL} y1={padT} x2={padL} y2={padT + innerH} stroke="var(--ink)" strokeWidth="1" />
 
-      {/* Day 14 vertical guide (rust dashed) */}
+      {/* Day 10 vertical guide (rust dashed) */}
       <line
         x1={padL + innerW * 0.18}
         y1={padT}
@@ -628,7 +628,7 @@ function GrowthChart() {
         fill="var(--rust)"
         textTransform="uppercase"
       >
-        Day 14 · handoff
+        Day 10 · handoff
       </text>
 
       {/* Scattered context curve (dashed, ink-soft) */}
