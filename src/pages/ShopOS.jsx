@@ -360,7 +360,7 @@ function ShopOS() {
                     accent: 'cyan',
                   },
                   {
-                    tag: 'Phase 02 · Days 4–7',
+                    tag: 'Phase 02 · Days 4–9',
                     range: '02',
                     title: 'Shop Brain Setup',
                     body: 'We build the Shop Brain: project structure, knowledge base, decision log, modular connectors. The substrate every future automation will run on.',
@@ -371,7 +371,7 @@ function ShopOS() {
                     accent: 'cyan',
                   },
                   {
-                    tag: 'Phase 03 · Days 8–10',
+                    tag: 'Phase 03 · Day 10',
                     range: '03',
                     title: 'Proof + Handoff',
                     body: 'Two end-to-end automations shipped on top of the Shop Brain. Operator trained to grow and maintain the brain and introduced to the skills required to start building without us.',
