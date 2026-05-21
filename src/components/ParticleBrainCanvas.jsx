@@ -37,149 +37,195 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
   canvas2d.height = SIZE
   const ctx2d = canvas2d.getContext('2d')
 
-  // White background
   ctx2d.fillStyle = '#ffffff'
   ctx2d.fillRect(0, 0, SIZE, SIZE)
 
-  // Brain layout anchors
-  const cx = SIZE * 0.500   // horizontal centre
-  const cy = SIZE * 0.430   // vertical centre (raised slightly for visual balance)
-  const rw = SIZE * 0.390   // half-width
-  const rh = SIZE * 0.325   // half-height
+  // Lateral (left-side sagittal) view — frontal lobe faces left,
+  // occipital pole right, cerebellum at lower-right.
+  // cx/cy anchor the cerebrum centroid; rw/rh scale the path.
+  const cx = SIZE * 0.470   // 602
+  const cy = SIZE * 0.415   // 531
+  const rw = SIZE * 0.415   // 531  — horizontal radius
+  const rh = SIZE * 0.330   // 422  — vertical radius
 
-  // ── Outer silhouette (coronal / front-facing view) ────────────────────────
-  // Two symmetrical hemispheres, rounded top, temporal lobes tapering down,
-  // flat-bottomed — classic frontal brain anatomy with no stem artifact.
+  // ── SILHOUETTE: one continuous path (cerebrum + cerebellum + stem) ────────
   ctx2d.fillStyle = '#111111'
   ctx2d.beginPath()
-  ctx2d.moveTo(cx, cy - rh * 0.86)                                   // fissure notch
-  ctx2d.bezierCurveTo(                                                // right hemi top
-    cx + rw * 0.22, cy - rh * 1.10,
-    cx + rw * 0.64, cy - rh * 1.12,
-    cx + rw * 0.90, cy - rh * 0.80
+  ctx2d.moveTo(cx - rw * 0.82, cy + rh * 0.28)         // A  front-bottom
+  ctx2d.bezierCurveTo(                                   // front face (concave)
+    cx - rw * 0.96, cy - rh * 0.06,
+    cx - rw * 0.90, cy - rh * 0.48,
+    cx - rw * 0.70, cy - rh * 0.74
   )
-  ctx2d.bezierCurveTo(                                                // right side upper
-    cx + rw * 1.08, cy - rh * 0.50,
-    cx + rw * 1.08, cy + rh * 0.02,
-    cx + rw * 0.96, cy + rh * 0.32
+  ctx2d.bezierCurveTo(                                   // forehead arc → crown
+    cx - rw * 0.48, cy - rh * 1.00,
+    cx - rw * 0.10, cy - rh * 1.12,
+    cx + rw * 0.14, cy - rh * 1.12
   )
-  ctx2d.bezierCurveTo(                                                // right temporal
-    cx + rw * 0.84, cy + rh * 0.60,
-    cx + rw * 0.66, cy + rh * 0.80,
-    cx + rw * 0.46, cy + rh * 0.88
+  ctx2d.bezierCurveTo(                                   // crown → occipital top
+    cx + rw * 0.42, cy - rh * 1.10,
+    cx + rw * 0.72, cy - rh * 0.94,
+    cx + rw * 0.86, cy - rh * 0.62
   )
-  ctx2d.bezierCurveTo(                                                // bottom right→centre
-    cx + rw * 0.28, cy + rh * 0.96,
-    cx + rw * 0.10, cy + rh * 0.98,
-    cx,             cy + rh * 0.92
+  ctx2d.bezierCurveTo(                                   // occipital descending
+    cx + rw * 1.02, cy - rh * 0.28,
+    cx + rw * 1.00, cy + rh * 0.16,
+    cx + rw * 0.80, cy + rh * 0.42
   )
-  ctx2d.bezierCurveTo(                                                // bottom centre→left
-    cx - rw * 0.10, cy + rh * 0.98,
-    cx - rw * 0.28, cy + rh * 0.96,
-    cx - rw * 0.46, cy + rh * 0.88
+  ctx2d.bezierCurveTo(                                   // cerebrum → cerebellum notch
+    cx + rw * 0.70, cy + rh * 0.56,
+    cx + rw * 0.56, cy + rh * 0.58,
+    cx + rw * 0.47, cy + rh * 0.51
   )
-  ctx2d.bezierCurveTo(                                                // left temporal
-    cx - rw * 0.66, cy + rh * 0.80,
-    cx - rw * 0.84, cy + rh * 0.60,
-    cx - rw * 0.96, cy + rh * 0.32
+  ctx2d.bezierCurveTo(                                   // cerebellum upper arc
+    cx + rw * 0.60, cy + rh * 0.44,
+    cx + rw * 0.96, cy + rh * 0.48,
+    cx + rw * 1.02, cy + rh * 0.70
   )
-  ctx2d.bezierCurveTo(                                                // left side upper
-    cx - rw * 1.08, cy + rh * 0.02,
-    cx - rw * 1.08, cy - rh * 0.50,
-    cx - rw * 0.90, cy - rh * 0.80
+  ctx2d.bezierCurveTo(                                   // cerebellum lower arc
+    cx + rw * 1.02, cy + rh * 0.92,
+    cx + rw * 0.78, cy + rh * 1.06,
+    cx + rw * 0.52, cy + rh * 1.00
   )
-  ctx2d.bezierCurveTo(                                                // left hemi top
-    cx - rw * 0.64, cy - rh * 1.12,
-    cx - rw * 0.22, cy - rh * 1.10,
-    cx,             cy - rh * 0.86
+  ctx2d.bezierCurveTo(                                   // brain stem connector
+    cx + rw * 0.36, cy + rh * 1.00,
+    cx + rw * 0.16, cy + rh * 1.02,
+    cx + rw * 0.04, cy + rh * 0.97
+  )
+  ctx2d.bezierCurveTo(                                   // temporal base (forward)
+    cx - rw * 0.20, cy + rh * 0.97,
+    cx - rw * 0.50, cy + rh * 0.89,
+    cx - rw * 0.72, cy + rh * 0.72
+  )
+  ctx2d.bezierCurveTo(                                   // temporal → front-bottom
+    cx - rw * 0.88, cy + rh * 0.58,
+    cx - rw * 0.92, cy + rh * 0.42,
+    cx - rw * 0.82, cy + rh * 0.28
   )
   ctx2d.closePath()
   ctx2d.fill()
 
-  // ── Internal sulci ────────────────────────────────────────────────────────
-  // Drawn in mid-grey (#777) so dark→grey transitions are picked up by the
-  // gradient-edge detector as interior particle candidates.
+  // ── SULCI in mid-grey (#777) ──────────────────────────────────────────────
+  // The gradient-edge detector picks up the dark (#111) → grey (#777)
+  // transition at each sulcus edge as interior particle candidates.
   ctx2d.strokeStyle = '#777777'
   ctx2d.lineCap = 'round'
   ctx2d.lineJoin = 'round'
 
-  // Central longitudinal fissure (top → mid, divides hemispheres)
-  ctx2d.lineWidth = SIZE * 0.013
+  // Lateral / Sylvian fissure — the deepest, most prominent sulcus.
+  // Separates temporal lobe (below) from frontal + parietal (above).
+  // Runs nearly horizontal then turns up at its posterior end.
+  ctx2d.lineWidth = SIZE * 0.014
   ctx2d.beginPath()
-  ctx2d.moveTo(cx, cy - rh * 0.86)
-  ctx2d.bezierCurveTo(cx + 14, cy - rh * 0.42, cx - 14, cy + rh * 0.08, cx, cy + rh * 0.32)
+  ctx2d.moveTo(cx - rw * 0.40, cy + rh * 0.24)
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.04, cy + rh * 0.14,
+    cx + rw * 0.34, cy + rh * 0.10,
+    cx + rw * 0.44, cy - rh * 0.02
+  )
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.50, cy - rh * 0.14,
+    cx + rw * 0.46, cy - rh * 0.26,
+    cx + rw * 0.38, cy - rh * 0.30
+  )
   ctx2d.stroke()
 
-  // Bilateral sulci — mirrored left/right
-  const sulcus = (f) => {  // f = +1 right, -1 left
-    // Central sulcus (Rolandic) — major vertical landmark
-    ctx2d.lineWidth = SIZE * 0.009
-    ctx2d.beginPath()
-    ctx2d.moveTo(cx + f * rw * 0.17, cy - rh * 0.82)
-    ctx2d.bezierCurveTo(
-      cx + f * rw * 0.30, cy - rh * 0.52,
-      cx + f * rw * 0.38, cy - rh * 0.20,
-      cx + f * rw * 0.40, cy + rh * 0.10
-    )
-    ctx2d.stroke()
+  // Central sulcus (Rolandic fissure) — nearly vertical,
+  // divides motor cortex (front) from sensory cortex (behind).
+  ctx2d.lineWidth = SIZE * 0.010
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx - rw * 0.10, cy - rh * 0.98)
+  ctx2d.bezierCurveTo(
+    cx - rw * 0.02, cy - rh * 0.62,
+    cx + rw * 0.08, cy - rh * 0.22,
+    cx + rw * 0.14, cy + rh * 0.12
+  )
+  ctx2d.stroke()
 
-    // Lateral / Sylvian fissure — major horizontal, separates temporal lobe
-    ctx2d.lineWidth = SIZE * 0.010
-    ctx2d.beginPath()
-    ctx2d.moveTo(cx + f * rw * 0.40, cy + rh * 0.10)
-    ctx2d.bezierCurveTo(
-      cx + f * rw * 0.62, cy + rh * 0.06,
-      cx + f * rw * 0.82, cy + rh * 0.16,
-      cx + f * rw * 0.90, cy + rh * 0.34
-    )
-    ctx2d.stroke()
+  // Precentral sulcus (just anterior to central)
+  ctx2d.lineWidth = SIZE * 0.008
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx - rw * 0.24, cy - rh * 0.94)
+  ctx2d.bezierCurveTo(
+    cx - rw * 0.16, cy - rh * 0.58,
+    cx - rw * 0.06, cy - rh * 0.20,
+    cx - rw * 0.02, cy + rh * 0.12
+  )
+  ctx2d.stroke()
 
-    // Superior frontal sulcus
-    ctx2d.lineWidth = SIZE * 0.007
-    ctx2d.beginPath()
-    ctx2d.moveTo(cx + f * rw * 0.15, cy - rh * 0.82)
-    ctx2d.bezierCurveTo(
-      cx + f * rw * 0.42, cy - rh * 0.86,
-      cx + f * rw * 0.65, cy - rh * 0.76,
-      cx + f * rw * 0.74, cy - rh * 0.56
-    )
-    ctx2d.stroke()
+  // Postcentral sulcus (just posterior to central)
+  ctx2d.lineWidth = SIZE * 0.008
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx + rw * 0.06, cy - rh * 0.96)
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.16, cy - rh * 0.60,
+    cx + rw * 0.24, cy - rh * 0.20,
+    cx + rw * 0.28, cy + rh * 0.10
+  )
+  ctx2d.stroke()
 
-    // Inferior frontal sulcus
-    ctx2d.lineWidth = SIZE * 0.007
-    ctx2d.beginPath()
-    ctx2d.moveTo(cx + f * rw * 0.14, cy - rh * 0.50)
-    ctx2d.bezierCurveTo(
-      cx + f * rw * 0.36, cy - rh * 0.54,
-      cx + f * rw * 0.52, cy - rh * 0.43,
-      cx + f * rw * 0.58, cy - rh * 0.26
-    )
-    ctx2d.stroke()
+  // Superior frontal sulcus — runs roughly front-to-back in upper frontal lobe
+  ctx2d.lineWidth = SIZE * 0.008
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx - rw * 0.64, cy - rh * 0.74)
+  ctx2d.bezierCurveTo(
+    cx - rw * 0.50, cy - rh * 0.80,
+    cx - rw * 0.32, cy - rh * 0.82,
+    cx - rw * 0.20, cy - rh * 0.76
+  )
+  ctx2d.stroke()
 
-    // Intraparietal sulcus
-    ctx2d.lineWidth = SIZE * 0.007
-    ctx2d.beginPath()
-    ctx2d.moveTo(cx + f * rw * 0.22, cy - rh * 0.24)
-    ctx2d.bezierCurveTo(
-      cx + f * rw * 0.50, cy - rh * 0.16,
-      cx + f * rw * 0.74, cy - rh * 0.06,
-      cx + f * rw * 0.84, cy + rh * 0.10
-    )
-    ctx2d.stroke()
+  // Inferior frontal sulcus — below superior, parallel
+  ctx2d.lineWidth = SIZE * 0.007
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx - rw * 0.60, cy - rh * 0.46)
+  ctx2d.bezierCurveTo(
+    cx - rw * 0.46, cy - rh * 0.54,
+    cx - rw * 0.28, cy - rh * 0.52,
+    cx - rw * 0.18, cy - rh * 0.44
+  )
+  ctx2d.stroke()
 
-    // Superior temporal sulcus
-    ctx2d.lineWidth = SIZE * 0.007
-    ctx2d.beginPath()
-    ctx2d.moveTo(cx + f * rw * 0.54, cy + rh * 0.34)
-    ctx2d.bezierCurveTo(
-      cx + f * rw * 0.68, cy + rh * 0.38,
-      cx + f * rw * 0.78, cy + rh * 0.50,
-      cx + f * rw * 0.76, cy + rh * 0.66
-    )
-    ctx2d.stroke()
-  }
-  sulcus(1)   // right hemisphere
-  sulcus(-1)  // left hemisphere (mirrored)
+  // Intraparietal sulcus — parietal lobe, runs front-to-back
+  ctx2d.lineWidth = SIZE * 0.008
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx + rw * 0.12, cy - rh * 0.82)
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.30, cy - rh * 0.74,
+    cx + rw * 0.50, cy - rh * 0.62,
+    cx + rw * 0.62, cy - rh * 0.46
+  )
+  ctx2d.stroke()
+
+  // Superior temporal sulcus — parallels Sylvian, below it in temporal lobe
+  ctx2d.lineWidth = SIZE * 0.007
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx - rw * 0.26, cy + rh * 0.56)
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.10, cy + rh * 0.46,
+    cx + rw * 0.32, cy + rh * 0.44,
+    cx + rw * 0.42, cy + rh * 0.38
+  )
+  ctx2d.stroke()
+
+  // Cerebellum folds — two horizontal bands across the cerebellar surface
+  ctx2d.lineWidth = SIZE * 0.007
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx + rw * 0.53, cy + rh * 0.64)
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.72, cy + rh * 0.62,
+    cx + rw * 0.92, cy + rh * 0.64,
+    cx + rw * 1.00, cy + rh * 0.72
+  )
+  ctx2d.stroke()
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx + rw * 0.55, cy + rh * 0.82)
+  ctx2d.bezierCurveTo(
+    cx + rw * 0.72, cy + rh * 0.80,
+    cx + rw * 0.90, cy + rh * 0.82,
+    cx + rw * 0.98, cy + rh * 0.88
+  )
+  ctx2d.stroke()
 
   // ── Rasterise drawn shape into particle candidates ────────────────────────
   const img = ctx2d.getImageData(0, 0, SIZE, SIZE)
