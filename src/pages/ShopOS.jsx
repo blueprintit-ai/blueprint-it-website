@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
-import BlueprintCanvas from '@/components/BlueprintCanvas.jsx'
+import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
 // eslint-disable-next-line no-unused-vars -- motion is used via JSX member access (<motion.div>, etc.)
 import { motion, MotionConfig } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
@@ -33,7 +33,7 @@ function ShopOS() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="bp-grid bp-grain min-h-screen text-[color:var(--ink)] relative">
-        <BlueprintCanvas />
+        <ParticleBrainCanvas />
 
         <SiteNav
           ctaLabel="Start install"
