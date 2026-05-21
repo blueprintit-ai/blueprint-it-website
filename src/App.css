@@ -263,6 +263,11 @@
   background: #fbf8ef;
   border: 1px solid var(--ink);
   padding: 28px;
+  /* The offset shadow + lift was previously a hover state — promoted to
+     the default so the engineering-drawing "blue border" reveals without
+     requiring interaction (mobile users never saw it). */
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 0 var(--ink);
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
 }
 .plate::before {
@@ -272,15 +277,10 @@
   border: 1px solid var(--paper-line);
   pointer-events: none;
 }
-.plate:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 8px 8px 0 0 var(--ink);
-}
-
-.plate-cyan:hover {
+.plate-cyan {
   box-shadow: 8px 8px 0 0 var(--cyan);
 }
-.plate-rust:hover {
+.plate-rust {
   box-shadow: 8px 8px 0 0 var(--rust);
 }
 
