@@ -264,7 +264,7 @@ function ShopOS() {
                     uses to build the next ten without us.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
-                    <div className="label label-rust mb-3">Example shapes</div>
+                    <div className="label label-rust mb-3">Example automations</div>
                     <ul className="space-y-2 mb-5">
                       {[
                         'Automated Lead Handling → Human-in-the-Loop → CRM Update + Follow-Up Tasks',
