@@ -365,7 +365,7 @@ export default function ParticleBrainCanvas() {
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        uAlpha: { value: 1 },
+        uAlpha: { value: 0.70 },
         uSize: { value: 0.110 },  // large nodes to match reference mesh style
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
         uTime: { value: 0 },
@@ -519,7 +519,7 @@ export default function ParticleBrainCanvas() {
     const lineMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]),
       transparent: true,
-      opacity: 0.30,
+      opacity: 0.21,
       depthWrite: false,
     })
     const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial)
@@ -614,8 +614,8 @@ export default function ParticleBrainCanvas() {
       // MiniOrbitBrain is the only brain visible at the orbit center.
       const hideT = pHide * pHide * (3 - 2 * pHide)
       const a = Math.max(0, 1 - hideT)
-      material.uniforms.uAlpha.value = a
-      lineMaterial.opacity = 0.30 * a
+      material.uniforms.uAlpha.value = 0.70 * a
+      lineMaterial.opacity = 0.21 * a
       threadMaterial.opacity = 0.35 * a
 
       renderer.render(scene, camera)
@@ -629,9 +629,9 @@ export default function ParticleBrainCanvas() {
     if (reducedMotion) {
       // Static frame: brain assembled, slight transparency, no per-particle
       // drift so the image is perfectly still.
-      material.uniforms.uAlpha.value = 0.7
+      material.uniforms.uAlpha.value = 0.49
       material.uniforms.uDrift.value = 0
-      lineMaterial.opacity = 0.12
+      lineMaterial.opacity = 0.08
       threadMaterial.opacity = 0.25
       renderer.render(scene, camera)
     } else {
