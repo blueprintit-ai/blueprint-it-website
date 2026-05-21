@@ -213,7 +213,7 @@ export default function ParticleBrainCanvas() {
     // Desktop: worldScale=1.45 (~42% of viewport width). Mobile: half size
     // (0.725) so the brain shape stays recognizable on narrow viewports
     // instead of overflowing as an unrecognizable cloud.
-    const worldScale = isMobile ? 0.725 : 1.45
+    const worldScale = isMobile ? 1.0 : 2.0
     const brain = buildPointillistBrain(count, worldScale)
     const targetPositions = brain.positions
     const actualCount = brain.count
@@ -388,8 +388,8 @@ export default function ParticleBrainCanvas() {
     for (let t = 0; t < threadCount; t++) {
       const angle = (t / threadCount) * Math.PI * 2
       // Scaled to match worldScale=1.2 brain radius.
-      const innerR = 0.9
-      const outerR = 2.0 + Math.random() * 0.75
+      const innerR = 1.25
+      const outerR = 2.75 + Math.random() * 1.0
       const i6 = t * 6
       threadPositions[i6 + 0] = Math.cos(angle) * innerR
       threadPositions[i6 + 1] = Math.sin(angle) * innerR
@@ -446,28 +446,26 @@ export default function ParticleBrainCanvas() {
       const elapsed = (performance.now() - startTime) / 1000
       // Drive per-particle vertex-shader drift.
       material.uniforms.uTime.value = elapsed
-      const idleRot = Math.sin(elapsed * 0.3) * 0.025
-      const idleFloat = Math.sin(elapsed * 0.5) * 0.05
-
-      // Brain position + motion. Desktop pins the brain to the right-half
-      // of the hero with subtle vertical sway. Mobile centers it horizontally,
-      // shifts it up ~22% of viewport (≈1.5"), and applies a clear circular
-      // orbital motion (sin/cos of the same angle phase) so the brain
-      // visibly rotates around its anchor point.
+      // Brain position + motion. Both desktop and mobile use a slow circular
+      // orbit with an undulating radius (sin-modulated) so the path is an
+      // organic breathing ellipse rather than a rigid circle. Desktop orbit
+      // is ~8× larger than the old subtle sway.
       if (isMobile) {
         const baseX = visibleW * 0.10
         const baseY = visibleH * 0.18
-        const orbitAngle = elapsed * 0.35
-        const orbitR = 0.10
-        brainGroup.position.x = baseX + Math.cos(orbitAngle) * orbitR
-        brainGroup.position.y = baseY + Math.sin(orbitAngle) * orbitR
-        brainGroup.rotation.z = idleRot
+        const orbitAngle = elapsed * 0.28
+        const undulate = Math.sin(elapsed * 0.11) * 0.10
+        brainGroup.position.x = baseX + Math.cos(orbitAngle) * (0.22 + undulate)
+        brainGroup.position.y = baseY + Math.sin(orbitAngle * 1.3) * (0.15 + undulate * 0.6)
+        brainGroup.rotation.z = Math.sin(elapsed * 0.19) * 0.05
       } else {
         const initialX = visibleW * 0.22
         const initialY = -visibleH * 0.04
-        brainGroup.position.x = initialX
-        brainGroup.position.y = initialY + idleFloat
-        brainGroup.rotation.z = idleRot
+        const orbitAngle = elapsed * 0.20
+        const undulate = Math.sin(elapsed * 0.11) * 0.18
+        brainGroup.position.x = initialX + Math.cos(orbitAngle) * (0.42 + undulate)
+        brainGroup.position.y = initialY + Math.sin(orbitAngle * 1.3) * (0.28 + undulate * 0.6)
+        brainGroup.rotation.z = Math.sin(elapsed * 0.17) * 0.06
       }
 
       // Fade out as user scrolls from hero (§00) into §02 anatomy so the
