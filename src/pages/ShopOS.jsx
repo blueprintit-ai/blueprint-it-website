@@ -480,7 +480,7 @@ function ShopOS() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-10%' }}
                     transition={{ duration: 0.6, delay: i * 0.1 }}
-                    className="grid grid-cols-12 gap-4 md:gap-6 border-b border-[color:var(--paper-line)] pb-8 last:border-b-0 md:border-b-0 md:pb-0 md:p-6 md:bg-[color:var(--card)] md:border md:border-[color:var(--paper-line)]"
+                    className="grid grid-cols-12 gap-4 md:gap-6 border-b border-[color:var(--paper-line)] pb-8 last:border-b-0 md:border-b-0 md:p-8 md:min-h-[300px] md:items-center md:bg-[color:var(--card)] md:border md:border-[color:var(--paper-line)]"
                   >
                     <div className="col-span-2">
                       <div className="font-display text-4xl leading-none">{op.n}</div>
