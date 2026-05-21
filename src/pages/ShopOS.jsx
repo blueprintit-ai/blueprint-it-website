@@ -464,7 +464,7 @@ function ShopOS() {
                   {
                     n: '03',
                     title: 'Onboards Teammates',
-                    body: 'Shows new hires how the Shop Brain works on day one. Adoption stops being a leadership problem and becomes a built-in onboarding step.',
+                    body: 'Shows teammates how the Shop Brain works on day one. Captures their ideas and includes them in the adoption.',
                   },
                   {
                     n: '04',
