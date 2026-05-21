@@ -265,11 +265,11 @@ function Home() {
         onCtaClick={() => scrollToSection('contact')}
         navItems={[
           { kind: 'button', label: 'Services', onClick: () => scrollToSection('services') },
-          { kind: 'route', to: '/shop-os', label: 'Shop OS' },
+          !import.meta.env.PROD && { kind: 'route', to: '/shop-os', label: 'Shop OS' },
           { kind: 'button', label: 'Studio', onClick: () => scrollToSection('about') },
           { kind: 'button', label: 'Case', onClick: () => scrollToSection('workflow') },
           { kind: 'button', label: 'Contact', onClick: () => scrollToSection('contact') },
-        ]}
+        ].filter(Boolean)}
       />
 
       {/* =========================================================

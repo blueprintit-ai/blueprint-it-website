@@ -40,11 +40,11 @@ function ShopOS() {
           onCtaClick={openCalendly}
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
-            { kind: 'route', to: '/shop-os', label: 'Shop OS' },
+            !import.meta.env.PROD && { kind: 'route', to: '/shop-os', label: 'Shop OS' },
             { kind: 'link', label: 'Studio', href: '/#about' },
             { kind: 'link', label: 'Case', href: '/#workflow' },
             { kind: 'link', label: 'Contact', href: '/#contact' },
-          ]}
+          ].filter(Boolean)}
         />
 
         <main className="relative z-[2]">
