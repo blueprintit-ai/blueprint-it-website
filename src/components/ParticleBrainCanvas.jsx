@@ -8,9 +8,10 @@ import * as THREE from 'three'
 // and fades by §05. Cyan body, gold edge accents.
 
 // Halved from 14000 to space particles ~40% further apart across the
-// brain shape — more breathable pointillist look.
+// brain shape — more breathable pointillist look. Mobile drops further
+// (1800) so the smaller mobile brain reads as pointillist, not dense.
 const TOTAL_PARTICLES = 7000
-const MOBILE_PARTICLES = 3000
+const MOBILE_PARTICLES = 1800
 const STATIC_LINES = 350
 const MOBILE_STATIC_LINES = 140
 const GHOST_THREADS = 32
@@ -334,13 +335,21 @@ export default function ParticleBrainCanvas() {
     brainGroup.add(points)
     scene.add(brainGroup)
 
-    // Initial brain position: right-half of hero, slightly below vertical center.
-    // Recomputed on resize.
+    // Initial brain position. Desktop = right-half of hero, slightly below
+    // vertical center. Mobile = centered horizontally, shifted up ~22% of
+    // viewport height. Recomputed on resize. The render loop overrides this
+    // each frame; setting it here ensures the first frame (and reduced-
+    // motion single-render) shows the brain at the right place.
     function setInitialBrainPosition() {
       visibleH = 2 * Math.tan(vFov / 2) * camera.position.z
       visibleW = visibleH * camera.aspect
-      brainGroup.position.x = visibleW * 0.22
-      brainGroup.position.y = -visibleH * 0.04
+      if (isMobile) {
+        brainGroup.position.x = 0
+        brainGroup.position.y = visibleH * 0.18
+      } else {
+        brainGroup.position.x = visibleW * 0.22
+        brainGroup.position.y = -visibleH * 0.04
+      }
     }
     setInitialBrainPosition()
 
@@ -436,17 +445,29 @@ export default function ParticleBrainCanvas() {
       const elapsed = (performance.now() - startTime) / 1000
       // Drive per-particle vertex-shader drift.
       material.uniforms.uTime.value = elapsed
-      // Subtle idle motion so the brain feels alive even without scrolling
       const idleRot = Math.sin(elapsed * 0.3) * 0.025
       const idleFloat = Math.sin(elapsed * 0.5) * 0.05
 
-      // Brain stays pinned to the right-half of the hero. No scroll drift —
-      // the MiniOrbitBrain owns §02. Idle float adds gentle vertical sway.
-      const initialX = visibleW * 0.22
-      const initialY = -visibleH * 0.04
-      brainGroup.position.x = initialX
-      brainGroup.position.y = initialY + idleFloat
-      brainGroup.rotation.z = idleRot
+      // Brain position + motion. Desktop pins the brain to the right-half
+      // of the hero with subtle vertical sway. Mobile centers it horizontally,
+      // shifts it up ~22% of viewport (≈1.5"), and applies a clear circular
+      // orbital motion (sin/cos of the same angle phase) so the brain
+      // visibly rotates around its anchor point.
+      if (isMobile) {
+        const baseX = 0
+        const baseY = visibleH * 0.18
+        const orbitAngle = elapsed * 0.35
+        const orbitR = 0.10
+        brainGroup.position.x = baseX + Math.cos(orbitAngle) * orbitR
+        brainGroup.position.y = baseY + Math.sin(orbitAngle) * orbitR
+        brainGroup.rotation.z = idleRot
+      } else {
+        const initialX = visibleW * 0.22
+        const initialY = -visibleH * 0.04
+        brainGroup.position.x = initialX
+        brainGroup.position.y = initialY + idleFloat
+        brainGroup.rotation.z = idleRot
+      }
 
       // Fade out as user scrolls from hero (§00) into §02 anatomy so the
       // MiniOrbitBrain is the only brain visible at the orbit center.
