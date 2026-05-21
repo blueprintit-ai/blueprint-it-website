@@ -9,8 +9,8 @@ import * as THREE from 'three'
 
 // Sparse nodes (500/250) connected by spatial-proximity lines replicates
 // the geometric mesh look of the reference image. Ghost threads removed.
-const TOTAL_PARTICLES = 500
-const MOBILE_PARTICLES = 250
+const TOTAL_PARTICLES = 900
+const MOBILE_PARTICLES = 450
 const STATIC_LINES = 0   // unused — lines built dynamically by proximity
 const MOBILE_STATIC_LINES = 0
 const GHOST_THREADS = 0
@@ -407,10 +407,13 @@ export default function ParticleBrainCanvas() {
           // assembly and is silenced under reduced-motion.
           float gate = smoothstep(0.6, 1.0, uProgress) * uDrift;
           float seed = aOrder * TAU;
+          // Each node drifts on three detuned axes with unique phase (seed).
+          // Amplitude 0.045 = ~30% of inter-node spacing → clearly visible
+          // independent jitter per node. Frequencies ~0.5 rad/s ≈ 12 s period.
           vec3 drift = vec3(
-            sin(uTime * 0.18 + seed * 1.0) * 0.018,
-            sin(uTime * 0.21 + seed * 1.7) * 0.018,
-            sin(uTime * 0.14 + seed * 2.3) * 0.012
+            sin(uTime * 0.52 + seed * 1.00) * 0.045,
+            sin(uTime * 0.61 + seed * 1.73) * 0.045,
+            sin(uTime * 0.41 + seed * 2.31) * 0.028
           ) * gate;
           vec3 driftedPos = position + drift;
 
