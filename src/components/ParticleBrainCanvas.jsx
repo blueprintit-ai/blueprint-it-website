@@ -7,15 +7,14 @@ import * as THREE from 'three'
 // drifts from right-half to the §02 OrbitDiagram center, then scales down
 // and fades by §05. Cyan body, gold edge accents.
 
-// Halved from 14000 to space particles ~40% further apart across the
-// brain shape — more breathable pointillist look. Mobile drops further
-// (1800) so the smaller mobile brain reads as pointillist, not dense.
-const TOTAL_PARTICLES = 7000
-const MOBILE_PARTICLES = 1800
-const STATIC_LINES = 350
-const MOBILE_STATIC_LINES = 140
-const GHOST_THREADS = 32
-const MOBILE_GHOST_THREADS = 12
+// Sparse nodes (500/250) connected by spatial-proximity lines replicates
+// the geometric mesh look of the reference image. Ghost threads removed.
+const TOTAL_PARTICLES = 500
+const MOBILE_PARTICLES = 250
+const STATIC_LINES = 0   // unused — lines built dynamically by proximity
+const MOBILE_STATIC_LINES = 0
+const GHOST_THREADS = 0
+const MOBILE_GHOST_THREADS = 0
 
 // Brand stops (sRGB normalized 0..1).
 const C_CYAN = [0x1c / 255, 0x6e / 255, 0xa4 / 255]
@@ -251,27 +250,8 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
         isBackground(px + STRIDE, py) ||
         isBackground(px, py - STRIDE) ||
         isBackground(px, py + STRIDE)
-      // Space border nodes ~300% further apart: keep 1 in 4
-      if (onSilhouette && silCount++ % 4 !== 0) continue
-      // Interior: accept pixels adjacent to a sulcus line (grey on dark)
-      let isGradientEdge = false
-      if (!onSilhouette) {
-        const here = pxSum(px, py)
-        const maxFine = Math.max(
-          Math.abs(pxSum(px - 2, py) - here),
-          Math.abs(pxSum(px + 2, py) - here),
-          Math.abs(pxSum(px, py - 2) - here),
-          Math.abs(pxSum(px, py + 2) - here)
-        )
-        const maxMid = Math.max(
-          Math.abs(pxSum(px - 6, py) - here),
-          Math.abs(pxSum(px + 6, py) - here),
-          Math.abs(pxSum(px, py - 6) - here),
-          Math.abs(pxSum(px, py + 6) - here)
-        )
-        isGradientEdge = maxFine > 55 || maxMid > 80
-      }
-      if (!onSilhouette && !isGradientEdge) continue
+      // Accept every interior pixel — fills the whole brain uniformly so
+      // the subsampled nodes scatter throughout the shape like the reference.
       const wx = ((px - SIZE / 2) / worldRadiusPx) * worldScale
       const wy = -((py - SIZE / 2) / worldRadiusPx) * worldScale
       const wz = (Math.random() - 0.5) * 0.06 * worldScale
@@ -386,8 +366,7 @@ export default function ParticleBrainCanvas() {
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uAlpha: { value: 1 },
-        // 0.044 = 2× previous (0.022) — chunky, very visible particles.
-        uSize: { value: 0.044 },
+        uSize: { value: 0.110 },  // large nodes to match reference mesh style
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
         uTime: { value: 0 },
         // uProgress: assembly progress 0→1. Drift gates in via smoothstep so
@@ -511,25 +490,33 @@ export default function ParticleBrainCanvas() {
     const lineCount = isMobile ? MOBILE_STATIC_LINES : STATIC_LINES
     const threadCount = isMobile ? MOBILE_GHOST_THREADS : GHOST_THREADS
 
-    const linePositions = new Float32Array(lineCount * 2 * 3)
-    for (let l = 0; l < lineCount; l++) {
-      const a = Math.floor(Math.random() * actualCount)
-      let b = Math.floor(Math.random() * actualCount)
-      if (b === a) b = (a + 1) % actualCount
-      const i6 = l * 6
-      linePositions[i6 + 0] = targetPositions[a * 3 + 0]
-      linePositions[i6 + 1] = targetPositions[a * 3 + 1]
-      linePositions[i6 + 2] = targetPositions[a * 3 + 2]
-      linePositions[i6 + 3] = targetPositions[b * 3 + 0]
-      linePositions[i6 + 4] = targetPositions[b * 3 + 1]
-      linePositions[i6 + 5] = targetPositions[b * 3 + 2]
+    // Spatial proximity mesh: each node connects to up to 5 nearest
+    // neighbours within a distance threshold. With n≈500 this O(n²) pass
+    // runs in <5 ms and creates the triangular network of the reference image.
+    const maxD2 = (worldScale * 0.20) * (worldScale * 0.20)
+    const connCap = 5
+    const connCount = new Int32Array(actualCount)
+    const linesArr = []
+    for (let i = 0; i < actualCount; i++) {
+      if (connCount[i] >= connCap) continue
+      const ix = targetPositions[i * 3], iy = targetPositions[i * 3 + 1], iz = targetPositions[i * 3 + 2]
+      for (let j = i + 1; j < actualCount; j++) {
+        if (connCount[i] >= connCap) break
+        if (connCount[j] >= connCap) continue
+        const dx = targetPositions[j * 3] - ix, dy = targetPositions[j * 3 + 1] - iy
+        if (dx * dx + dy * dy < maxD2) {
+          linesArr.push(ix, iy, iz, targetPositions[j * 3], targetPositions[j * 3 + 1], targetPositions[j * 3 + 2])
+          connCount[i]++; connCount[j]++
+        }
+      }
     }
+    const linePositions = new Float32Array(linesArr)
     const lineGeometry = new THREE.BufferGeometry()
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3))
     const lineMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]),
       transparent: true,
-      opacity: 0.10,
+      opacity: 0.30,
       depthWrite: false,
     })
     const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial)
@@ -625,7 +612,7 @@ export default function ParticleBrainCanvas() {
       const hideT = pHide * pHide * (3 - 2 * pHide)
       const a = Math.max(0, 1 - hideT)
       material.uniforms.uAlpha.value = a
-      lineMaterial.opacity = 0.10 * a
+      lineMaterial.opacity = 0.30 * a
       threadMaterial.opacity = 0.35 * a
 
       renderer.render(scene, camera)
