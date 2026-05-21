@@ -110,7 +110,7 @@ function ShopOS() {
                   transition={{ delay: 0.4, duration: 0.8 }}
                   className="md:col-span-4"
                 >
-                  <Plate accent="cyan">
+                  <Plate accent="cyan" className="bg-[rgba(251,248,239,0.65)] backdrop-blur-[2px]">
                     <div className="label label-cyan mb-4">Spec sheet</div>
                     <dl className="divide-y divide-[color:var(--paper-line)] font-mono text-xs">
                       {[
