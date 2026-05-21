@@ -678,10 +678,10 @@ function KnowledgeMosaic() {
 }
 
 function OrbitDiagram() {
-  // 8 chips arranged at 45° intervals on a ring around a center Shop Brain card.
+  // 10 chips arranged at 36° intervals on a ring around the brain.
   const chips = [
-    'Email', 'Calls', 'Calendar', 'Docs',
-    'CRM', 'Sheets', 'Messaging', 'Contracts',
+    'Email', 'Calls', 'Calendar', 'Docs', 'Telegram',
+    'CRM', 'Sheets', 'Messaging', 'Contracts', 'Mozaik',
   ]
   const VBW = 800
   const VBH = 560
