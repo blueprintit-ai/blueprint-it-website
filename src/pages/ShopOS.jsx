@@ -443,10 +443,8 @@ function ShopOS() {
                 <div className="md:col-span-6">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
                     Every successful implementation has one thing in common. An internal
-                    owner who runs the Shop Brain after we leave. Not a new full-time
-                    hire. A few hours a week, owned by someone already on the team. We
-                    pick them with you in week one and train them in parallel with the
-                    build.
+                    owner who runs the Shop Brain after we leave and rallies the entire
+                    team to assist with growing the brain.
                   </p>
                 </div>
               </div>
