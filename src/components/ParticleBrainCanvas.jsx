@@ -7,16 +7,23 @@ import * as THREE from 'three'
 // drifts from right-half to the §02 OrbitDiagram center, then scales down
 // and fades by §05. Cyan body, gold edge accents.
 
-const TOTAL_PARTICLES = 14000
-const MOBILE_PARTICLES = 6000
-const STATIC_LINES = 1100
-const MOBILE_STATIC_LINES = 400
+// Halved from 14000 to space particles ~40% further apart across the
+// brain shape — more breathable pointillist look.
+const TOTAL_PARTICLES = 7000
+const MOBILE_PARTICLES = 3000
+const STATIC_LINES = 350
+const MOBILE_STATIC_LINES = 140
 const GHOST_THREADS = 32
 const MOBILE_GHOST_THREADS = 12
 
 // Brand stops (sRGB normalized 0..1).
 const C_CYAN = [0x1c / 255, 0x6e / 255, 0xa4 / 255]
+const C_CYAN_SOFT = [0x2e / 255, 0x8f / 255, 0xc9 / 255]
 const C_GOLD = [0xb6 / 255, 0x8a / 255, 0x2c / 255]
+// Rust amped 50% beyond brand --rust (#c2461f → #ff692f) for stronger
+// warm/cool contrast in the particle brain. Brand --rust elsewhere stays.
+const C_RUST = [0xff / 255, 0x69 / 255, 0x2f / 255]
+const C_INK_SOFT = [0x2a / 255, 0x3f / 255, 0x55 / 255]
 const C_INK_MUTE = [0x6a / 255, 0x77 / 255, 0x88 / 255]
 
 // Rasterize 🧠 emoji to an offscreen canvas; return brain particle targets.
@@ -202,46 +209,109 @@ export default function ParticleBrainCanvas() {
     let visibleW = visibleH * camera.aspect
 
     // --- Build brain particles (assembled from page load) ----------------
-    const brain = buildPointillistBrain(count, 2.4)
+    // worldScale=1.45 (10% larger than 1.32) keeps the brain at ~42% of
+    // viewport width — readable as a brain at 14k particles.
+    const brain = buildPointillistBrain(count, 1.45)
     const targetPositions = brain.positions
     const actualCount = brain.count
     const livePositions = new Float32Array(actualCount * 3)
     livePositions.set(targetPositions)
 
+    // Per-particle phase seed for vertex-shader drift (independent oscillation
+    // per particle so the assembled brain breathes instead of sitting static).
+    const orderSeeds = new Float32Array(actualCount)
+    for (let i = 0; i < actualCount; i++) orderSeeds[i] = Math.random()
+
     const geometry = new THREE.BufferGeometry()
     geometry.setAttribute('position', new THREE.BufferAttribute(livePositions, 3))
     geometry.setAttribute('aLayer', new THREE.BufferAttribute(brain.layers, 1))
+    geometry.setAttribute('aOrder', new THREE.BufferAttribute(orderSeeds, 1))
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uAlpha: { value: 1 },
-        uSize: { value: 0.022 },
+        // 0.044 = 2× previous (0.022) — chunky, very visible particles.
+        uSize: { value: 0.044 },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uTime: { value: 0 },
+        // uProgress: assembly progress 0→1. Drift gates in via smoothstep so
+        // it doesn't compete with the radial assembly motion (step 2). Until
+        // assembly lands, defaults to 1.0 (post-assembly state).
+        uProgress: { value: 1 },
+        // uDrift: master enable for per-particle drift. Set to 0 for
+        // prefers-reduced-motion users so the brain stays perfectly still.
+        uDrift: { value: 1 },
         uColorCyan: { value: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]) },
+        uColorCyanSoft: { value: new THREE.Color(C_CYAN_SOFT[0], C_CYAN_SOFT[1], C_CYAN_SOFT[2]) },
         uColorGold: { value: new THREE.Color(C_GOLD[0], C_GOLD[1], C_GOLD[2]) },
-        uColorMute: { value: new THREE.Color(C_INK_MUTE[0], C_INK_MUTE[1], C_INK_MUTE[2]) },
+        uColorRust: { value: new THREE.Color(C_RUST[0], C_RUST[1], C_RUST[2]) },
+        uColorInkSoft: { value: new THREE.Color(C_INK_SOFT[0], C_INK_SOFT[1], C_INK_SOFT[2]) },
       },
       vertexShader: `
         uniform float uSize;
         uniform float uPixelRatio;
+        uniform float uTime;
+        uniform float uProgress;
+        uniform float uDrift;
+        uniform vec3 uColorCyan;
+        uniform vec3 uColorCyanSoft;
+        uniform vec3 uColorGold;
+        uniform vec3 uColorRust;
+        uniform vec3 uColorInkSoft;
         attribute float aLayer;
-        varying float vLayer;
-        varying vec3 vWorldPos;
+        attribute float aOrder;
+        varying vec3 vColor;
+
+        const float TAU = 6.2831853;
+
         void main() {
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          // Per-particle breathing drift. Three detuned axis frequencies
+          // (~5–7s periods) with per-particle phase from aOrder give the
+          // brain a living, non-uniform shimmer instead of a single global
+          // oscillation. Gated by uProgress*uDrift so it fades in after
+          // assembly and is silenced under reduced-motion.
+          float gate = smoothstep(0.6, 1.0, uProgress) * uDrift;
+          float seed = aOrder * TAU;
+          vec3 drift = vec3(
+            sin(uTime * 0.18 + seed * 1.0) * 0.018,
+            sin(uTime * 0.21 + seed * 1.7) * 0.018,
+            sin(uTime * 0.14 + seed * 2.3) * 0.012
+          ) * gate;
+          vec3 driftedPos = position + drift;
+
+          vec4 mvPosition = modelViewMatrix * vec4(driftedPos, 1.0);
           gl_Position = projectionMatrix * mvPosition;
           gl_PointSize = uSize * (300.0 / -mvPosition.z) * uPixelRatio;
-          vLayer = aLayer;
-          vWorldPos = position;
+
+          // Per-particle color from the brand palette. Body particles vary
+          // across cyan-soft (top/right) → cyan (mid) → ink-soft (bottom-left)
+          // to give a multi-tonal blue rather than monolithic. ~14% of body
+          // particles get a rust accent for warmth. Silhouette particles
+          // (anatomical edges) mix gold and rust based on aOrder for
+          // edge variety.
+          float xFactor = clamp((position.x + 1.2) / 2.4, 0.0, 1.0);
+          float yFactor = clamp((position.y + 1.2) / 2.4, 0.0, 1.0);
+          vec3 col;
+          if (aLayer > 0.5) {
+            // Silhouette: warm — gold↔rust mix
+            col = mix(uColorGold, uColorRust, smoothstep(0.3, 0.8, aOrder));
+          } else if (aOrder < 0.40) {
+            // Pure rust accent in body (~40% of particles) — echoes the
+            // §03 "14 Days" section's rust headline and Phase 03 card,
+            // and gives the brain a strong warm/cool contrast.
+            col = uColorRust;
+          } else {
+            // Body: layered cyan/ink gradient
+            vec3 cool = mix(uColorInkSoft, uColorCyan, yFactor);
+            vec3 warm = mix(uColorCyan, uColorCyanSoft, yFactor);
+            col = mix(cool, warm, xFactor);
+          }
+          vColor = col;
         }
       `,
       fragmentShader: `
         uniform float uAlpha;
-        uniform vec3 uColorCyan;
-        uniform vec3 uColorGold;
-        uniform vec3 uColorMute;
-        varying float vLayer;
-        varying vec3 vWorldPos;
+        varying vec3 vColor;
 
         void main() {
           // Circular sprite with soft edge
@@ -249,19 +319,8 @@ export default function ParticleBrainCanvas() {
           float d = length(uv);
           if (d > 0.5) discard;
           float edge = smoothstep(0.5, 0.25, d);
-
-          // Silhouette = warm gold-cyan blend (anatomical edges glow).
-          // Interior = cool cyan body with a hint of mute haze on lower particles
-          // for subtle depth shading.
-          vec3 col;
-          if (vLayer > 0.5) {
-            col = mix(uColorGold, uColorCyan, 0.3);
-          } else {
-            float yFactor = clamp((vWorldPos.y + 1.5) / 3.0, 0.0, 1.0);
-            col = mix(uColorMute, uColorCyan, 0.55 + 0.35 * yFactor);
-          }
           float alpha = edge * uAlpha * 0.9;
-          gl_FragColor = vec4(col, alpha);
+          gl_FragColor = vec4(vColor, alpha);
         }
       `,
       transparent: true,
@@ -316,8 +375,9 @@ export default function ParticleBrainCanvas() {
     const threadPositions = new Float32Array(threadCount * 2 * 3)
     for (let t = 0; t < threadCount; t++) {
       const angle = (t / threadCount) * Math.PI * 2
-      const innerR = 1.8
-      const outerR = 4.0 + Math.random() * 1.5
+      // Scaled to match worldScale=1.2 brain radius.
+      const innerR = 0.9
+      const outerR = 2.0 + Math.random() * 0.75
       const i6 = t * 6
       threadPositions[i6 + 0] = Math.cos(angle) * innerR
       threadPositions[i6 + 1] = Math.sin(angle) * innerR
@@ -338,16 +398,11 @@ export default function ParticleBrainCanvas() {
     brainGroup.add(ghostThreads)
 
     // --- Scroll progress -------------------------------------------------
-    // pDrift: 0 in hero, 1 at §02 anatomy — drives drift from right-half toward §02 center
-    // pFade:  0 at §03 14-days, 1 at §05 final CTA — drives scale-down + fade-out
-    const sectionIds = [
-      'shop-os-top',
-      'shop-gap',
-      'shop-anatomy',
-      'shop-14-days',
-      'shop-operator',
-      'shop-ready',
-    ]
+    // pHide: 0 in hero, 1 at §02 anatomy — fades the hero brain out before
+    // the MiniOrbitBrain (anchored to the chips graphic) takes over at §02.
+    // The hero brain no longer drifts position — it stays in the right-half
+    // of the hero so it doesn't visually compete with the orbit brain.
+    const sectionIds = ['shop-os-top', 'shop-anatomy']
     const sectionTops = {}
     function cacheSectionOffsets() {
       for (const id of sectionIds) {
@@ -357,37 +412,15 @@ export default function ParticleBrainCanvas() {
     }
     cacheSectionOffsets()
 
-    function domCenterToWorld(elementId) {
-      const el = document.getElementById(elementId)
-      if (!el) return new THREE.Vector3(0, 0, 0)
-      const rect = el.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2
-      const cy = rect.top + rect.height / 2
-      const ndcX = (cx / window.innerWidth) * 2 - 1
-      const ndcY = -((cy / window.innerHeight) * 2 - 1)
-      const vec = new THREE.Vector3(ndcX, ndcY, 0.5)
-      vec.unproject(camera)
-      const dir = vec.sub(camera.position).normalize()
-      const distance = -camera.position.z / dir.z
-      return camera.position.clone().add(dir.multiplyScalar(distance))
-    }
-
-    let driftTarget = new THREE.Vector3(0, 0, 0)
-    function cacheDriftTarget() {
-      driftTarget = domCenterToWorld('shop-anatomy')
-    }
-    cacheDriftTarget()
-
     function lerpProgress(y, start, end) {
       if (end <= start) return y >= start ? 1 : 0
       return Math.max(0, Math.min(1, (y - start) / (end - start)))
     }
 
-    let pDrift = 0, pFade = 0
+    let pHide = 0
     function recomputeProgress() {
       const y = window.scrollY
-      pDrift = lerpProgress(y, sectionTops['shop-os-top'] || 0, sectionTops['shop-anatomy'] || 1)
-      pFade = lerpProgress(y, sectionTops['shop-14-days'] || 0, sectionTops['shop-ready'] || 1)
+      pHide = lerpProgress(y, sectionTops['shop-os-top'] || 0, sectionTops['shop-anatomy'] || 1)
     }
 
     window.addEventListener('scroll', recomputeProgress, { passive: true })
@@ -399,22 +432,24 @@ export default function ParticleBrainCanvas() {
 
     function renderFrame() {
       const elapsed = (performance.now() - startTime) / 1000
+      // Drive per-particle vertex-shader drift.
+      material.uniforms.uTime.value = elapsed
       // Subtle idle motion so the brain feels alive even without scrolling
       const idleRot = Math.sin(elapsed * 0.3) * 0.025
       const idleFloat = Math.sin(elapsed * 0.5) * 0.05
 
-      // Drift: right-half initial → §02 center as pDrift ramps 0→1
-      const driftT = pDrift * pDrift * (3 - 2 * pDrift)
+      // Brain stays pinned to the right-half of the hero. No scroll drift —
+      // the MiniOrbitBrain owns §02. Idle float adds gentle vertical sway.
       const initialX = visibleW * 0.22
       const initialY = -visibleH * 0.04
-      brainGroup.position.x = initialX * (1 - driftT) + driftTarget.x * driftT
-      brainGroup.position.y = initialY * (1 - driftT) + driftTarget.y * driftT + idleFloat
-      brainGroup.rotation.z = pDrift * 0.12 + idleRot
+      brainGroup.position.x = initialX
+      brainGroup.position.y = initialY + idleFloat
+      brainGroup.rotation.z = idleRot
 
-      // Fade + scale near the end
-      const scale = 1.0 - 0.7 * (pFade * pFade * (3 - 2 * pFade))
-      brainGroup.scale.set(scale, scale, scale)
-      const a = Math.max(0, 1 - pFade)
+      // Fade out as user scrolls from hero (§00) into §02 anatomy so the
+      // MiniOrbitBrain is the only brain visible at the orbit center.
+      const hideT = pHide * pHide * (3 - 2 * pHide)
+      const a = Math.max(0, 1 - hideT)
       material.uniforms.uAlpha.value = a
       lineMaterial.opacity = 0.18 * a
       threadMaterial.opacity = 0.35 * a
@@ -428,8 +463,10 @@ export default function ParticleBrainCanvas() {
     }
 
     if (reducedMotion) {
-      // Static frame: brain assembled, slight transparency
+      // Static frame: brain assembled, slight transparency, no per-particle
+      // drift so the image is perfectly still.
       material.uniforms.uAlpha.value = 0.7
+      material.uniforms.uDrift.value = 0
       lineMaterial.opacity = 0.12
       threadMaterial.opacity = 0.25
       renderer.render(scene, camera)
@@ -447,7 +484,6 @@ export default function ParticleBrainCanvas() {
       material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2)
       setInitialBrainPosition()
       cacheSectionOffsets()
-      cacheDriftTarget()
       recomputeProgress()
     }
     function debouncedResize() {

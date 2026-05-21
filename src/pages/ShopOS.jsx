@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
 import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
+import MiniOrbitBrain from '@/components/MiniOrbitBrain.jsx'
 // eslint-disable-next-line no-unused-vars -- motion is used via JSX member access (<motion.div>, etc.)
 import { motion, MotionConfig } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
@@ -732,8 +733,8 @@ function OrbitDiagram() {
   return (
     <>
       {/* Desktop orbit */}
-      <div className="hidden md:block">
-        <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full h-auto">
+      <div className="hidden md:block relative" style={{ aspectRatio: `${VBW} / ${VBH}` }}>
+        <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full h-auto block">
           {/* Orbit ring */}
           <circle
             cx={cx}
@@ -744,58 +745,17 @@ function OrbitDiagram() {
             strokeWidth="1"
             strokeDasharray="2 4"
           />
-
-          {/* Center Shop Brain card */}
-          <g>
-            <rect
-              x={cx - 120}
-              y={cy - 56}
-              width="240"
-              height="112"
-              fill="var(--card)"
-              stroke="var(--ink)"
-              strokeWidth="1"
-            />
-            <rect
-              x={cx - 114}
-              y={cy - 50}
-              width="228"
-              height="100"
-              fill="none"
-              stroke="var(--paper-line)"
-              strokeWidth="1"
-            />
-            <text
-              x={cx}
-              y={cy - 8}
-              fontFamily="Fraunces"
-              fontSize="22"
-              fill="var(--ink)"
-              textAnchor="middle"
-              fontStyle="italic"
-            >
-              The Shop Brain
-            </text>
-            <text
-              x={cx}
-              y={cy + 20}
-              fontFamily="JetBrains Mono"
-              fontSize="10"
-              letterSpacing="2"
-              fill="var(--cyan)"
-              textAnchor="middle"
-            >
-              LIVE · CONNECTED
-            </text>
-          </g>
+          {/* Center card removed — replaced by MiniOrbitBrain overlay below. */}
 
           {/* Chips with connecting lines */}
           {chips.map((chip, i) => {
             const angle = (i / chips.length) * Math.PI * 2 - Math.PI / 2
             const x = cx + Math.cos(angle) * r
             const y = cy + Math.sin(angle) * r
-            // Inner ring end-point — just outside the center card
-            const innerR = 70
+            // Inner endpoint sits at the MiniOrbitBrain's silhouette radius
+            // (~165 vbu in the 50%×70% brain area) so the chip connector
+            // lines visually reach the brain instead of floating in space.
+            const innerR = 165
             const ix = cx + Math.cos(angle) * innerR
             const iy = cy + Math.sin(angle) * innerR
             return (
@@ -842,14 +802,24 @@ function OrbitDiagram() {
             )
           })}
         </svg>
+
+        {/* Independent polychrome brain at the orbit center. Larger area
+            (50% × 70% of the viewBox) so the brain silhouette is big enough
+            to read as a brain rather than a blob. Chip lines (innerR=150)
+            terminate at the brain's silhouette edge. */}
+        <div
+          className="absolute pointer-events-none"
+          style={{ left: '25%', right: '25%', top: '15%', bottom: '15%' }}
+        >
+          <MiniOrbitBrain className="w-full h-full" />
+        </div>
       </div>
 
       {/* Mobile fallback — vertical stack */}
       <div className="md:hidden">
-        <Plate accent="cyan" className="text-center mb-4">
-          <div className="font-display italic text-2xl mb-1">The Shop Brain</div>
-          <div className="label label-cyan">LIVE · CONNECTED</div>
-        </Plate>
+        <div className="mb-4" style={{ aspectRatio: '1 / 1' }}>
+          <MiniOrbitBrain className="w-full h-full" />
+        </div>
         <div className="grid grid-cols-2 gap-2">
           {chips.map((chip) => (
             <div
