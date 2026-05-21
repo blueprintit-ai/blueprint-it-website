@@ -254,7 +254,7 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
       // the subsampled nodes scatter throughout the shape like the reference.
       const wx = ((px - SIZE / 2) / worldRadiusPx) * worldScale
       const wy = -((py - SIZE / 2) / worldRadiusPx) * worldScale
-      const wz = (Math.random() - 0.5) * 0.06 * worldScale
+      const wz = 0
       positions.push(wx, wy, wz)
       layers.push(onSilhouette ? 1 : 0)
     }
@@ -413,7 +413,7 @@ export default function ParticleBrainCanvas() {
           vec3 drift = vec3(
             sin(uTime * 0.52 + seed * 1.00) * 0.045,
             sin(uTime * 0.61 + seed * 1.73) * 0.045,
-            sin(uTime * 0.41 + seed * 2.31) * 0.028
+            0.0
           ) * gate;
           vec3 driftedPos = position + drift;
 
@@ -519,7 +519,7 @@ export default function ParticleBrainCanvas() {
     const lineMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(C_CYAN[0], C_CYAN[1], C_CYAN[2]),
       transparent: true,
-      opacity: 0.21,
+      opacity: 0.10,
       depthWrite: false,
     })
     const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial)
@@ -615,7 +615,7 @@ export default function ParticleBrainCanvas() {
       const hideT = pHide * pHide * (3 - 2 * pHide)
       const a = Math.max(0, 1 - hideT)
       material.uniforms.uAlpha.value = 0.70 * a
-      lineMaterial.opacity = 0.21 * a
+      lineMaterial.opacity = 0.10 * a
       threadMaterial.opacity = 0.35 * a
 
       renderer.render(scene, camera)
