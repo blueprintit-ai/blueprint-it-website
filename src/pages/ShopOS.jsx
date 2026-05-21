@@ -150,15 +150,16 @@ function ShopOS() {
                     </span>
                   </h2>
                   <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    Knowledge lives in inboxes, Slack threads, Drive folders, CRM notes,
-                    and the heads of you and the one or two people who joined before
-                    anyone wrote things down. Every new project re-discovers what the
-                    company already knows.
+                    Your company already knows the answer. It&apos;s just buried — in
+                    inboxes, Slack threads, Drive folders, CRM notes, and the heads of
+                    the one or two people who were here before anyone wrote things down.
+                    Every new project starts by re-discovering what&apos;s already in the
+                    building.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    The businesses pulling ahead aren&apos;t the ones with more tools.
+                    The businesses pulling ahead aren&apos;t the ones with more AI tools.
                     They&apos;re the ones who built shared institutional intelligence on
-                    top of the AI — and let it compound.
+                    top of those tools — and let it compound.
                   </p>
                 </div>
 
