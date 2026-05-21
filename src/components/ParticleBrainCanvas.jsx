@@ -59,10 +59,16 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
   const worldRadiusPx = SIZE * 0.42
   const positions = []
   const layers = []
+  let silCount = 0
 
   for (let py = 0; py < SIZE; py += STRIDE) {
-    if (py > SIZE * 0.84) continue  // clip shark-fin stem at bottom of emoji
+    if (py > SIZE * 0.76) continue
     for (let px = 0; px < SIZE; px += STRIDE) {
+      // Cone mask: the shark fin/stem is a narrow protrusion directly below
+      // center. Exclude any pixel that is below 60% of canvas height AND
+      // close enough to the horizontal center that it falls inside the cone.
+      // Wide outer lobes (far from center) pass through unaffected.
+      if (py > SIZE * 0.60 && Math.abs(px - SIZE / 2) < (py - SIZE * 0.60) * 1.5) continue
       if (isBackground(px, py)) continue
       // Silhouette: at least one background neighbor
       const onSilhouette =
@@ -70,6 +76,8 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
         isBackground(px + STRIDE, py) ||
         isBackground(px, py - STRIDE) ||
         isBackground(px, py + STRIDE)
+      // Space silhouette nodes ~300% further apart: keep 1 in 4
+      if (onSilhouette && silCount++ % 4 !== 0) continue
       // Interior gradient edge: high local pixel-sum variance (gyri / sulci)
       let isGradientEdge = false
       if (!onSilhouette) {
