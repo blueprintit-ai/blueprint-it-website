@@ -631,7 +631,10 @@ function GrowthChart() {
         Day 10 · handoff
       </text>
 
-      {/* Scattered context curve (dashed, ink-soft) */}
+      {/* Scattered context curve (dashed, ink-soft). Uses `animate` (fires
+          on mount) instead of `whileInView` so the lines reliably draw on
+          mobile, where the IntersectionObserver trigger can miss with the
+          previous -20% margin. */}
       <motion.path
         d={scatD}
         fill="none"
@@ -639,9 +642,8 @@ function GrowthChart() {
         strokeWidth="1.5"
         strokeDasharray="4 4"
         initial={{ pathLength: 0, opacity: 0 }}
-        whileInView={{ pathLength: 1, opacity: 0.7 }}
-        viewport={{ once: true, margin: '-20%' }}
-        transition={{ duration: 1.4, ease: 'easeOut' }}
+        animate={{ pathLength: 1, opacity: 0.7 }}
+        transition={{ duration: 1.4, ease: 'easeOut', delay: 0.4 }}
       />
 
       {/* Institutional intelligence curve (solid cyan, thicker) */}
@@ -651,9 +653,8 @@ function GrowthChart() {
         stroke="var(--cyan)"
         strokeWidth="2.5"
         initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true, margin: '-20%' }}
-        transition={{ duration: 1.6, ease: 'easeOut', delay: 0.3 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.6, ease: 'easeOut', delay: 0.7 }}
       />
 
       {/* X-axis ticks */}
