@@ -663,7 +663,7 @@ function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.06 }}
-                  className="border border-[color:var(--paper-line)] bg-[color:var(--card)] p-6 hover:border-[color:var(--ink)] transition-colors"
+                  className="border border-[color:var(--ink)] bg-[color:var(--card)] p-6"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <Check
@@ -725,7 +725,7 @@ function Home() {
             {partners.map((p) => (
               <div
                 key={p.name}
-                className="bg-[color:var(--ink)] p-8 md:p-10 flex flex-col items-center text-center hover:bg-[color:#102842] transition-colors"
+                className="bg-[color:#102842] p-8 md:p-10 flex flex-col items-center text-center"
               >
                 <img
                   src={p.logo}
