@@ -66,7 +66,7 @@ function ShopOS() {
                   >
                     An{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">AI</span>{' '}
-                    operating system for your small business —{' '}
+                    operating system for your shop —{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
                       installed in 10 days.
                     </span>
