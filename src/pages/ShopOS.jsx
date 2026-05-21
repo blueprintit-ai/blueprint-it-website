@@ -815,11 +815,14 @@ function OrbitDiagram() {
         </div>
       </div>
 
-      {/* Mobile fallback — vertical stack */}
+      {/* Mobile fallback — vertical stack. Keeps the original editorial
+          plate (The Shop Brain / LIVE · CONNECTED) instead of the particle
+          cluster — cleaner on small screens. */}
       <div className="md:hidden">
-        <div className="mb-4" style={{ aspectRatio: '1 / 1' }}>
-          <MiniOrbitBrain className="w-full h-full" />
-        </div>
+        <Plate accent="cyan" className="text-center mb-4">
+          <div className="font-display italic text-2xl mb-1">The Shop Brain</div>
+          <div className="label label-cyan">LIVE · CONNECTED</div>
+        </Plate>
         <div className="grid grid-cols-2 gap-2">
           {chips.map((chip) => (
             <div

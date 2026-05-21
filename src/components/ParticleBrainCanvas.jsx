@@ -209,9 +209,11 @@ export default function ParticleBrainCanvas() {
     let visibleW = visibleH * camera.aspect
 
     // --- Build brain particles (assembled from page load) ----------------
-    // worldScale=1.45 (10% larger than 1.32) keeps the brain at ~42% of
-    // viewport width — readable as a brain at 14k particles.
-    const brain = buildPointillistBrain(count, 1.45)
+    // Desktop: worldScale=1.45 (~42% of viewport width). Mobile: half size
+    // (0.725) so the brain shape stays recognizable on narrow viewports
+    // instead of overflowing as an unrecognizable cloud.
+    const worldScale = isMobile ? 0.725 : 1.45
+    const brain = buildPointillistBrain(count, worldScale)
     const targetPositions = brain.positions
     const actualCount = brain.count
     const livePositions = new Float32Array(actualCount * 3)
