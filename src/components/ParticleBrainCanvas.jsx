@@ -489,31 +489,30 @@ export default function ParticleBrainCanvas() {
     }
     setInitialBrainPosition()
 
-    // --- Static connector lines (anatomical net within the brain) --------
-    const lineCount = isMobile ? MOBILE_STATIC_LINES : STATIC_LINES
+    // --- Connector lines (rebuilt every frame so endpoints follow drifting nodes) ---
     const threadCount = isMobile ? MOBILE_GHOST_THREADS : GHOST_THREADS
 
-    // Spatial proximity mesh: each node connects to up to 5 nearest
-    // neighbours within a distance threshold. With n≈500 this O(n²) pass
-    // runs in <5 ms and creates the triangular network of the reference image.
+    // Build connection index pairs — store (i, j) not positions so we can
+    // recompute endpoints each frame matching the vertex-shader drift exactly.
     const maxD2 = (worldScale * 0.20) * (worldScale * 0.20)
     const connCap = 5
     const connCount = new Int32Array(actualCount)
-    const linesArr = []
+    const connPairs = []  // flat [i0,j0, i1,j1, ...]
     for (let i = 0; i < actualCount; i++) {
       if (connCount[i] >= connCap) continue
-      const ix = targetPositions[i * 3], iy = targetPositions[i * 3 + 1], iz = targetPositions[i * 3 + 2]
+      const ix = targetPositions[i * 3], iy = targetPositions[i * 3 + 1]
       for (let j = i + 1; j < actualCount; j++) {
         if (connCount[i] >= connCap) break
         if (connCount[j] >= connCap) continue
         const dx = targetPositions[j * 3] - ix, dy = targetPositions[j * 3 + 1] - iy
         if (dx * dx + dy * dy < maxD2) {
-          linesArr.push(ix, iy, iz, targetPositions[j * 3], targetPositions[j * 3 + 1], targetPositions[j * 3 + 2])
+          connPairs.push(i, j)
           connCount[i]++; connCount[j]++
         }
       }
     }
-    const linePositions = new Float32Array(linesArr)
+    // Pre-allocate line buffer: connPairs.length/2 pairs × 2 vertices × 3 floats
+    const linePositions = new Float32Array(connPairs.length * 3)
     const lineGeometry = new THREE.BufferGeometry()
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3))
     const lineMaterial = new THREE.LineBasicMaterial({
@@ -617,6 +616,23 @@ export default function ParticleBrainCanvas() {
       material.uniforms.uAlpha.value = 0.70 * a
       lineMaterial.opacity = 0.10 * a
       threadMaterial.opacity = 0.35 * a
+
+      // Rebuild line endpoints to match current drifted node positions.
+      // Mirrors the vertex-shader drift math exactly so lines stay flush
+      // with their node centres — no visible gap, no curved appearance.
+      const TAU = Math.PI * 2
+      for (let p = 0; p < connPairs.length; p += 2) {
+        const ni = connPairs[p], nj = connPairs[p + 1]
+        const si = orderSeeds[ni] * TAU, sj = orderSeeds[nj] * TAU
+        const b = p * 3
+        linePositions[b]     = targetPositions[ni * 3]     + Math.sin(elapsed * 0.52 + si)        * 0.045
+        linePositions[b + 1] = targetPositions[ni * 3 + 1] + Math.sin(elapsed * 0.61 + si * 1.73) * 0.045
+        linePositions[b + 2] = 0
+        linePositions[b + 3] = targetPositions[nj * 3]     + Math.sin(elapsed * 0.52 + sj)        * 0.045
+        linePositions[b + 4] = targetPositions[nj * 3 + 1] + Math.sin(elapsed * 0.61 + sj * 1.73) * 0.045
+        linePositions[b + 5] = 0
+      }
+      lineGeometry.attributes.position.needsUpdate = true
 
       renderer.render(scene, camera)
     }
