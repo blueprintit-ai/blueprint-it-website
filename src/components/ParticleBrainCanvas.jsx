@@ -344,7 +344,8 @@ export default function ParticleBrainCanvas() {
       visibleH = 2 * Math.tan(vFov / 2) * camera.position.z
       visibleW = visibleH * camera.aspect
       if (isMobile) {
-        brainGroup.position.x = 0
+        // Nudged right ~0.5" (visibleW * 0.10) for better visual balance.
+        brainGroup.position.x = visibleW * 0.10
         brainGroup.position.y = visibleH * 0.18
       } else {
         brainGroup.position.x = visibleW * 0.22
@@ -454,7 +455,7 @@ export default function ParticleBrainCanvas() {
       // orbital motion (sin/cos of the same angle phase) so the brain
       // visibly rotates around its anchor point.
       if (isMobile) {
-        const baseX = 0
+        const baseX = visibleW * 0.10
         const baseY = visibleH * 0.18
         const orbitAngle = elapsed * 0.35
         const orbitR = 0.10
