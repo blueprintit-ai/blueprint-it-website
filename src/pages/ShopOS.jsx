@@ -65,10 +65,10 @@ function ShopOS() {
                     className="font-display mt-8 text-[clamp(2.6rem,8vw,7.2rem)] leading-[0.92] tracking-[-0.03em]"
                   >
                     An{' '}
-                    <span className="font-display-italic text-[color:var(--cyan)]">AI</span>{' '}
-                    operating system for your shop —{' '}
+                    <span className="font-display-italic text-[color:var(--cyan)]">AI-Powered</span>{' '}
+                    Operating System For Your Shop —{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      installed in 10 days.
+                      Installed in 10 Days.
                     </span>
                   </motion.h1>
 
