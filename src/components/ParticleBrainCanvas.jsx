@@ -36,14 +36,152 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
   canvas2d.width = SIZE
   canvas2d.height = SIZE
   const ctx2d = canvas2d.getContext('2d')
+
+  // White background
   ctx2d.fillStyle = '#ffffff'
   ctx2d.fillRect(0, 0, SIZE, SIZE)
-  ctx2d.font =
-    '1080px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
-  ctx2d.textAlign = 'center'
-  ctx2d.textBaseline = 'middle'
-  ctx2d.fillText('\u{1F9E0}', SIZE / 2, SIZE / 2 + 40)
 
+  // Brain layout anchors
+  const cx = SIZE * 0.500   // horizontal centre
+  const cy = SIZE * 0.430   // vertical centre (raised slightly for visual balance)
+  const rw = SIZE * 0.390   // half-width
+  const rh = SIZE * 0.325   // half-height
+
+  // ── Outer silhouette (coronal / front-facing view) ────────────────────────
+  // Two symmetrical hemispheres, rounded top, temporal lobes tapering down,
+  // flat-bottomed — classic frontal brain anatomy with no stem artifact.
+  ctx2d.fillStyle = '#111111'
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx, cy - rh * 0.86)                                   // fissure notch
+  ctx2d.bezierCurveTo(                                                // right hemi top
+    cx + rw * 0.22, cy - rh * 1.10,
+    cx + rw * 0.64, cy - rh * 1.12,
+    cx + rw * 0.90, cy - rh * 0.80
+  )
+  ctx2d.bezierCurveTo(                                                // right side upper
+    cx + rw * 1.08, cy - rh * 0.50,
+    cx + rw * 1.08, cy + rh * 0.02,
+    cx + rw * 0.96, cy + rh * 0.32
+  )
+  ctx2d.bezierCurveTo(                                                // right temporal
+    cx + rw * 0.84, cy + rh * 0.60,
+    cx + rw * 0.66, cy + rh * 0.80,
+    cx + rw * 0.46, cy + rh * 0.88
+  )
+  ctx2d.bezierCurveTo(                                                // bottom right→centre
+    cx + rw * 0.28, cy + rh * 0.96,
+    cx + rw * 0.10, cy + rh * 0.98,
+    cx,             cy + rh * 0.92
+  )
+  ctx2d.bezierCurveTo(                                                // bottom centre→left
+    cx - rw * 0.10, cy + rh * 0.98,
+    cx - rw * 0.28, cy + rh * 0.96,
+    cx - rw * 0.46, cy + rh * 0.88
+  )
+  ctx2d.bezierCurveTo(                                                // left temporal
+    cx - rw * 0.66, cy + rh * 0.80,
+    cx - rw * 0.84, cy + rh * 0.60,
+    cx - rw * 0.96, cy + rh * 0.32
+  )
+  ctx2d.bezierCurveTo(                                                // left side upper
+    cx - rw * 1.08, cy + rh * 0.02,
+    cx - rw * 1.08, cy - rh * 0.50,
+    cx - rw * 0.90, cy - rh * 0.80
+  )
+  ctx2d.bezierCurveTo(                                                // left hemi top
+    cx - rw * 0.64, cy - rh * 1.12,
+    cx - rw * 0.22, cy - rh * 1.10,
+    cx,             cy - rh * 0.86
+  )
+  ctx2d.closePath()
+  ctx2d.fill()
+
+  // ── Internal sulci ────────────────────────────────────────────────────────
+  // Drawn in mid-grey (#777) so dark→grey transitions are picked up by the
+  // gradient-edge detector as interior particle candidates.
+  ctx2d.strokeStyle = '#777777'
+  ctx2d.lineCap = 'round'
+  ctx2d.lineJoin = 'round'
+
+  // Central longitudinal fissure (top → mid, divides hemispheres)
+  ctx2d.lineWidth = SIZE * 0.013
+  ctx2d.beginPath()
+  ctx2d.moveTo(cx, cy - rh * 0.86)
+  ctx2d.bezierCurveTo(cx + 14, cy - rh * 0.42, cx - 14, cy + rh * 0.08, cx, cy + rh * 0.32)
+  ctx2d.stroke()
+
+  // Bilateral sulci — mirrored left/right
+  const sulcus = (f) => {  // f = +1 right, -1 left
+    // Central sulcus (Rolandic) — major vertical landmark
+    ctx2d.lineWidth = SIZE * 0.009
+    ctx2d.beginPath()
+    ctx2d.moveTo(cx + f * rw * 0.17, cy - rh * 0.82)
+    ctx2d.bezierCurveTo(
+      cx + f * rw * 0.30, cy - rh * 0.52,
+      cx + f * rw * 0.38, cy - rh * 0.20,
+      cx + f * rw * 0.40, cy + rh * 0.10
+    )
+    ctx2d.stroke()
+
+    // Lateral / Sylvian fissure — major horizontal, separates temporal lobe
+    ctx2d.lineWidth = SIZE * 0.010
+    ctx2d.beginPath()
+    ctx2d.moveTo(cx + f * rw * 0.40, cy + rh * 0.10)
+    ctx2d.bezierCurveTo(
+      cx + f * rw * 0.62, cy + rh * 0.06,
+      cx + f * rw * 0.82, cy + rh * 0.16,
+      cx + f * rw * 0.90, cy + rh * 0.34
+    )
+    ctx2d.stroke()
+
+    // Superior frontal sulcus
+    ctx2d.lineWidth = SIZE * 0.007
+    ctx2d.beginPath()
+    ctx2d.moveTo(cx + f * rw * 0.15, cy - rh * 0.82)
+    ctx2d.bezierCurveTo(
+      cx + f * rw * 0.42, cy - rh * 0.86,
+      cx + f * rw * 0.65, cy - rh * 0.76,
+      cx + f * rw * 0.74, cy - rh * 0.56
+    )
+    ctx2d.stroke()
+
+    // Inferior frontal sulcus
+    ctx2d.lineWidth = SIZE * 0.007
+    ctx2d.beginPath()
+    ctx2d.moveTo(cx + f * rw * 0.14, cy - rh * 0.50)
+    ctx2d.bezierCurveTo(
+      cx + f * rw * 0.36, cy - rh * 0.54,
+      cx + f * rw * 0.52, cy - rh * 0.43,
+      cx + f * rw * 0.58, cy - rh * 0.26
+    )
+    ctx2d.stroke()
+
+    // Intraparietal sulcus
+    ctx2d.lineWidth = SIZE * 0.007
+    ctx2d.beginPath()
+    ctx2d.moveTo(cx + f * rw * 0.22, cy - rh * 0.24)
+    ctx2d.bezierCurveTo(
+      cx + f * rw * 0.50, cy - rh * 0.16,
+      cx + f * rw * 0.74, cy - rh * 0.06,
+      cx + f * rw * 0.84, cy + rh * 0.10
+    )
+    ctx2d.stroke()
+
+    // Superior temporal sulcus
+    ctx2d.lineWidth = SIZE * 0.007
+    ctx2d.beginPath()
+    ctx2d.moveTo(cx + f * rw * 0.54, cy + rh * 0.34)
+    ctx2d.bezierCurveTo(
+      cx + f * rw * 0.68, cy + rh * 0.38,
+      cx + f * rw * 0.78, cy + rh * 0.50,
+      cx + f * rw * 0.76, cy + rh * 0.66
+    )
+    ctx2d.stroke()
+  }
+  sulcus(1)   // right hemisphere
+  sulcus(-1)  // left hemisphere (mirrored)
+
+  // ── Rasterise drawn shape into particle candidates ────────────────────────
   const img = ctx2d.getImageData(0, 0, SIZE, SIZE)
   const data = img.data
   function pxSum(x, y) {
@@ -51,9 +189,7 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
     const i = (y * SIZE + x) * 4
     return data[i] + data[i + 1] + data[i + 2]
   }
-  function isBackground(x, y) {
-    return pxSum(x, y) > 690
-  }
+  function isBackground(x, y) { return pxSum(x, y) > 690 }
 
   const STRIDE = 3
   const worldRadiusPx = SIZE * 0.42
@@ -62,23 +198,16 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
   let silCount = 0
 
   for (let py = 0; py < SIZE; py += STRIDE) {
-    if (py > SIZE * 0.76) continue
     for (let px = 0; px < SIZE; px += STRIDE) {
-      // Cone mask: the shark fin/stem is a narrow protrusion directly below
-      // center. Exclude any pixel that is below 60% of canvas height AND
-      // close enough to the horizontal center that it falls inside the cone.
-      // Wide outer lobes (far from center) pass through unaffected.
-      if (py > SIZE * 0.60 && Math.abs(px - SIZE / 2) < (py - SIZE * 0.60) * 1.5) continue
       if (isBackground(px, py)) continue
-      // Silhouette: at least one background neighbor
       const onSilhouette =
         isBackground(px - STRIDE, py) ||
         isBackground(px + STRIDE, py) ||
         isBackground(px, py - STRIDE) ||
         isBackground(px, py + STRIDE)
-      // Space silhouette nodes ~300% further apart: keep 1 in 4
+      // Space border nodes ~300% further apart: keep 1 in 4
       if (onSilhouette && silCount++ % 4 !== 0) continue
-      // Interior gradient edge: high local pixel-sum variance (gyri / sulci)
+      // Interior: accept pixels adjacent to a sulcus line (grey on dark)
       let isGradientEdge = false
       if (!onSilhouette) {
         const here = pxSum(px, py)
@@ -94,7 +223,7 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
           Math.abs(pxSum(px, py - 6) - here),
           Math.abs(pxSum(px, py + 6) - here)
         )
-        isGradientEdge = maxFine > 110 || maxMid > 145
+        isGradientEdge = maxFine > 55 || maxMid > 80
       }
       if (!onSilhouette && !isGradientEdge) continue
       const wx = ((px - SIZE / 2) / worldRadiusPx) * worldScale
@@ -102,37 +231,6 @@ function buildPointillistBrain(maxTargets, worldScale = 2.4) {
       const wz = (Math.random() - 0.5) * 0.06 * worldScale
       positions.push(wx, wy, wz)
       layers.push(onSilhouette ? 1 : 0)
-    }
-  }
-
-  // Fallback if no emoji font available — draw simple brain ellipse + stem.
-  if (positions.length / 3 < 500) {
-    positions.length = 0
-    layers.length = 0
-    ctx2d.fillStyle = '#ffffff'
-    ctx2d.fillRect(0, 0, SIZE, SIZE)
-    ctx2d.strokeStyle = '#000'
-    ctx2d.lineWidth = 4
-    ctx2d.beginPath()
-    ctx2d.ellipse(SIZE / 2, SIZE / 2, 280, 220, 0, 0, Math.PI * 2)
-    ctx2d.stroke()
-    ctx2d.beginPath()
-    ctx2d.moveTo(SIZE / 2 - 260, SIZE / 2 + 30)
-    ctx2d.quadraticCurveTo(SIZE / 2, SIZE / 2 + 60, SIZE / 2 + 260, SIZE / 2 + 30)
-    ctx2d.stroke()
-    const img2 = ctx2d.getImageData(0, 0, SIZE, SIZE).data
-    for (let py = 0; py < SIZE; py += STRIDE) {
-      for (let px = 0; px < SIZE; px += STRIDE) {
-        const i = (py * SIZE + px) * 4
-        if (img2[i] < 100) {
-          positions.push(
-            ((px - SIZE / 2) / worldRadiusPx) * worldScale,
-            -((py - SIZE / 2) / worldRadiusPx) * worldScale,
-            (Math.random() - 0.5) * 0.06 * worldScale
-          )
-          layers.push(1)
-        }
-      }
     }
   }
 
