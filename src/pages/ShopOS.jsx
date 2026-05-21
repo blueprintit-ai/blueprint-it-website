@@ -331,9 +331,9 @@ function ShopOS() {
                 <div className="md:col-span-6">
                   <SectionTag id="03">Drawing № 04 · The 10 Days</SectionTag>
                   <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
-                    Three phases. Two weeks.{' '}
+                    Three phases. 10 Days.{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      One handoff.
+                      One Handoff.
                     </span>
                   </h2>
                 </div>
