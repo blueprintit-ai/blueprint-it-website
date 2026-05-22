@@ -276,7 +276,7 @@ function ShopOS() {
                     <ul className="space-y-2 mb-5">
                       {[
                         'Automated Lead Handling → Human-in-the-Loop → CRM Update + Follow-Up Tasks',
-                        'Weekly ops digest auto-sent to leadership',
+                        'Estimated GPM Automation: Scope Entered → GPM Calculated Against Cost Card → Quote Released or Flagged for Review',
                         'Deal qualification and routing on autopilot',
                       ].map((d) => (
                         <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
