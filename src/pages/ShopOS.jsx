@@ -161,8 +161,7 @@ function ShopOS() {
                     The answers are already inside your company. They&apos;re just
                     buried — in inboxes, spreadsheets, Slack threads, Trello boards,
                     cloud folders, and the heads of the one or two people who were here
-                    before anyone wrote things down. So every new project starts from
-                    scratch — even when the work has already been done.
+                    before anyone wrote things down.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
                     The businesses pulling ahead aren&apos;t the ones with more AI tools.
