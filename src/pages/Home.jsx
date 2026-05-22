@@ -174,7 +174,7 @@ function Home() {
     {
       id: '01',
       title: 'Experience',
-      body: 'We\'ve worked directly inside growing small businesses, felt the pain of brittle tools, and learned what separates infrastructure that supports growth from infrastructure that quietly drags it down. That perspective is in every recommendation we make.',
+      body: 'We\'ve worked directly both inside our business and others — from cabinetry and closet businesses to furniture and golf businesses. We have felt the pain of tools not talking to each other, and learned what separates infrastructure that supports growth from infrastructure that quietly drags it down. That perspective is in every recommendation we make.',
     },
     {
       id: '02',
