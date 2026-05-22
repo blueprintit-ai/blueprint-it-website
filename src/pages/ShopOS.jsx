@@ -74,18 +74,23 @@ function ShopOS() {
                     </span>
                   </motion.h1>
 
-                  <motion.p
+                  <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25, duration: 0.8 }}
                     className="mt-8 max-w-2xl text-[22px] md:text-[24px] leading-[1.55] text-[color:var(--ink-soft)]"
                   >
-                    Stop being the answer to every question in your shop. What if your
-                    business had a brain of its own? One that briefs your team, chases
-                    your quotes, and takes the mundane off your plate while you sleep.
-                    That&apos;s Shop OS. Installed in 10 days. Built to leverage the
-                    tools you currently use.
-                  </motion.p>
+                    <p>Stop being the answer to every question in your shop.</p>
+                    <p className="mt-5">
+                      What if your business had a brain of its own? One that briefs your
+                      team, chases your quotes, and takes the mundane off your plate
+                      while you sleep.
+                    </p>
+                    <p className="mt-5">
+                      That&apos;s Shop OS. Installed in 10 days. Built to leverage the
+                      tools you currently use.
+                    </p>
+                  </motion.div>
 
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
