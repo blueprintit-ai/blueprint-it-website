@@ -611,11 +611,14 @@ export default function ParticleBrainCanvas() {
 
       // Fade out as user scrolls from hero (§00) into §02 anatomy so the
       // MiniOrbitBrain is the only brain visible at the orbit center.
+      // Mobile multiplier dims the hero brain to ~10% so it reads as a
+      // subtle backdrop on narrow viewports instead of competing with copy.
       const hideT = pHide * pHide * (3 - 2 * pHide)
       const a = Math.max(0, 1 - hideT)
-      material.uniforms.uAlpha.value = 0.70 * a
-      lineMaterial.opacity = 0.10 * a
-      threadMaterial.opacity = 0.35 * a
+      const mobileMul = isMobile ? 0.1 : 1
+      material.uniforms.uAlpha.value = 0.70 * a * mobileMul
+      lineMaterial.opacity = 0.10 * a * mobileMul
+      threadMaterial.opacity = 0.35 * a * mobileMul
 
       // Rebuild line endpoints to match current drifted node positions.
       // Mirrors the vertex-shader drift math exactly so lines stay flush
@@ -644,11 +647,12 @@ export default function ParticleBrainCanvas() {
 
     if (reducedMotion) {
       // Static frame: brain assembled, slight transparency, no per-particle
-      // drift so the image is perfectly still.
-      material.uniforms.uAlpha.value = 0.49
+      // drift so the image is perfectly still. Mobile dims to ~10%.
+      const rmMobileMul = isMobile ? 0.1 : 1
+      material.uniforms.uAlpha.value = 0.49 * rmMobileMul
       material.uniforms.uDrift.value = 0
-      lineMaterial.opacity = 0.08
-      threadMaterial.opacity = 0.25
+      lineMaterial.opacity = 0.08 * rmMobileMul
+      threadMaterial.opacity = 0.25 * rmMobileMul
       renderer.render(scene, camera)
     } else {
       rafId = requestAnimationFrame(loop)
