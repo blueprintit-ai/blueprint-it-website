@@ -87,8 +87,9 @@ function ShopOS() {
                       while you sleep.
                     </p>
                     <p className="mt-5">
-                      That&apos;s Shop OS. Installed in 10 days. Built to leverage the
-                      tools you currently use.
+                      That&apos;s Shop OS. Installed in 10 days. The foundation
+                      underneath every automation you&apos;ll build — and the interface
+                      to everything your business already knows.
                     </p>
                   </motion.div>
 
