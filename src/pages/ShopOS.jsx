@@ -788,7 +788,7 @@ function OrbitDiagram() {
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
           <div
-            className="font-display-italic text-[color:var(--ink)] text-[2.6rem] leading-none tracking-[-0.02em]"
+            className="font-display-italic text-[color:var(--ink)] text-[3.225rem] leading-none tracking-[-0.02em]"
             style={{
               opacity: 0.9,
               textShadow:
