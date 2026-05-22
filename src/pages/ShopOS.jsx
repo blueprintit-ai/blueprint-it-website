@@ -277,7 +277,7 @@ function ShopOS() {
                       {[
                         'Automated Lead Handling → Human-in-the-Loop → CRM Update + Follow-Up Tasks',
                         'Estimated GPM Automation: Scope Entered → GPM Calculated Against Cost Card → Quote Released or Flagged for Review',
-                        'Deal qualification and routing on autopilot',
+                        'Job Won → Installer Brief, Material Trigger, and Client Welcome Sequence Sent Automatically',
                       ].map((d) => (
                         <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
                           <span className="inline-block h-1.5 w-4 bg-[color:var(--rust)]" />
