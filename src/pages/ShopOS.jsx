@@ -779,6 +779,25 @@ function OrbitDiagram() {
         >
           <MiniOrbitBrain className="w-full h-full" />
         </div>
+
+        {/* "Your Shop OS" label centered over the brain. Editorial italic
+            display in ink with a soft paper-cream text shadow so it reads
+            clearly against the polychrome particle backdrop while staying
+            integrated into the diagram. */}
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <div
+            className="font-display-italic text-[color:var(--ink)] text-[2.6rem] leading-none tracking-[-0.02em]"
+            style={{
+              opacity: 0.9,
+              textShadow:
+                '0 0 18px rgba(244,239,227,0.85), 0 1px 0 rgba(244,239,227,0.6)',
+            }}
+          >
+            Your Shop OS
+          </div>
+        </div>
       </div>
 
       {/* Mobile fallback — vertical stack. Keeps the original editorial
