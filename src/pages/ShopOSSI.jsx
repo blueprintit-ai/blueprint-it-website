@@ -210,8 +210,8 @@ function ShopOSSI() {
               <OrbitDiagram />
 
               {/* Deliverable plate */}
-              <div className="grid md:grid-cols-2 gap-8 mt-16 md:mt-20">
-                <Plate accent="cyan" className="h-full">
+              <div className="mt-16 md:mt-20">
+                <Plate accent="cyan">
                   <div className="flex items-baseline justify-between mb-6">
                     <span className="font-display text-5xl leading-none">01</span>
                     <span className="label label-cyan">Deliverable</span>
@@ -248,50 +248,6 @@ function ShopOSSI() {
                       {[
                         'System owned by your team, not ours',
                         'Extend and grow it yourself, indefinitely',
-                      ].map((d) => (
-                        <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
-                          <span className="inline-block h-1.5 w-4 bg-[color:var(--ink-soft)]" />
-                          <span>{d}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Plate>
-
-                <Plate accent="rust" className="h-full">
-                  <div className="flex items-baseline justify-between mb-6">
-                    <span className="font-display text-5xl leading-none">02</span>
-                    <span className="label label-rust">Included</span>
-                  </div>
-                  <div className="label mb-3">scheduled · autonomous · template for the rest</div>
-                  <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
-                    Automation templates.
-                  </h3>
-                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
-                    Shop OS ships with pre-built automation templates covering the
-                    highest-leverage repetitive workflows in a flooring business. Drop
-                    them on top of the Shop Brain and adapt them to your stack. Each
-                    template is a pattern — one Brain, unlimited automations.
-                  </p>
-                  <div className="pt-5 border-t border-[color:var(--paper-line)]">
-                    <div className="label label-rust mb-3">Example automations</div>
-                    <ul className="space-y-2 mb-5">
-                      {[
-                        'Automated Lead Handling → Human-in-the-Loop → CRM Update + Follow-Up Tasks',
-                        'Estimated GPM Automation: Scope Entered → GPM Calculated Against Cost Card → Quote Released or Flagged for Review',
-                        'Job Won → Installer Brief, Material Trigger, and Client Welcome Sequence Sent Automatically',
-                      ].map((d) => (
-                        <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
-                          <span className="inline-block h-1.5 w-4 bg-[color:var(--rust)]" />
-                          <span>{d}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="label mb-3">The pattern</div>
-                    <ul className="space-y-2">
-                      {[
-                        'Each template proves the Brain works on real data',
-                        'Each template is the foundation for the next',
                       ].map((d) => (
                         <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
                           <span className="inline-block h-1.5 w-4 bg-[color:var(--ink-soft)]" />
