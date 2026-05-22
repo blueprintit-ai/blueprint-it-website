@@ -80,11 +80,11 @@ function ShopOS() {
                     transition={{ delay: 0.25, duration: 0.8 }}
                     className="mt-8 max-w-2xl text-lg md:text-xl leading-[1.55] text-[color:var(--ink-soft)]"
                   >
-                    Stop being the answer to every question in your shop. Every quote
-                    follow-up. Every client update. Every new hire question. Every job
-                    handoff. Still all going through you? That&apos;s a systems problem,
-                    not a staffing problem. Blueprint IT installs Shop OS in 10 days:
-                    a brain for your business connected to the tools you use today.
+                    Stop being the answer to every question in your shop. What if your
+                    business had a brain of its own? One that briefs your team, chases
+                    your quotes, and takes the mundane off your plate while you sleep.
+                    That&apos;s Shop OS. Installed in 10 days. Built to leverage the
+                    tools you currently use.
                   </motion.p>
 
                   <motion.div
