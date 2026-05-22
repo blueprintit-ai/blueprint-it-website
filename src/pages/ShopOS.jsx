@@ -557,11 +557,11 @@ function KnowledgeMosaic() {
   // milestone gets its own brand color so the layers of accumulated
   // context are visible as a layered map rather than as a curve.
   const VBW = 600
-  const VBH = 320
+  const VBH = 348
   const padL = 14
   const padR = 14
   const padT = 16
-  const padB = 60
+  const padB = 88
   const innerW = VBW - padL - padR
   const innerH = VBH - padT - padB
   const COLS = 16
@@ -606,7 +606,10 @@ function KnowledgeMosaic() {
   }
 
   // Legend layout — five color swatches with labels along the bottom.
-  const legendY = VBH - 36
+  // legendY sits just below the grid; the "Install" caption sits a full
+  // ~30px below the legend for clear vertical separation.
+  const legendY = padT + innerH + 16
+  const installY = VBH - 14
   const legendItemW = innerW / milestones.length
 
   return (
@@ -668,10 +671,10 @@ function KnowledgeMosaic() {
         )
       })}
 
-      {/* Day 10 marker — first install tile color */}
+      {/* Day 10 marker — first install tile color, ~30px below the legend */}
       <text
         x={padL}
-        y={legendY + 26}
+        y={installY}
         fontFamily="JetBrains Mono"
         fontSize="9"
         fill="var(--rust)"
