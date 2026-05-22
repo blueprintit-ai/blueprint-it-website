@@ -224,14 +224,18 @@ function ShopOS() {
                     Every AI interaction on your team reads from one centralized place:
                     customer history, SOPs, brand voice, commercial rules. The
                     institutional knowledge that lives in ten people&apos;s heads,
-                    queryable by every person and every automation. Plugs into your
-                    existing stack without replacing anything.
+                    queryable by every person and every automation. Your team accesses
+                    it through a simple web chat — open a browser, ask the Brain
+                    anything, get an answer grounded in how your business actually
+                    runs. The same Brain powers every automation behind the scenes.
+                    Plugs into your existing stack without replacing anything.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-3">What your team gets</div>
                     <ul className="space-y-2 mb-5">
                       {[
                         'One source of truth for every AI interaction',
+                        'Web chat for the whole team — no app to install',
                         'Auto-ingestion from calls, email, and docs',
                         'Connects to your CRM, calendar, and tools',
                       ].map((d) => (
