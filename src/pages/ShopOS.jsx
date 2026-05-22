@@ -78,7 +78,7 @@ function ShopOS() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25, duration: 0.8 }}
-                    className="mt-8 max-w-2xl text-lg md:text-xl leading-[1.55] text-[color:var(--ink-soft)]"
+                    className="mt-8 max-w-2xl text-[22px] md:text-[24px] leading-[1.55] text-[color:var(--ink-soft)]"
                   >
                     Stop being the answer to every question in your shop. What if your
                     business had a brain of its own? One that briefs your team, chases
