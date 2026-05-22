@@ -64,9 +64,11 @@ function ShopOS() {
                     transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
                     className="font-display mt-8 text-[clamp(2.08rem,6.4vw,5.76rem)] leading-[0.92] tracking-[-0.03em]"
                   >
-                    An{' '}
-                    <span className="font-display-italic text-[color:var(--cyan)]">AI-Powered</span>{' '}
-                    Operating System For Your Shop —{' '}
+                    Your{' '}
+                    <span className="font-display-italic text-[color:var(--cyan)]">
+                      Shop Operating System
+                    </span>{' '}
+                    —{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
                       Installed in 10 Days.
                     </span>
@@ -78,10 +80,11 @@ function ShopOS() {
                     transition={{ delay: 0.25, duration: 0.8 }}
                     className="mt-8 max-w-2xl text-lg md:text-xl leading-[1.55] text-[color:var(--ink-soft)]"
                   >
-                    Your team has ChatGPT. Your company has nothing. Blueprint IT installs
-                    Shop OS in two weeks: a shared context layer wired into your stack,
-                    two proof automations running on top, and a tuned-up team that owns
-                    it on day one.
+                    Stop being the answer to every question in your shop. Every quote
+                    follow-up. Every client update. Every new hire question. Every job
+                    handoff. Still all going through you? That&apos;s a systems problem,
+                    not a staffing problem. Blueprint IT installs Shop OS in 10 days:
+                    a brain for your business connected to the tools you use today.
                   </motion.p>
 
                   <motion.div
