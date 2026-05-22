@@ -222,13 +222,12 @@ function ShopOS() {
                   </h3>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
                     Every AI interaction on your team reads from one centralized place:
-                    customer history, SOPs, brand voice, commercial rules. The
+                    customer history, SOPs, brand voice, internal policies. The
                     institutional knowledge that lives in ten people&apos;s heads,
                     queryable by every person and every automation. Your team accesses
                     it through a simple web chat — open a browser, ask the Brain
                     anything, get an answer grounded in how your business actually
                     runs. The same Brain powers every automation behind the scenes.
-                    Plugs into your existing stack without replacing anything.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-3">What your team gets</div>
@@ -236,8 +235,7 @@ function ShopOS() {
                       {[
                         'One source of truth for every AI interaction',
                         'Web chat for the whole team — no app to install',
-                        'Auto-ingestion from calls, email, and docs',
-                        'Connects to your CRM, calendar, and tools',
+                        'Connects to your CRM, calendar, and tools (API Capability Required)',
                       ].map((d) => (
                         <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
                           <span className="inline-block h-1.5 w-4 bg-[color:var(--cyan)]" />
