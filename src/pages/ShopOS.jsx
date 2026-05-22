@@ -154,11 +154,11 @@ function ShopOS() {
                   <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
                     You and your team have the knowledge.{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      Your company needs a copy.
+                      Your business needs a copy.
                     </span>
                   </h2>
                   <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    The answers are already inside your company. They&apos;re just
+                    The answers are already inside your business. They&apos;re just
                     buried — in inboxes, spreadsheets, Slack threads, Trello boards,
                     cloud folders, and the heads of the one or two people who were here
                     before anyone wrote things down.
