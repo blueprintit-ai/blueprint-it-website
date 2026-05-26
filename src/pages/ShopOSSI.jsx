@@ -574,18 +574,38 @@ function ShopOSSI() {
                 <div className="md:col-span-3">
                   <div className="label label-cyan">Who&apos;s behind this</div>
                 </div>
-                <div className="md:col-span-9">
-                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed max-w-3xl">
-                    Shop OS is built by{' '}
+                <div className="md:col-span-9 space-y-5 max-w-3xl">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Shop OS was built by{' '}
                     <span className="text-[color:var(--ink)] font-medium">
                       Glenn Chua
                     </span>{' '}
-                    at Blueprint IT, from inside the same trade community it serves.
-                    Glenn is an admin of one of the largest cabinet and closet
-                    operator communities online, fifty-six thousand strong. He
-                    built Shop OS because every conversation in that group
-                    eventually circles to the same problem: the owner is the
-                    bottleneck.
+                    at Blueprint IT, developed from inside the trade community
+                    it serves.
+                  </p>
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Glenn owns and operates Obsessed Closets in Wake Forest,
+                    North Carolina, providing custom closet design, fabrication,
+                    and installation. His background bridges the shop floor and
+                    the server rack: years at Verizon Managed Services and
+                    Cisco Systems gave him the technical foundation he later
+                    turned inward, automating his own operations at Obsessed
+                    Closets. What started as building tools to run his own shop
+                    better became Blueprint IT, a consultancy helping other
+                    businesses integrate technology and AI into their
+                    day-to-day operations. He now consults and develops for
+                    shops ranging from one-person operations to thirty-five-person
+                    teams.
+                  </p>
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Shop OS exists because every business needs a foundational
+                    knowledge base, your custom Shop Operating System, to
+                    capture and leverage everything currently trapped in
+                    inboxes, scattered files, and the heads of veteran
+                    employees. Whatever tools you run today and whatever AI
+                    breakthrough lands tomorrow, none of it compounds without a
+                    well-organized Shop OS underneath. It&apos;s the foundation
+                    that truly makes AI actually useful in your business.
                   </p>
                 </div>
               </div>
