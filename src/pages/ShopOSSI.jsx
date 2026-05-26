@@ -23,7 +23,7 @@ function ShopOSSI() {
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
     ogTitle?.setAttribute('content', 'Shop OS · Self-Install AI Operating System · Blueprint IT')
-    ogDesc?.setAttribute('content', 'A Working Shop Brain for your business. One command to install, $500 one time, yours from day one.')
+    ogDesc?.setAttribute('content', 'A Working Shop Brain for your business. One command to install, $750 one time, yours from day one.')
 
     return () => {
       document.title = prevTitle
@@ -101,7 +101,7 @@ function ShopOSSI() {
                     className="mt-10 flex flex-wrap items-center gap-5"
                   >
                     <button onClick={scrollToPurchase} className="btn-ink">
-                      Get Shop OS · $500
+                      Get Shop OS · $750
                       <ArrowRight size={14} strokeWidth={2.2} />
                     </button>
                     <a
@@ -130,7 +130,7 @@ function ShopOSSI() {
                         ['Skills bundled', '28'],
                         ['Install time', '~10 minutes'],
                         ['Ownership', 'Yours from day one'],
-                        ['Price', '$500 · Founding 50'],
+                        ['Price', '$750 · Founding 50 → $500'],
                         ['Guarantee', '30-day refund'],
                       ].map(([k, v]) => (
                         <div key={k} className="flex items-baseline justify-between py-2.5">
@@ -440,7 +440,7 @@ function ShopOSSI() {
                   </h3>
                   <ul className="space-y-2 font-mono text-[12px]">
                     {[
-                      'One-time $500. No monthly bill from us.',
+                      'One-time $750 ($500 for the Founding 50). No monthly bill from us.',
                       'Runs on your existing Claude Code subscription',
                       'Data in plain markdown in your own cloud',
                       'Lifetime updates as Founding 50',
@@ -457,7 +457,7 @@ function ShopOSSI() {
 
               <div className="mt-12 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                  Reserve a Founding 50 seat · $500
+                  Reserve a Founding 50 seat · $500 (save $250)
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
@@ -544,13 +544,13 @@ function ShopOSSI() {
                 <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                One install. One $500 payment. A Working Shop Brain your team owns
-                from day one, plus lifetime updates as a Founding 50 customer.
+                One install. $500 for the Founding 50 (then $750). A Working Shop Brain
+                your team owns from day one, plus lifetime updates as a Founding 50 customer.
                 Thirty-day refund if it doesn&apos;t earn its keep.
               </p>
               <div className="mt-10 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                  Reserve a Founding 50 seat · $500
+                  Reserve a Founding 50 seat · $500 (save $250)
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">

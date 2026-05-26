@@ -29,7 +29,7 @@ export default function PurchaseSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const basePrice = 50000
+  const basePrice = 75000
   const finalPrice = coupon?.finalPrice ?? basePrice
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
@@ -80,7 +80,7 @@ export default function PurchaseSection() {
           Get Shop OS Foundation
         </h2>
         <p className="text-lg text-[color:var(--ink-soft)] mb-10">
-          $500 one-time. Lifetime license. Install in 15 minutes.
+          $750 one-time. Lifetime license. Install in 15 minutes.
         </p>
 
         <div className="border border-[color:var(--border)] rounded-sm p-8 bg-white/40 backdrop-blur-sm">
