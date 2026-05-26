@@ -524,11 +524,11 @@ function ShopOSSI() {
                   },
                   {
                     q: 'What does it cost per month?',
-                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude Code subscription for AI work.',
+                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude Code subscription for AI work. We recommend the $100/month subscription with Anthropic, but the $20/month subscription is sufficient to get you started.',
                   },
                   {
                     q: 'What if Blueprint IT disappears?',
-                    a: 'Your vault is plain markdown in your own cloud. The installer, the skills, and the chat are open source on GitHub. Your operation never depends on us being alive.',
+                    a: 'Your vault is data owned by you. The installer, the skills, and the chat are also yours after install. Your operating system does not depend on us being around.',
                   },
                 ].map((item, i) => (
                   <motion.div
