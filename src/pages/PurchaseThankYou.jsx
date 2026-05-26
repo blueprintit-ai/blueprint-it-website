@@ -8,6 +8,26 @@ const PDF_URL = (import.meta.env.VITE_LICENSE_SERVER_URL || 'https://shop-os-lic
 export default function PurchaseThankYou() {
   const [status, setStatus] = useState('checking')   // 'checking' | 'succeeded' | 'pending' | 'failed'
   const [licenseKey, setLicenseKey] = useState(null)
+  const [copied, setCopied] = useState(false)
+
+  async function copyKey() {
+    if (!licenseKey) return
+    try {
+      await navigator.clipboard.writeText(licenseKey)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers / non-HTTPS contexts
+      const textarea = document.createElement('textarea')
+      textarea.value = licenseKey
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+      document.body.removeChild(textarea)
+    }
+  }
 
   useEffect(() => {
     document.title = 'Welcome to Shop OS · Blueprint IT'
@@ -63,8 +83,18 @@ export default function PurchaseThankYou() {
             </p>
             {licenseKey && (
               <div className="my-8 p-6 bg-[color:var(--bg-soft,#ebe5d3)] border border-[color:var(--border)] text-center">
-                <div className="text-xs uppercase tracking-widest mb-2">Your license key</div>
-                <div className="font-display text-2xl tracking-widest">{licenseKey}</div>
+                <div className="text-xs uppercase tracking-widest mb-3 text-[color:var(--ink-soft)]">Your license key</div>
+                <button
+                  type="button"
+                  onClick={copyKey}
+                  title="Click to copy"
+                  className="font-mono text-xl md:text-2xl tracking-[0.15em] px-4 py-2 border border-transparent hover:bg-white/60 hover:border-[color:var(--border)] transition-colors cursor-pointer select-all"
+                >
+                  {licenseKey}
+                </button>
+                <div className="text-xs uppercase tracking-widest mt-3 text-[color:var(--ink-soft)] h-4">
+                  {copied ? 'Copied to clipboard' : 'Click to copy'}
+                </div>
               </div>
             )}
             <p className="mb-4">
