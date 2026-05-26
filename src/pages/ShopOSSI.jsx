@@ -105,7 +105,7 @@ function ShopOSSI() {
                       <ArrowRight size={14} strokeWidth={2.2} />
                     </button>
                     <a
-                      href="#purchase"
+                      href="#whats-in-the-box"
                       className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors underline-offset-[6px] hover:underline"
                     >
                       ↓ See what&apos;s in the box
@@ -131,7 +131,6 @@ function ShopOSSI() {
                         ['Install time', '~10 minutes'],
                         ['Ownership', 'Yours from day one'],
                         ['Price', '$750 · Founding 50 → $500'],
-                        ['Guarantee', '30-day refund'],
                       ].map(([k, v]) => (
                         <div key={k} className="flex items-baseline justify-between py-2.5">
                           <dt className="uppercase tracking-[0.14em] text-[color:var(--ink-mute)]">
@@ -373,9 +372,9 @@ function ShopOSSI() {
           </section>
 
           {/* =========================================================
-              §04 — Drawing № 05 · What's in the box (purchase anchor)
+              §04 — Drawing № 05 · What's in the box
           ==========================================================*/}
-          <section id="purchase" className="relative">
+          <section id="whats-in-the-box" className="relative">
             <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
               <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
                 <div className="md:col-span-6">
@@ -449,7 +448,6 @@ function ShopOSSI() {
                       'Runs on your existing Claude Code subscription',
                       'Data in plain markdown in your own cloud',
                       'Lifetime updates as Founding 50',
-                      '30-day refund if it doesn’t earn its keep',
                     ].map((d) => (
                       <li key={d} className="flex items-start gap-3">
                         <span className="inline-block h-1.5 w-4 mt-2 bg-[color:var(--cyan)]" />
@@ -551,7 +549,6 @@ function ShopOSSI() {
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
                 One install. $500 for the Founding 50 (then $750). A Working Shop Brain
                 your team owns from day one, plus lifetime updates as a Founding 50 customer.
-                Thirty-day refund if it doesn&apos;t earn its keep.
               </p>
               <div className="mt-10 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
