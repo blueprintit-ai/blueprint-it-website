@@ -83,13 +83,15 @@ function ShopOSSI() {
                   >
                     <p>Stop being the answer to every question in your shop.</p>
                     <p className="mt-5">
-                      What if your business had a brain of its own. One that briefs
-                      your team, remembers every customer, and runs the weekly
-                      routines on its own.
+                      Shop OS is the brain your business should already have, a
+                      living knowledge base that captures how your shop actually
+                      runs, so your team has somewhere to look before they look
+                      at you.
                     </p>
                     <p className="mt-5">
-                      That&apos;s Shop OS. One command, about ten minutes, and your
-                      Working Shop Brain is live on your machine. Yours from day one.
+                      One command. About ten minutes. Your Working Shop Brain is
+                      live on your machine, ready for every automation, agent,
+                      and AI tool you&apos;ll layer on top. Yours from day one.
                     </p>
                   </motion.div>
 
@@ -99,8 +101,8 @@ function ShopOSSI() {
                     transition={{ delay: 0.5, duration: 0.6 }}
                     className="mt-10 flex flex-wrap items-center gap-5"
                   >
-                    <button onClick={scrollToPurchase} className="btn-ink">
-                      Get Shop OS · $750
+                    <button onClick={scrollToPurchase} className="btn-ink btn-rust">
+                      Get Shop OS
                       <ArrowRight size={14} strokeWidth={2.2} />
                     </button>
                     <a
@@ -127,7 +129,7 @@ function ShopOSSI() {
                         ['Format', 'Self-install · one command'],
                         ['Deliverable', 'Working Shop Brain'],
                         ['Skills bundled', '28'],
-                        ['Install time', '~10 minutes'],
+                        ['Install time', '~30 minutes'],
                         ['Ownership', 'Yours from day one'],
                         ['Price', '$750 · Founding 50 → $500'],
                       ].map(([k, v]) => (
@@ -166,9 +168,9 @@ function ShopOSSI() {
                     here before anyone wrote things down.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    The businesses pulling ahead aren&apos;t the ones with more AI
-                    tools. They&apos;re the ones who built shared institutional
-                    intelligence on top of them, and let it compound.
+                    The businesses that will pull ahead aren&apos;t the ones with
+                    more AI tools. They&apos;re the ones who built shared
+                    institutional intelligence on top of them, and let it compound.
                   </p>
                 </div>
 
@@ -311,7 +313,7 @@ function ShopOSSI() {
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
                     Step zero is grabbing a few free apps. The rest is your own
                     business data flowing in. Most owners have their Shop Brain
-                    live, seeded, and ready for the team by the end of the morning.
+                    live, seeded, and ready for the team in under 30 minutes.
                   </p>
                 </div>
               </div>
