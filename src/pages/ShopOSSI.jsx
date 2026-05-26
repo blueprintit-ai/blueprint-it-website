@@ -472,9 +472,9 @@ function ShopOSSI() {
                     <div className="md:col-span-8">
                       <p className="text-[color:var(--ink-soft)] leading-relaxed">
                         Every Founding 50 customer gets every future Shop OS
-                        release, free, forever. New skills, new routines, new
-                        integrations, shipped to your install at no additional
-                        cost. Buy once at $500, own the whole roadmap.
+                        release, free, forever. Future foundation skills,
+                        routines, integrations, shipped to your install at no
+                        additional cost. Buy once at $500, own the whole roadmap.
                       </p>
                     </div>
                   </div>
@@ -589,9 +589,9 @@ function ShopOSSI() {
                     <div className="md:col-span-8">
                       <p className="text-[color:var(--ink-soft)] leading-relaxed">
                         Every Founding 50 customer gets every future Shop OS
-                        release, free, forever. New skills, new routines, new
-                        integrations, shipped to your install at no additional
-                        cost. Buy once at $500, own the whole roadmap.
+                        release, free, forever. Future foundation skills,
+                        routines, integrations, shipped to your install at no
+                        additional cost. Buy once at $500, own the whole roadmap.
                       </p>
                     </div>
                   </div>
