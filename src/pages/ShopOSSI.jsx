@@ -461,7 +461,7 @@ function ShopOSSI() {
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
-                  Limited to the first 50 customers. Price doubles after.
+                  Limited to the first 50 customers. Price goes to $750 after.
                 </div>
               </div>
             </div>
