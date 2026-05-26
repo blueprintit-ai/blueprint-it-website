@@ -306,21 +306,26 @@ function ShopOSSI() {
                   <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
                     Up and running{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
-                      in four steps.
+                      in five steps.
                     </span>
                   </h2>
                 </div>
                 <div className="md:col-span-6">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Shop OS installs itself. Follow the four steps below and your
-                    Shop Brain is live, seeded with your business context, and ready
-                    for your team by the end of the morning.
+                    Step zero is grabbing a few free apps. The rest is your own
+                    business data flowing in. Most owners have their Shop Brain
+                    live, seeded, and ready for the team by the end of the morning.
                   </p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-5">
                 {[
+                  {
+                    n: '00',
+                    title: 'Install the prerequisites',
+                    body: "Shop OS runs on a Claude Code subscription (claude.ai, $20/mo if you don't already have one). You'll also install Node.js, the Claude Code CLI, and Obsidian. All free, all five-minute downloads. Your welcome email links to each. Most people are done with prereqs in fifteen minutes.",
+                  },
                   {
                     n: '01',
                     title: 'Run one command',
