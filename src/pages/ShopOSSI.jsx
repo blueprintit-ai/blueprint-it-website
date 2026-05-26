@@ -526,7 +526,7 @@ function ShopOSSI() {
                   },
                   {
                     q: 'What does it cost per month?',
-                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude Code subscription for AI work. We recommend the $100/month subscription with Anthropic, but the $20/month subscription is sufficient to get you started.',
+                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude subscription for AI work. Claude Pro ($20/month from Anthropic) is the right starting point and plenty to run Shop OS day-to-day. As your Shop Brain grows and your team uses it every day, you may want to upgrade to Claude Max ($100/month) for higher usage limits.',
                   },
                   {
                     q: 'What if Blueprint IT disappears?',
