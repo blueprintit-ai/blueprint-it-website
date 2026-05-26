@@ -89,9 +89,9 @@ function ShopOSSI() {
                       at you.
                     </p>
                     <p className="mt-5">
-                      One command. About ten minutes. Your Working Shop Brain is
-                      live on your machine, ready for every automation, agent,
-                      and AI tool you&apos;ll layer on top. Yours from day one.
+                      Your Working Shop Brain is live on your machine in under
+                      30 minutes; ready for every automation, agent, and AI tool
+                      you&apos;ll layer on top. Yours from day one.
                     </p>
                   </motion.div>
 
