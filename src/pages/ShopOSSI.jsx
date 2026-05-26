@@ -23,7 +23,7 @@ function ShopOSSI() {
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
     ogTitle?.setAttribute('content', 'Shop OS · Self-Install AI Operating System · Blueprint IT')
-    ogDesc?.setAttribute('content', 'A Working Shop Brain for your business. One command to install, $750 one time, yours from day one.')
+    ogDesc?.setAttribute('content', 'A Working Shop Brain for your business. One command to install, $1,000 one time, yours from day one.')
 
     return () => {
       document.title = prevTitle
@@ -131,7 +131,7 @@ function ShopOSSI() {
                         ['Skills bundled', '28'],
                         ['Install time', '~30 minutes'],
                         ['Ownership', 'Yours from day one'],
-                        ['Price', '$750 · Founding 50 → $500'],
+                        ['Price', '$1,000'],
                       ].map(([k, v]) => (
                         <div key={k} className="flex items-baseline justify-between py-2.5">
                           <dt className="uppercase tracking-[0.14em] text-[color:var(--ink-mute)]">
@@ -445,7 +445,7 @@ function ShopOSSI() {
                   </h3>
                   <ul className="space-y-2 font-mono text-[12px]">
                     {[
-                      'One-time $750 ($500 for the Founding 50). No monthly bill from us.',
+                      'One-time $1,000. No monthly bill from us.',
                       'Runs on your existing Claude Code subscription',
                       'Data in plain markdown in your own cloud',
                       'Lifetime updates as Founding 50',
@@ -476,7 +476,7 @@ function ShopOSSI() {
                         Every Founding 50 customer gets every future Shop OS
                         release, free, forever. Future foundation skills,
                         routines, integrations, shipped to your install at no
-                        additional cost. Buy once at $500, own the whole roadmap.
+                        additional cost. Buy once at $1,000, own the whole roadmap.
                       </p>
                     </div>
                   </div>
@@ -485,11 +485,11 @@ function ShopOSSI() {
 
               <div className="mt-12 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                  Reserve a Founding 50 seat · $500 (save $250)
+                  Get Shop OS · $1,000
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
-                  Limited to the first 50 customers. Price goes to $750 after.
+                  Self-install. Lifetime license. Yours from day one.
                 </div>
               </div>
             </div>
@@ -572,8 +572,7 @@ function ShopOSSI() {
                 <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                One install. $500 for the Founding 50 (then $750). A Working Shop Brain
-                your team owns from day one.
+                One install. $1,000. A Working Shop Brain your team owns from day one.
               </p>
 
               <div className="mt-10 mx-auto max-w-3xl text-left">
@@ -593,7 +592,7 @@ function ShopOSSI() {
                         Every Founding 50 customer gets every future Shop OS
                         release, free, forever. Future foundation skills,
                         routines, integrations, shipped to your install at no
-                        additional cost. Buy once at $500, own the whole roadmap.
+                        additional cost. Buy once at $1,000, own the whole roadmap.
                       </p>
                     </div>
                   </div>
@@ -602,11 +601,11 @@ function ShopOSSI() {
 
               <div className="mt-10 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                  Reserve a Founding 50 seat · $500 (save $250)
+                  Get Shop OS · $1,000
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
-                  Self-install. No call required. Yours to own.
+                  Self-install. Lifetime license. Yours from day one.
                 </div>
               </div>
             </div>
