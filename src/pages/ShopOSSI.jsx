@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
+import PurchaseSection from '@/components/PurchaseSection.jsx'
 import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
 import MiniOrbitBrain from '@/components/MiniOrbitBrain.jsx'
 // eslint-disable-next-line no-unused-vars -- motion is used via JSX member access (<motion.div>, etc.)
@@ -585,6 +586,8 @@ function ShopOSSI() {
               </div>
             </div>
           </section>
+
+          <PurchaseSection />
         </main>
 
         <SiteFooter
