@@ -8,20 +8,21 @@ import { motion, MotionConfig } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { SectionTag, Plate } from '@/components/blueprint.jsx'
 
-const SHOP_OS_URL = 'https://blueprintit.ai/shop-os'
-const getShopOS = () => window.open(SHOP_OS_URL, '_blank', 'noopener,noreferrer')
+const scrollToPurchase = () => {
+  document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 
 function ShopOSSI() {
   useEffect(() => {
     const prevTitle = document.title
-    document.title = 'Shop OS — Self-Install AI Operating System · Blueprint IT'
+    document.title = 'Shop OS · Self-Install AI Operating System · Blueprint IT'
 
     const ogTitle = document.querySelector('meta[property="og:title"]')
     const ogDesc = document.querySelector('meta[property="og:description"]')
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
-    ogTitle?.setAttribute('content', 'Shop OS — Self-Install AI Operating System · Blueprint IT')
-    ogDesc?.setAttribute('content', 'Install Shop OS yourself — a Working Shop Brain wired into your stack, owned by your team from day one.')
+    ogTitle?.setAttribute('content', 'Shop OS · Self-Install AI Operating System · Blueprint IT')
+    ogDesc?.setAttribute('content', 'A Working Shop Brain for your business. One command to install, $500 one time, yours from day one.')
 
     return () => {
       document.title = prevTitle
@@ -37,7 +38,7 @@ function ShopOSSI() {
 
         <SiteNav
           ctaLabel="Get Shop OS"
-          onCtaClick={getShopOS}
+          onCtaClick={scrollToPurchase}
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
             !import.meta.env.PROD && { kind: 'route', to: '/shop-ossi', label: 'Shop OS SI' },
@@ -66,10 +67,10 @@ function ShopOSSI() {
                     Your{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
                       Shop Operating System
-                    </span>{' '}
-                    —{' '}
+                    </span>
+                    .{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      Ready to Install.
+                      Ready to install.
                     </span>
                   </motion.h1>
 
@@ -81,14 +82,14 @@ function ShopOSSI() {
                   >
                     <p>Stop being the answer to every question in your shop.</p>
                     <p className="mt-5">
-                      What if your business had a brain of its own? One that briefs your
-                      team, chases your quotes, and takes the mundane off your plate
-                      while you sleep.
+                      What if your business had a brain of its own. One that briefs
+                      your team, remembers every customer, and runs the mundane on a
+                      schedule while you sleep.
                     </p>
                     <p className="mt-5">
-                      That&apos;s Shop OS. One deliverable: a Working Shop Brain.
-                      Self-install it into your stack and own it from day one — the
-                      foundation underneath every automation you&apos;ll build.
+                      That&apos;s Shop OS. One command installs it. Drag your folder
+                      in, and a Working Shop Brain is live on your machine in about
+                      ten minutes. You own it from day one.
                     </p>
                   </motion.div>
 
@@ -98,15 +99,15 @@ function ShopOSSI() {
                     transition={{ delay: 0.5, duration: 0.6 }}
                     className="mt-10 flex flex-wrap items-center gap-5"
                   >
-                    <button onClick={getShopOS} className="btn-ink">
-                      Get Shop OS
+                    <button onClick={scrollToPurchase} className="btn-ink">
+                      Get Shop OS · $500
                       <ArrowRight size={14} strokeWidth={2.2} />
                     </button>
                     <a
-                      href="#shop-anatomy"
+                      href="#purchase"
                       className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors underline-offset-[6px] hover:underline"
                     >
-                      ↓ See what gets installed
+                      ↓ See what&apos;s in the box
                     </a>
                   </motion.div>
                 </div>
@@ -123,11 +124,13 @@ function ShopOSSI() {
                     <dl className="divide-y divide-[color:var(--paper-line)] font-mono text-xs">
                       {[
                         ['Practice', 'AI Operating System'],
-                        ['Format', 'Self-install'],
+                        ['Format', 'Self-install · one command'],
                         ['Deliverable', 'Working Shop Brain'],
-                        ['Stack', 'Plugs into yours'],
+                        ['Skills bundled', '28'],
+                        ['Install time', '~10 minutes'],
                         ['Ownership', 'Yours from day one'],
-                        ['Support', 'Docs + community'],
+                        ['Price', '$500 · Founding 50'],
+                        ['Guarantee', '30-day refund'],
                       ].map(([k, v]) => (
                         <div key={k} className="flex items-baseline justify-between py-2.5">
                           <dt className="uppercase tracking-[0.14em] text-[color:var(--ink-mute)]">
@@ -159,14 +162,14 @@ function ShopOSSI() {
                   </h2>
                   <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
                     The answers are already inside your business. They&apos;re just
-                    buried — in inboxes, spreadsheets, Slack threads, Trello boards,
-                    cloud folders, and the heads of the one or two people who were here
-                    before anyone wrote things down.
+                    buried. In inboxes, spreadsheets, Slack threads, Trello boards,
+                    cloud folders, and the heads of the one or two people who were
+                    here before anyone wrote things down.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    The businesses pulling ahead aren&apos;t the ones with more AI tools.
-                    They&apos;re the ones who built shared institutional intelligence on
-                    top of them — and let it compound.
+                    The businesses pulling ahead aren&apos;t the ones with more AI
+                    tools. They&apos;re the ones who built shared institutional
+                    intelligence on top of them, and let it compound.
                   </p>
                 </div>
 
@@ -175,7 +178,7 @@ function ShopOSSI() {
                     <div className="label label-cyan mb-4">Fig. 02-A · Your company&apos;s context, mapped</div>
                     <KnowledgeMosaic />
                     <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)] text-center">
-                      Every project adds tiles. The map fills in — and compounds.
+                      Every project adds tiles. The map fills in, and compounds.
                     </p>
                   </Plate>
                 </div>
@@ -199,9 +202,11 @@ function ShopOSSI() {
                 </div>
                 <div className="md:col-span-5 md:col-start-8 md:pt-8">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    One deliverable: a Working Shop Brain. Self-install it into your
-                    stack, seed it with your business context, and own it completely
-                    from the moment it&apos;s live.
+                    One deliverable: a Working Shop Brain. An Obsidian vault that
+                    holds your business context, 28 pre-wired skills that act on it,
+                    and a read-only chat your team can walk up to and use. All
+                    running on your machine, on your existing Claude Code
+                    subscription.
                   </p>
                 </div>
               </div>
@@ -221,21 +226,22 @@ function ShopOSSI() {
                     Working Shop Brain
                   </h3>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
-                    Every AI interaction on your team reads from one centralized place:
-                    customer history, SOPs, brand voice, internal policies. The
-                    institutional knowledge that lives in ten people&apos;s heads,
-                    queryable by every person and every automation. Your team accesses
-                    it through a simple web chat — open a browser, ask the Brain
-                    anything, get an answer grounded in how your business actually
-                    runs. The same Brain powers every automation behind the scenes.
+                    Every AI interaction on your team reads from one centralized
+                    place: customer history, SOPs, brand voice, internal policies.
+                    The institutional knowledge that lives in ten people&apos;s
+                    heads, queryable by every person and every automation. Your team
+                    accesses it through Shop OS Chat, a read-only browser window at
+                    the shop computer. Open it, ask the Brain anything, get an
+                    answer grounded in how your business actually runs. Every
+                    transcript saves back to the vault automatically.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-3">What your team gets</div>
                     <ul className="space-y-2 mb-5">
                       {[
                         'One source of truth for every AI interaction',
-                        'Web chat for the whole team — no app to install',
-                        'Connects to your CRM, calendar, and tools (API Capability Required)',
+                        'Read-only chat at the shop computer. Employees ask, they can’t break anything.',
+                        'Runs on your existing Claude Code subscription. No API keys, no per-seat bills.',
                       ].map((d) => (
                         <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
                           <span className="inline-block h-1.5 w-4 bg-[color:var(--cyan)]" />
@@ -269,11 +275,11 @@ function ShopOSSI() {
                 </div>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    'Past Contracts',
-                    'Email Archives',
-                    'Call Library',
-                    'Slack / Teams History',
-                    'Spreadsheets & CSVs',
+                    'Past Quotes',
+                    'Email Threads',
+                    'Voice Memos',
+                    'Shared Drives',
+                    'Spreadsheets',
                     'PDF Library',
                   ].map((chip) => (
                     <div
@@ -305,10 +311,9 @@ function ShopOSSI() {
                 </div>
                 <div className="md:col-span-6">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Shop OS is designed to be installed and owned by your team
-                    without outside help. Follow the four steps below and your
-                    Shop Brain is live, seeded with your business context, and
-                    ready to power every automation you build next.
+                    Shop OS installs itself. Follow the four steps below and your
+                    Shop Brain is live, seeded with your business context, and ready
+                    for your team by the end of the morning.
                   </p>
                 </div>
               </div>
@@ -317,23 +322,23 @@ function ShopOSSI() {
                 {[
                   {
                     n: '01',
-                    title: 'Install the Shop Brain',
-                    body: 'Deploy the Shop Brain into your environment using the step-by-step install guide. Works with your existing stack — no new infrastructure required. Most teams are live within an afternoon.',
+                    title: 'Run one command',
+                    body: 'Paste the install command from your welcome email into your terminal. The installer wires up your license, creates the Shop OS Vault folder, and drops a chat launcher into it. Drag your vault folder into the terminal when prompted. Eight to ten minutes.',
                   },
                   {
                     n: '02',
-                    title: 'Seed Your Context',
-                    body: 'Import your business data — past contracts, email archives, call recordings, SOPs, and spreadsheets. The more context you seed, the more accurate and useful every output becomes. This is a one-time step that compounds forever.',
+                    title: 'Seed your context',
+                    body: 'Drop your past quotes, email threads, voice memos, and SOPs into the Raw inbox. Run /os-digest. Every file gets routed to the right vault folder with a structured summary. The more you seed, the smarter every answer.',
                   },
                   {
                     n: '03',
-                    title: 'Query and Extend',
-                    body: 'Your whole team accesses the Shop Brain through a simple web chat — no app to install. Ask it anything about your business. Add new context as strategy shifts, people join, and projects complete.',
+                    title: 'Open the chat',
+                    body: 'Double-click the Shop OS Chat icon in your vault. A read-only chat opens in your browser. Anyone in the shop can ask it anything about your business. Transcripts save back to the vault automatically.',
                   },
                   {
                     n: '04',
-                    title: 'Ship Automations',
-                    body: 'Use the included workflow templates to ship your first automation on top of the Shop Brain. The pattern is the same every time: one Brain, one workflow, one output. Repeat for every repetitive task in the shop.',
+                    title: 'Let it run on a schedule',
+                    body: 'Use /os-operator to schedule the routines you would otherwise do every Monday morning: customer follow-up sweep, inbox triage, weekly brief. Set them once, they run on their own.',
                   },
                 ].map((step, i) => (
                   <motion.div
@@ -362,11 +367,171 @@ function ShopOSSI() {
           </section>
 
           {/* =========================================================
-              Final CTA — Drawing № 05 · Ready
+              §04 — Drawing № 05 · What's in the box (purchase anchor)
+          ==========================================================*/}
+          <section id="purchase" className="relative">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
+              <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
+                <div className="md:col-span-6">
+                  <SectionTag id="04">Drawing № 05 · What&apos;s in the box</SectionTag>
+                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    One install.{' '}
+                    <span className="font-display-italic text-[color:var(--cyan)]">
+                      Everything you need.
+                    </span>
+                  </h2>
+                </div>
+                <div className="md:col-span-5 md:col-start-8 md:pt-8">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    Shop OS Foundation is a one-time purchase. Installer, license,
+                    twenty-eight pre-wired skills, and the read-only chat. Lifetime
+                    updates while you&apos;re in the Founding 50 cohort.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-5">
+                <Plate accent="cyan">
+                  <div className="label label-cyan mb-3">Installer &amp; license</div>
+                  <h3 className="font-display text-2xl leading-[1.1] tracking-[-0.015em] mb-4">
+                    One command. Your machine.
+                  </h3>
+                  <ul className="space-y-2 font-mono text-[12px]">
+                    {[
+                      'One npx command, Mac or Windows',
+                      'Drag-and-drop vault setup',
+                      'License key delivered by email',
+                      'Double-clickable chat launcher',
+                    ].map((d) => (
+                      <li key={d} className="flex items-start gap-3">
+                        <span className="inline-block h-1.5 w-4 mt-2 bg-[color:var(--cyan)]" />
+                        <span>{d}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Plate>
+
+                <Plate accent="cyan">
+                  <div className="label label-cyan mb-3">28 skills, wired and ready</div>
+                  <h3 className="font-display text-2xl leading-[1.1] tracking-[-0.015em] mb-4">
+                    Bundled at install.
+                  </h3>
+                  <ul className="space-y-2 font-mono text-[12px]">
+                    {[
+                      '/assistant for everyday vault work',
+                      '/os-operator for scheduled routines',
+                      '/os-digest for inbox processing',
+                      '/os-optimizer for vault health',
+                      'Plus 24 more: transcription, file organization, decision toolkit, MCP builder',
+                    ].map((d) => (
+                      <li key={d} className="flex items-start gap-3">
+                        <span className="inline-block h-1.5 w-4 mt-2 bg-[color:var(--cyan)]" />
+                        <span>{d}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Plate>
+
+                <Plate accent="cyan">
+                  <div className="label label-cyan mb-3">Yours, forever</div>
+                  <h3 className="font-display text-2xl leading-[1.1] tracking-[-0.015em] mb-4">
+                    One time. No subscription.
+                  </h3>
+                  <ul className="space-y-2 font-mono text-[12px]">
+                    {[
+                      'One-time $500. No monthly bill from us.',
+                      'Runs on your existing Claude Code subscription',
+                      'Data in plain markdown in your own cloud',
+                      'Lifetime updates as Founding 50',
+                      '30-day refund if it doesn’t earn its keep',
+                    ].map((d) => (
+                      <li key={d} className="flex items-start gap-3">
+                        <span className="inline-block h-1.5 w-4 mt-2 bg-[color:var(--cyan)]" />
+                        <span>{d}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Plate>
+              </div>
+
+              <div className="mt-12 flex flex-col items-center gap-4">
+                <button onClick={scrollToPurchase} className="btn-ink btn-rust">
+                  Reserve a Founding 50 seat · $500
+                  <ArrowUpRight size={14} strokeWidth={2.2} />
+                </button>
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
+                  Limited to the first 50 customers. Price doubles after.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* =========================================================
+              §05 — Drawing № 06 · Objections
+          ==========================================================*/}
+          <section id="shop-objections" className="relative bg-[color:var(--paper-2)]/60">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
+              <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
+                <div className="md:col-span-6">
+                  <SectionTag id="05">Drawing № 06 · Honest answers</SectionTag>
+                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    The three questions{' '}
+                    <span className="font-display-italic text-[color:var(--rust)]">
+                      every operator asks.
+                    </span>
+                  </h2>
+                </div>
+                <div className="md:col-span-5 md:col-start-8 md:pt-8">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
+                    We&apos;ve heard them on every call. The honest answers are
+                    below.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-5">
+                {[
+                  {
+                    q: 'I’m not technical. Will I mess up the install?',
+                    a: 'We paste the exact command into your welcome email. You paste it back, drag your folder into the window, done. If you can copy-paste, you can install Shop OS.',
+                  },
+                  {
+                    q: 'What does it cost per month?',
+                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude Code subscription for AI work. If you don’t have one, that’s $20/month from Anthropic directly.',
+                  },
+                  {
+                    q: 'What if Blueprint IT disappears?',
+                    a: 'Your vault is plain markdown in your own cloud. The installer, the skills, and the chat are open source on GitHub. Your operation never depends on us being alive.',
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.q}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-10%' }}
+                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                  >
+                    <Plate accent="cyan" className="h-full">
+                      <div className="label label-cyan mb-3">Question {String(i + 1).padStart(2, '0')}</div>
+                      <h3 className="font-display text-xl md:text-2xl leading-[1.15] tracking-[-0.015em] mb-4">
+                        {item.q}
+                      </h3>
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed text-[15px]">
+                        {item.a}
+                      </p>
+                    </Plate>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* =========================================================
+              Final CTA — Drawing № 07 · Ready
           ==========================================================*/}
           <section id="shop-ready" className="relative">
             <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-36 border-t border-[color:var(--ink)] text-center">
-              <SectionTag id="04">Drawing № 05 · Ready</SectionTag>
+              <SectionTag id="06">Drawing № 07 · Ready</SectionTag>
               <motion.h2
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -378,16 +543,44 @@ function ShopOSSI() {
                 <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                One deliverable. One install. A Working Shop Brain your team owns
-                from day one — and the foundation for every automation you build next.
+                One install. One $500 payment. A Working Shop Brain your team owns
+                from day one, plus lifetime updates as a Founding 50 customer.
+                Thirty-day refund if it doesn&apos;t earn its keep.
               </p>
               <div className="mt-10 flex flex-col items-center gap-4">
-                <button onClick={getShopOS} className="btn-ink btn-rust">
-                  Get Shop OS
+                <button onClick={scrollToPurchase} className="btn-ink btn-rust">
+                  Reserve a Founding 50 seat · $500
                   <ArrowUpRight size={14} strokeWidth={2.2} />
                 </button>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
                   Self-install. No call required. Yours to own.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* =========================================================
+              Footer plate — Who's behind this
+          ==========================================================*/}
+          <section id="shop-founder" className="relative">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-16 md:py-20 border-t border-[color:var(--ink)]">
+              <div className="grid md:grid-cols-12 gap-8 items-start">
+                <div className="md:col-span-3">
+                  <div className="label label-cyan">Who&apos;s behind this</div>
+                </div>
+                <div className="md:col-span-9">
+                  <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed max-w-3xl">
+                    Shop OS is built by{' '}
+                    <span className="text-[color:var(--ink)] font-medium">
+                      Glenn Chua
+                    </span>{' '}
+                    at Blueprint IT, from inside the same trade community it serves.
+                    Glenn is an admin of one of the largest cabinet and closet
+                    operator communities online, fifty-six thousand strong. He
+                    built Shop OS because every conversation in that group
+                    eventually circles to the same problem: the owner is the
+                    bottleneck.
+                  </p>
                 </div>
               </div>
             </div>
@@ -529,8 +722,8 @@ function KnowledgeMosaic() {
 
 function OrbitDiagram() {
   const chips = [
-    'Email', 'Calls', 'Calendar', 'Docs', 'Telegram',
-    'CRM', 'Sheets', 'Messaging', 'Contracts', 'Mozaik',
+    'Notes', 'Meetings', 'SOPs', 'Customers', 'Decisions',
+    'Audio', 'Files', 'Inbox', 'Tasks', 'Daily Brief',
   ]
   const VBW = 800
   const VBH = 560
