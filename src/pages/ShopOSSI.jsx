@@ -458,6 +458,30 @@ function ShopOSSI() {
                 </Plate>
               </div>
 
+              <div className="mt-10">
+                <Plate accent="rust">
+                  <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
+                    <div className="md:col-span-4">
+                      <div className="label label-rust mb-3">Founding 50 perk</div>
+                      <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em]">
+                        Lifetime updates,{' '}
+                        <span className="font-display-italic text-[color:var(--rust)]">
+                          included.
+                        </span>
+                      </h3>
+                    </div>
+                    <div className="md:col-span-8">
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed">
+                        Every Founding 50 customer gets every future Shop OS
+                        release, free, forever. New skills, new routines, new
+                        integrations, shipped to your install at no additional
+                        cost. Buy once at $500, own the whole roadmap.
+                      </p>
+                    </div>
+                  </div>
+                </Plate>
+              </div>
+
               <div className="mt-12 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
                   Reserve a Founding 50 seat · $500 (save $250)
@@ -548,8 +572,33 @@ function ShopOSSI() {
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
                 One install. $500 for the Founding 50 (then $750). A Working Shop Brain
-                your team owns from day one, plus lifetime updates as a Founding 50 customer.
+                your team owns from day one.
               </p>
+
+              <div className="mt-10 mx-auto max-w-3xl text-left">
+                <Plate accent="rust">
+                  <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
+                    <div className="md:col-span-4">
+                      <div className="label label-rust mb-3">Founding 50 perk</div>
+                      <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em]">
+                        Lifetime updates,{' '}
+                        <span className="font-display-italic text-[color:var(--rust)]">
+                          included.
+                        </span>
+                      </h3>
+                    </div>
+                    <div className="md:col-span-8">
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed">
+                        Every Founding 50 customer gets every future Shop OS
+                        release, free, forever. New skills, new routines, new
+                        integrations, shipped to your install at no additional
+                        cost. Buy once at $500, own the whole roadmap.
+                      </p>
+                    </div>
+                  </div>
+                </Plate>
+              </div>
+
               <div className="mt-10 flex flex-col items-center gap-4">
                 <button onClick={scrollToPurchase} className="btn-ink btn-rust">
                   Reserve a Founding 50 seat · $500 (save $250)
@@ -581,7 +630,7 @@ function ShopOSSI() {
                     it serves.
                   </p>
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Glenn owns and operates Obsessed Closets in Wake Forest,
+                    He owns and operates Obsessed Closets in Wake Forest,
                     North Carolina, providing custom closet design, fabrication,
                     and installation. His background bridges the shop floor and
                     the server rack: years at Verizon Managed Services and
