@@ -104,7 +104,13 @@ export default function PurchaseThankYou() {
           </div>
         )}
       </main>
-      <SiteFooter />
+      <SiteFooter
+        links={[
+          { label: 'Services', href: '/#services' },
+          { label: 'Studio', href: '/#about' },
+          { label: 'Contact', href: '/#contact' },
+        ]}
+      />
     </>
   )
 }
