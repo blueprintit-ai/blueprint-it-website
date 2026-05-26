@@ -84,13 +84,12 @@ function ShopOSSI() {
                     <p>Stop being the answer to every question in your shop.</p>
                     <p className="mt-5">
                       What if your business had a brain of its own. One that briefs
-                      your team, remembers every customer, and runs the mundane on a
-                      schedule while you sleep.
+                      your team, remembers every customer, and runs the weekly
+                      routines on its own.
                     </p>
                     <p className="mt-5">
-                      That&apos;s Shop OS. One command installs it. Drag your folder
-                      in, and a Working Shop Brain is live on your machine in about
-                      ten minutes. You own it from day one.
+                      That&apos;s Shop OS. One command, about ten minutes, and your
+                      Working Shop Brain is live on your machine. Yours from day one.
                     </p>
                   </motion.div>
 
@@ -204,9 +203,8 @@ function ShopOSSI() {
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
                     One deliverable: a Working Shop Brain. An Obsidian vault that
                     holds your business context, 28 pre-wired skills that act on it,
-                    and a read-only chat your team can walk up to and use. All
-                    running on your machine, on your existing Claude Code
-                    subscription.
+                    and a custom chat your team can use locally. All running on
+                    your machine, on your existing Claude Code subscription.
                   </p>
                 </div>
               </div>
@@ -230,8 +228,8 @@ function ShopOSSI() {
                     place: customer history, SOPs, brand voice, internal policies.
                     The institutional knowledge that lives in ten people&apos;s
                     heads, queryable by every person and every automation. Your team
-                    accesses it through Shop OS Chat, a read-only browser window at
-                    the shop computer. Open it, ask the Brain anything, get an
+                    accesses it through Shop OS Chat, a custom chat that runs
+                    locally on your shop computer. Open it, ask the Brain anything, get an
                     answer grounded in how your business actually runs. Every
                     transcript saves back to the vault automatically.
                   </p>
@@ -240,7 +238,7 @@ function ShopOSSI() {
                     <ul className="space-y-2 mb-5">
                       {[
                         'One source of truth for every AI interaction',
-                        'Read-only chat at the shop computer. Employees ask, they can’t break anything.',
+                        'Custom chat your team uses locally at the shop computer. Employees ask, they can’t break anything.',
                         'Runs on your existing Claude Code subscription. No API keys, no per-seat bills.',
                       ].map((d) => (
                         <li key={d} className="flex items-center gap-3 font-mono text-[12px]">
@@ -338,7 +336,7 @@ function ShopOSSI() {
                   {
                     n: '03',
                     title: 'Open the chat',
-                    body: 'Double-click the Shop OS Chat icon in your vault. A read-only chat opens in your browser. Anyone in the shop can ask it anything about your business. Transcripts save back to the vault automatically.',
+                    body: 'Double-click the Shop OS Chat icon in your vault. Your custom chat opens locally in your browser. Anyone in the shop can ask it anything about your business. Transcripts save back to the vault automatically.',
                   },
                   {
                     n: '04',
@@ -389,8 +387,9 @@ function ShopOSSI() {
                 <div className="md:col-span-5 md:col-start-8 md:pt-8">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
                     Shop OS Foundation is a one-time purchase. Installer, license,
-                    twenty-eight pre-wired skills, and the read-only chat. Lifetime
-                    updates while you&apos;re in the Founding 50 cohort.
+                    twenty-eight pre-wired skills, and the custom chat your team
+                    can use locally. Lifetime updates while you&apos;re in the
+                    Founding 50 cohort.
                   </p>
                 </div>
               </div>
@@ -525,7 +524,7 @@ function ShopOSSI() {
                   },
                   {
                     q: 'What does it cost per month?',
-                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude Code subscription for AI work. If you don’t have one, that’s $20/month from Anthropic directly.',
+                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude Code subscription for AI work.',
                   },
                   {
                     q: 'What if Blueprint IT disappears?',
