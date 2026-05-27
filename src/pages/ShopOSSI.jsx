@@ -294,12 +294,12 @@ function ShopOSSI() {
                     <div className="label label-cyan mb-4">Primary skills · run these directly</div>
                     <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
                       {[
-                        ['/os-setup', 'Onboarding interview that personalizes your vault with shop name, owner, key staff, services, and daily routines.'],
-                        ['/os-digest', 'Routes raw materials (PDFs, emails, voice memos, shared drives) into structured vault notes automatically.'],
+                        ['/bp-setup', 'Onboarding interview that personalizes your vault with shop name, owner, key staff, services, and daily routines.'],
+                        ['/bp-digest', 'Routes raw materials (PDFs, emails, voice memos, shared drives) into structured vault notes automatically.'],
                         ['/assistant', 'Everyday vault helper for note creation, task tracking, and daily updates.'],
-                        ['/os-operator', 'Schedules recurring routines like Monday briefings, customer follow-up sweeps, and inbox triage.'],
-                        ['/os-optimizer', 'Monthly vault health audit across seven quality dimensions; flags rot before it spreads.'],
-                        ['/os-evolver', 'Continuous knowledge-graph improvement loop that surfaces structural insight as the vault grows.'],
+                        ['/bp-operator', 'Schedules recurring routines like Monday briefings, customer follow-up sweeps, and inbox triage.'],
+                        ['/bp-optimizer', 'Monthly vault health audit across seven quality dimensions; flags rot before it spreads.'],
+                        ['/bp-evolver', 'Continuous knowledge-graph improvement loop that surfaces structural insight as the vault grows.'],
                       ].map(([cmd, desc]) => (
                         <li key={cmd} className="flex items-start gap-3">
                           <span className="inline-block h-1.5 w-4 mt-2.5 bg-[color:var(--cyan)] flex-shrink-0" />
@@ -420,7 +420,7 @@ function ShopOSSI() {
                   {
                     n: '02',
                     title: 'Seed your context',
-                    body: 'Drop your past quotes, email threads, voice memos, and SOPs into the Raw inbox. Run /os-digest. Every file gets routed to the right vault folder with a structured summary. The more you seed, the smarter every answer.',
+                    body: 'Drop your past quotes, email threads, voice memos, and SOPs into the Raw inbox. Run /bp-digest. Every file gets routed to the right vault folder with a structured summary. The more you seed, the smarter every answer.',
                   },
                   {
                     n: '03',
@@ -430,7 +430,7 @@ function ShopOSSI() {
                   {
                     n: '04',
                     title: 'Let it run on a schedule',
-                    body: 'Use /os-operator to schedule the routines you would otherwise do every Monday morning: customer follow-up sweep, inbox triage, weekly brief. Set them once, they run on their own.',
+                    body: 'Use /bp-operator to schedule the routines you would otherwise do every Monday morning: customer follow-up sweep, inbox triage, weekly brief. Set them once, they run on their own.',
                   },
                 ].map((step, i) => (
                   <motion.div
@@ -512,9 +512,9 @@ function ShopOSSI() {
                   <ul className="space-y-2 font-mono text-[12px]">
                     {[
                       '/assistant for everyday vault work',
-                      '/os-operator for scheduled routines',
-                      '/os-digest for inbox processing',
-                      '/os-optimizer for vault health',
+                      '/bp-operator for scheduled routines',
+                      '/bp-digest for inbox processing',
+                      '/bp-optimizer for vault health',
                       'Plus 24 more: transcription, file organization, decision toolkit, MCP builder',
                     ].map((d) => (
                       <li key={d} className="flex items-start gap-3">
