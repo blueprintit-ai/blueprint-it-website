@@ -80,7 +80,7 @@ export default function PurchaseSection() {
           Get Shop OS Foundation
         </h2>
         <p className="text-lg text-[color:var(--ink-soft)] mb-10">
-          $1,000 one-time. Lifetime license. Install in less than 30 minutes.
+          $1,000 one-time. Lifetime license. Install in less than 15 minutes.
         </p>
 
         <div className="border border-[color:var(--border)] rounded-sm p-8 bg-white/40 backdrop-blur-sm">

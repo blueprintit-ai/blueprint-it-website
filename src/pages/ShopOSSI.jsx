@@ -90,7 +90,7 @@ function ShopOSSI() {
                     </p>
                     <p className="mt-5">
                       Your Working Shop Brain is live on your machine in under
-                      30 minutes; ready for every automation, agent, and AI tool
+                      15 minutes; ready for every automation, agent, and AI tool
                       you&apos;ll layer on top. Yours from day one.
                     </p>
                   </motion.div>
@@ -127,9 +127,9 @@ function ShopOSSI() {
                       {[
                         ['Practice', 'AI Operating System'],
                         ['Format', 'Self-install · one command'],
-                        ['Deliverable', 'Working Shop Brain'],
+                        ['Deliverable', 'Shop Brain Foundation'],
                         ['Skills bundled', '28'],
-                        ['Install time', '~30 minutes'],
+                        ['Install time', '~15 minutes'],
                         ['Ownership', 'Yours from day one'],
                         ['Price', '$1,000'],
                       ].map(([k, v]) => (
@@ -203,7 +203,7 @@ function ShopOSSI() {
                 </div>
                 <div className="md:col-span-5 md:col-start-8 md:pt-8">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    One deliverable: a Working Shop Brain. An Obsidian vault that
+                    One deliverable: the Shop Brain Foundation. An Obsidian vault that
                     holds your business context, 28 pre-wired skills that act on it,
                     and a custom chat your team can use locally. All running on
                     your machine, on your existing Claude Code subscription.
@@ -223,17 +223,23 @@ function ShopOSSI() {
                   </div>
                   <div className="label mb-3">context · queryable · operator-owned</div>
                   <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
-                    Working Shop Brain
+                    Shop Brain Foundation
                   </h3>
+                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-4">
+                    Your shop&apos;s knowledge lives in people and scattered datasets.
+                    Emails no one can find. Spreadsheets only one person understands.
+                    Files, SOPs, and processes that exist because someone wrote
+                    it down months or years ago. Shop OS Foundation pulls it all
+                    into one centralized brain. Your customer history, SOPs, brand
+                    voice, and internal policies, readable by every person on your
+                    team and every automation you run.
+                  </p>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
-                    Every AI interaction on your team reads from one centralized
-                    place: customer history, SOPs, brand voice, internal policies.
-                    The institutional knowledge that lives in ten people&apos;s
-                    heads, queryable by every person and every automation. Your team
-                    accesses it through Shop OS Chat, a custom chat that runs
-                    locally on your shop computer. Open it, ask the Brain anything, get an
-                    answer grounded in how your business actually runs. Every
-                    transcript saves back to the vault automatically.
+                    Your team accesses it through Shop OS Chat, a custom interface
+                    that runs locally on your shop computer. Open it, ask the Brain
+                    anything, get an answer grounded in how your business actually
+                    runs. Every conversation saves back automatically, so the Brain
+                    gets smarter every day.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-3">What your team gets</div>
@@ -261,6 +267,91 @@ function ShopOSSI() {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                </Plate>
+              </div>
+
+              {/* Skills bundled plate */}
+              <div className="mt-8">
+                <Plate accent="cyan">
+                  <div className="flex items-baseline justify-between mb-6">
+                    <span className="font-display text-5xl leading-none">02</span>
+                    <span className="label label-cyan">Skills bundled</span>
+                  </div>
+                  <div className="label mb-3">pre-wired · zero config · one install</div>
+                  <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
+                    Twenty-eight Foundation Skills
+                  </h3>
+                  <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
+                    Shop OS Foundation bundles 28 skills at install. The six
+                    primary skills below run your shop directly. They handle
+                    onboarding, ingestion, daily operations, and vault health.
+                    The other twenty-two sit underneath them, covering planning,
+                    research, automation, integrations, and quality control, so
+                    the Brain can do real work without you wiring it up.
+                  </p>
+                  <div className="pt-5 border-t border-[color:var(--paper-line)]">
+                    <div className="label label-cyan mb-4">Primary skills · run these directly</div>
+                    <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
+                      {[
+                        ['/os-setup', 'Onboarding interview that personalizes your vault with shop name, owner, key staff, services, and daily routines.'],
+                        ['/os-digest', 'Routes raw materials (PDFs, emails, voice memos, shared drives) into structured vault notes automatically.'],
+                        ['/assistant', 'Everyday vault helper for note creation, task tracking, and daily updates.'],
+                        ['/os-operator', 'Schedules recurring routines like Monday briefings, customer follow-up sweeps, and inbox triage.'],
+                        ['/os-optimizer', 'Monthly vault health audit across seven quality dimensions; flags rot before it spreads.'],
+                        ['/os-evolver', 'Continuous knowledge-graph improvement loop that surfaces structural insight as the vault grows.'],
+                      ].map(([cmd, desc]) => (
+                        <li key={cmd} className="flex items-start gap-3">
+                          <span className="inline-block h-1.5 w-4 mt-2.5 bg-[color:var(--cyan)] flex-shrink-0" />
+                          <div className="leading-relaxed">
+                            <span className="font-mono text-[12px] text-[color:var(--ink)] font-semibold">{cmd}</span>
+                            <span className="text-[color:var(--ink-soft)] text-[13px] block mt-1">{desc}</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="pt-5 border-t border-[color:var(--paper-line)]">
+                      <div className="label mb-3">Plus twenty-two more · running underneath</div>
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed text-[14px] mb-4">
+                        The Brain calls these automatically when it needs them. You
+                        will not run them by name, but you will feel them every time
+                        Claude plans a multi-step task, audits its own work, or asks
+                        the right clarifying question before acting.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          'brainstorming',
+                          'multi-step planning',
+                          'self-verification',
+                          'fact-checking',
+                          'structured research',
+                          'web research',
+                          'voice transcription',
+                          'file auto-routing',
+                          'decision frameworks',
+                          'workflow automation',
+                          'custom integrations',
+                          'external app access',
+                          'parallel task execution',
+                          'systematic troubleshooting',
+                          'checkpoint reviews',
+                          'format enforcement',
+                          'meeting summaries',
+                          'context capture',
+                          'quality audits',
+                          'task delegation',
+                          'documentation drafting',
+                          'knowledge upkeep',
+                        ].map((s) => (
+                          <span
+                            key={s}
+                            className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-[color:var(--ink-soft)] border border-[color:var(--paper-line)] bg-[color:var(--paper)] px-2.5 py-1"
+                          >
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </Plate>
               </div>
@@ -305,15 +396,16 @@ function ShopOSSI() {
                   <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
                     Up and running{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
-                      in five steps.
+                      in four steps.
                     </span>
                   </h2>
                 </div>
                 <div className="md:col-span-6">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Step zero is grabbing a few free apps. The rest is your own
-                    business data flowing in. Most owners have their Shop Brain
-                    live, seeded, and ready for the team in under 30 minutes.
+                    Paste one command. The installer handles every prerequisite,
+                    sets up your vault, and lands you inside Claude Code. Most
+                    owners have their Shop Brain live, seeded, and ready for the
+                    team in under 15 minutes.
                   </p>
                 </div>
               </div>
@@ -321,14 +413,9 @@ function ShopOSSI() {
               <div className="grid md:grid-cols-2 gap-5">
                 {[
                   {
-                    n: '00',
-                    title: 'Install the prerequisites',
-                    body: "Shop OS runs on a Claude Code subscription (claude.ai, $20/mo if you don't already have one). You'll also install Node.js, the Claude Code CLI, and Obsidian. All free, all five-minute downloads. Your welcome email links to each. Most people are done with prereqs in fifteen minutes.",
-                  },
-                  {
                     n: '01',
                     title: 'Run one command',
-                    body: 'Paste the install command from your welcome email into your terminal. The installer wires up your license, creates the Shop OS Vault folder, and drops a chat launcher into it. Drag your vault folder into the terminal when prompted. Eight to ten minutes.',
+                    body: 'Paste the install command from your welcome email. The installer auto-installs every prerequisite (Node.js, Claude Code, Obsidian), picks up your license, creates your Shop OS Vault in the folder you choose, and lands you inside Claude Code ready to go. About ten minutes.',
                   },
                   {
                     n: '02',
@@ -352,7 +439,7 @@ function ShopOSSI() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-10%' }}
                     transition={{ duration: 0.6, delay: i * 0.1 }}
-                    className={`grid grid-cols-12 gap-4 md:gap-6 border-b border-[color:var(--paper-line)] pb-8 last:border-b-0 md:border-b-0 md:p-8 md:min-h-[300px] md:items-center md:bg-[color:var(--card)] md:border md:border-[color:var(--paper-line)] ${step.n === '00' ? 'md:col-span-2' : ''}`}
+                    className="grid grid-cols-12 gap-4 md:gap-6 border-b border-[color:var(--paper-line)] pb-8 last:border-b-0 md:border-b-0 md:p-8 md:min-h-[300px] md:items-center md:bg-[color:var(--card)] md:border md:border-[color:var(--paper-line)]"
                   >
                     <div className="col-span-2">
                       <div className="font-display text-4xl leading-none">{step.n}</div>
