@@ -3,7 +3,11 @@ import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
 import { licenseServer } from '@/lib/license-server'
 
-const PDF_URL = (import.meta.env.VITE_LICENSE_SERVER_URL || 'https://shop-os-license-server.glenn-15d.workers.dev') + '/welcome.pdf'
+const LICENSE_SERVER = import.meta.env.VITE_LICENSE_SERVER_URL || 'https://shop-os-license-server.glenn-15d.workers.dev'
+const welcomePdfUrl = (licenseKey) =>
+  licenseKey
+    ? `${LICENSE_SERVER}/welcome.pdf?key=${encodeURIComponent(licenseKey)}`
+    : `${LICENSE_SERVER}/welcome.pdf`
 
 export default function PurchaseThankYou() {
   const [status, setStatus] = useState('checking')   // 'checking' | 'succeeded' | 'pending' | 'failed'
@@ -102,7 +106,7 @@ export default function PurchaseThankYou() {
               You can also view it now:
             </p>
             <a
-              href={PDF_URL}
+              href={welcomePdfUrl(licenseKey)}
               target="_blank"
               rel="noopener"
               className="inline-block px-6 py-3 bg-[color:var(--ink)] text-white"
