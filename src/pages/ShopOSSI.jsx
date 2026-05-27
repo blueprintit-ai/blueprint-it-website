@@ -463,20 +463,20 @@ function ShopOSSI() {
                 <Plate accent="rust">
                   <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
                     <div className="md:col-span-4">
-                      <div className="label label-rust mb-3">Founding 50 perk</div>
+                      <div className="label label-rust mb-3">Founding 50 offer</div>
                       <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em]">
-                        Lifetime updates,{' '}
+                        $250 off,{' '}
                         <span className="font-display-italic text-[color:var(--rust)]">
-                          included.
+                          lifetime updates.
                         </span>
                       </h3>
                     </div>
                     <div className="md:col-span-8">
-                      <p className="text-[color:var(--ink-soft)] leading-relaxed">
-                        Every Founding 50 customer gets every future Shop OS
-                        release, free, forever. Future foundation skills,
-                        routines, integrations, shipped to your install at no
-                        additional cost. Buy once at $1,000, own the whole roadmap.
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3">
+                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $500 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
+                      </p>
+                      <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
+                        ↳ FOUNDING50 redeemed: {0} of 50
                       </p>
                     </div>
                   </div>
@@ -579,20 +579,20 @@ function ShopOSSI() {
                 <Plate accent="rust">
                   <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
                     <div className="md:col-span-4">
-                      <div className="label label-rust mb-3">Founding 50 perk</div>
+                      <div className="label label-rust mb-3">Founding 50 offer</div>
                       <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em]">
-                        Lifetime updates,{' '}
+                        $250 off,{' '}
                         <span className="font-display-italic text-[color:var(--rust)]">
-                          included.
+                          lifetime updates.
                         </span>
                       </h3>
                     </div>
                     <div className="md:col-span-8">
-                      <p className="text-[color:var(--ink-soft)] leading-relaxed">
-                        Every Founding 50 customer gets every future Shop OS
-                        release, free, forever. Future foundation skills,
-                        routines, integrations, shipped to your install at no
-                        additional cost. Buy once at $1,000, own the whole roadmap.
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3">
+                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $500 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
+                      </p>
+                      <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
+                        ↳ FOUNDING50 redeemed: {0} of 50
                       </p>
                     </div>
                   </div>
