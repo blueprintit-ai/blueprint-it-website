@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
 import PurchaseSection from '@/components/PurchaseSection.jsx'
@@ -14,6 +14,21 @@ const scrollToPurchase = () => {
 }
 
 function ShopOSSI() {
+  const [foundingRedeemed, setFoundingRedeemed] = useState(12)
+
+  useEffect(() => {
+    let cancelled = false
+    fetch('https://shop-os-license-server.glenn-15d.workers.dev/founding50-redeemed')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!cancelled && data && typeof data.redeemed === 'number') {
+          setFoundingRedeemed(data.redeemed)
+        }
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
+
   useEffect(() => {
     const prevTitle = document.title
     document.title = 'Shop OS · Self-Install AI Operating System · Blueprint IT'
@@ -560,10 +575,10 @@ function ShopOSSI() {
                     </div>
                     <div className="md:col-span-8">
                       <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3">
-                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $500 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
+                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
                       </p>
                       <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
-                        ↳ FOUNDING50 redeemed: {0} of 50
+                        ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
                       </p>
                     </div>
                   </div>
@@ -676,10 +691,10 @@ function ShopOSSI() {
                     </div>
                     <div className="md:col-span-8">
                       <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3">
-                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $500 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
+                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
                       </p>
                       <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
-                        ↳ FOUNDING50 redeemed: {0} of 50
+                        ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
                       </p>
                     </div>
                   </div>
