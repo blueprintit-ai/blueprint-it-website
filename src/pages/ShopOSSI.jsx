@@ -314,8 +314,8 @@ function ShopOSSI() {
                         ['/bp-digest', 'Routes raw materials (PDFs, emails, voice memos, shared drives) into structured vault notes automatically.'],
                         ['/assistant', 'Everyday vault helper for note creation, task tracking, and daily updates.'],
                         ['/bp-operator', 'Schedules recurring routines like Monday briefings, customer follow-up sweeps, and inbox triage.'],
-                        ['/bp-optimizer', 'Monthly vault health audit across seven quality dimensions; flags rot before it spreads.'],
-                        ['/bp-evolver', 'Continuous knowledge-graph improvement loop that surfaces structural insight as the vault grows.'],
+                        ['/bp-optimizer', "Run it monthly. Surfaces what's drifting, what's broken, and what to clean up first."],
+                        ['/bp-evolver', "Runs in the background. As your vault grows, it spots patterns and connections you'd miss reading note by note."],
                       ].map(([cmd, desc]) => (
                         <li key={cmd} className="flex items-start gap-3">
                           <span className="inline-block h-1.5 w-4 mt-2.5 bg-[color:var(--cyan)] flex-shrink-0" />
