@@ -302,8 +302,8 @@ function ShopOSSI() {
                     primary skills below run your shop directly. They handle
                     onboarding, ingestion, daily operations, and vault health.
                     The other twenty-two sit underneath them, covering planning,
-                    research, automation, integrations, and quality control, so
-                    the Brain can do real work without you wiring it up.
+                    research, integrations, and quality control, so the Brain
+                    can do real work.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-4">Primary skills · run these directly</div>
@@ -507,7 +507,7 @@ function ShopOSSI() {
                   <ul className="space-y-2 font-mono text-[12px]">
                     {[
                       'One npx command, Mac or Windows',
-                      'Drag-and-drop vault setup',
+                      'Visual folder picker, no typing paths',
                       'License key delivered by email',
                       'Double-clickable chat launcher',
                     ].map((d) => (
@@ -624,7 +624,7 @@ function ShopOSSI() {
                 {[
                   {
                     q: 'I’m not technical. Will I mess up the install?',
-                    a: 'We paste the exact command into your welcome email. You paste it back, drag your folder into the window, done. If you can copy-paste, you can install Shop OS.',
+                    a: 'We paste the exact command into your welcome email. You paste it into Terminal, click to pick a folder when the picker opens, then paste in your license key. The whole thing takes about 5 minutes. If you can copy-paste, you can install Shop OS.',
                   },
                   {
                     q: 'What does it cost per month?',
