@@ -16,10 +16,14 @@ export const licenseServer = {
   async validateCoupon(code) {
     return call("/validate-coupon", { method: "POST", body: JSON.stringify({ code }) });
   },
-  async createStripeSession({ email, code }) {
+  async createStripeSession({ email, code, productType }) {
+    // productType is optional. The Worker defaults to "foundation" so the
+    // existing PurchaseSection on /shop-ossi (which never sends it) keeps
+    // working unchanged. /products and /consultation pass "consultation" to
+    // hit the $150 SKU with no coupon flow.
     return call("/create-stripe-checkout-session", {
       method: "POST",
-      body: JSON.stringify({ email, code }),
+      body: JSON.stringify({ email, code, productType }),
     });
   },
   async createPayPalOrder({ email, code }) {

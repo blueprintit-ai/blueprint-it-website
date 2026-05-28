@@ -41,6 +41,7 @@ function ShopOS() {
           onCtaClick={openCalendly}
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
+            { kind: 'route', to: '/products', label: 'Products' },
             !import.meta.env.PROD && { kind: 'route', to: '/shop-os', label: 'Shop OS' },
             { kind: 'link', label: 'Studio', href: '/#about' },
             { kind: 'link', label: 'Case', href: '/#workflow' },

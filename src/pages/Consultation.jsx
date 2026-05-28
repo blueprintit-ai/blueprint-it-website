@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import SiteNav from '@/components/SiteNav.jsx'
 import SiteFooter from '@/components/SiteFooter.jsx'
 import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
@@ -6,20 +6,37 @@ import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
 import { motion, MotionConfig } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, CreditCard, Calendar } from 'lucide-react'
 import { SectionTag, Plate } from '@/components/blueprint.jsx'
+import { licenseServer } from '@/lib/license-server'
 
-// =======================================================================
-// REPLACE THESE THREE URLS WITH PRODUCTION VALUES BEFORE GOING LIVE
-// =======================================================================
-const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/REPLACE_ME'
-const PAYPAL_PAY_LINK = 'https://www.paypal.com/paypalme/REPLACE_ME/150'
-const CALENDLY_LINK = 'https://calendly.com/REPLACE_ME/consultation'
-// =======================================================================
+// Calendly URL for the 60-minute consultation. Customers land here both from
+// the post-payment "Open my calendar" CTA below AND from the Calendly link in
+// the welcome email sent by the Worker.
+const CALENDLY_LINK = 'https://calendly.com/blueprintit/1-hour-meeting'
 
 const scrollToPay = () => {
   document.getElementById('pay-now')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 function Consultation() {
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
+
+  async function startCheckout() {
+    setError(null)
+    setSubmitting(true)
+    try {
+      const r = await licenseServer.createStripeSession({ productType: 'consultation' })
+      if (r.checkoutUrl) {
+        window.location.href = r.checkoutUrl
+      } else {
+        throw new Error('No checkout URL returned')
+      }
+    } catch (e) {
+      setError(e.message || 'Could not start checkout. Please try again or email glenn@blueprintit.ai.')
+      setSubmitting(false)
+    }
+  }
+
   useEffect(() => {
     const prevTitle = document.title
     document.title = '1-Hour Consultation · Blueprint IT'
@@ -51,6 +68,7 @@ function Consultation() {
           onCtaClick={scrollToPay}
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
+            { kind: 'route', to: '/products', label: 'Products' },
             { kind: 'link', label: 'Studio', href: '/#about' },
             { kind: 'link', label: 'Case', href: '/#workflow' },
             { kind: 'link', label: 'Contact', href: '/#contact' },
@@ -177,65 +195,50 @@ function Consultation() {
 
                 <div className="md:col-span-7">
                   <Plate accent="cyan">
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      {/* Stripe button */}
-                      <a
-                        href={STRIPE_PAYMENT_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group block border border-[color:var(--ink)] bg-[color:var(--paper)] hover:bg-[color:var(--ink)] hover:text-[color:var(--paper)] transition-colors p-6"
-                      >
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="label label-cyan group-hover:text-[color:var(--paper)]">
-                            Option A
-                          </span>
-                          <CreditCard size={18} strokeWidth={1.8} />
-                        </div>
-                        <div className="font-display text-3xl leading-none mb-2">
-                          Stripe
-                        </div>
-                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)] group-hover:text-[color:var(--paper)] mb-5">
-                          Card · Apple Pay · Google Pay
-                        </p>
-                        <div className="flex items-baseline justify-between border-t border-[color:var(--paper-line)] pt-4">
-                          <span className="font-display text-2xl">$150</span>
-                          <span className="font-mono text-[11px] uppercase tracking-[0.18em] flex items-center gap-1">
-                            Pay <ArrowUpRight size={12} strokeWidth={2.2} />
-                          </span>
-                        </div>
-                      </a>
+                    {/* Single Stripe Checkout CTA. PayPal is not offered for
+                        consultations in v1 — the spec keeps it Stripe-only so
+                        we don't have to wire a second webhook path for a
+                        product type that doesn't issue licenses. */}
+                    <button
+                      onClick={startCheckout}
+                      disabled={submitting}
+                      className="group block w-full text-left border border-[color:var(--ink)] bg-[color:var(--paper)] hover:bg-[color:var(--ink)] hover:text-[color:var(--paper)] transition-colors p-6 disabled:opacity-60 disabled:cursor-wait"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="label label-cyan group-hover:text-[color:var(--paper)]">
+                          Secure Checkout
+                        </span>
+                        <CreditCard size={18} strokeWidth={1.8} />
+                      </div>
+                      <div className="font-display text-4xl leading-none mb-2">
+                        Pay $150
+                      </div>
+                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)] group-hover:text-[color:var(--paper)] mb-5">
+                        Card · Apple Pay · Google Pay
+                      </p>
+                      <div className="flex items-baseline justify-between border-t border-[color:var(--paper-line)] pt-4">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.18em]">
+                          Powered by Stripe
+                        </span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.18em] flex items-center gap-1">
+                          {submitting ? 'Opening…' : (
+                            <>
+                              Continue <ArrowUpRight size={12} strokeWidth={2.2} />
+                            </>
+                          )}
+                        </span>
+                      </div>
+                    </button>
 
-                      {/* PayPal button */}
-                      <a
-                        href={PAYPAL_PAY_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group block border border-[color:var(--ink)] bg-[color:var(--paper)] hover:bg-[color:var(--ink)] hover:text-[color:var(--paper)] transition-colors p-6"
-                      >
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="label label-cyan group-hover:text-[color:var(--paper)]">
-                            Option B
-                          </span>
-                          <CreditCard size={18} strokeWidth={1.8} />
-                        </div>
-                        <div className="font-display text-3xl leading-none mb-2">
-                          PayPal
-                        </div>
-                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)] group-hover:text-[color:var(--paper)] mb-5">
-                          PayPal balance · Venmo
-                        </p>
-                        <div className="flex items-baseline justify-between border-t border-[color:var(--paper-line)] pt-4">
-                          <span className="font-display text-2xl">$150</span>
-                          <span className="font-mono text-[11px] uppercase tracking-[0.18em] flex items-center gap-1">
-                            Pay <ArrowUpRight size={12} strokeWidth={2.2} />
-                          </span>
-                        </div>
-                      </a>
-                    </div>
+                    {error && (
+                      <div className="mt-4 px-4 py-3 border border-[color:var(--rust)] text-[color:var(--rust)] font-mono text-[11px] uppercase tracking-[0.14em]">
+                        {error}
+                      </div>
+                    )}
 
                     <div className="mt-6 pt-5 border-t border-[color:var(--paper-line)] font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
-                      Both options take about 30 seconds. Receipt and confirmation
-                      arrive by email.
+                      Takes about 30 seconds. Receipt and a link to book your
+                      hour arrive by email.
                     </div>
                   </Plate>
                 </div>

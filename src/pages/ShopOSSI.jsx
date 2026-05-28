@@ -57,6 +57,7 @@ function ShopOSSI() {
           onCtaClick={scrollToPurchase}
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
+            { kind: 'route', to: '/products', label: 'Products' },
             !import.meta.env.PROD && { kind: 'route', to: '/shop-ossi', label: 'Shop OS SI' },
             { kind: 'link', label: 'Studio', href: '/#about' },
             { kind: 'link', label: 'Case', href: '/#workflow' },

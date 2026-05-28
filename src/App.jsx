@@ -4,11 +4,15 @@ import ShopOS from './pages/ShopOS.jsx'
 import ShopOSSI from './pages/ShopOSSI.jsx'
 import PurchaseThankYou from './pages/PurchaseThankYou.jsx'
 import Consultation from './pages/Consultation.jsx'
+import Products from './pages/Products.jsx'
+import ProductsThankYou from './pages/ProductsThankYou.jsx'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/products" element={<Products />} />
+      <Route path="/products/thank-you" element={<ProductsThankYou />} />
       <Route path="/shop-os" element={<ShopOS />} />
       <Route path="/shop-ossi" element={<ShopOSSI />} />
       <Route path="/shop-ossi/thank-you" element={<PurchaseThankYou />} />
