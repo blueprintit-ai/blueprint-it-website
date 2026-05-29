@@ -189,13 +189,6 @@ function ShopOSSI() {
                     more AI tools. They&apos;re the ones who built shared
                     institutional intelligence on top of them, and let it compound.
                   </p>
-                  <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    There is no shortcut to compounding. The only variable is
-                    when you start the clock. The shop that starts today has
-                    six months of captured context by Q4. The shop that waits
-                    until Q4 is still teaching the Brain the basics into the
-                    new year.
-                  </p>
                 </div>
 
                 <div className="md:col-span-7 md:col-start-6">
