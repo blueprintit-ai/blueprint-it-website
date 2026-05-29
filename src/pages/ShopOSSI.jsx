@@ -99,13 +99,6 @@ function ShopOSSI() {
                   >
                     <p>Stop being the answer to every question in your shop.</p>
                     <p className="mt-5">
-                      The answers are already inside your business. They&apos;re
-                      just buried. In inboxes, spreadsheets, Slack threads,
-                      Trello boards, cloud folders, and the heads of yourself
-                      and the one or two other people who truly know your
-                      business.
-                    </p>
-                    <p className="mt-5">
                       Shop OS is the brain your business should have, a living
                       knowledge base that captures how your shop actually runs,
                       so your team has somewhere to look before they look at
@@ -187,8 +180,8 @@ function ShopOSSI() {
                   <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
                     The answers are already inside your business. They&apos;re just
                     buried. In inboxes, spreadsheets, Slack threads, Trello boards,
-                    cloud folders, and the heads of the one or two people who were
-                    here before anyone wrote things down.
+                    cloud folders, and the heads of yourself and the one or two
+                    other people who truly know your business.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
                     The businesses that will pull ahead aren&apos;t the ones with
