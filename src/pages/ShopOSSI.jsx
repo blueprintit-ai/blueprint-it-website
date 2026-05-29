@@ -179,9 +179,10 @@ function ShopOSSI() {
                   </h2>
                   <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
                     The answers are already inside your business. They&apos;re just
-                    buried. In inboxes, spreadsheets, Slack threads, Trello boards,
-                    cloud folders, and the heads of yourself and the one or two
-                    other people who truly know your business.
+                    scattered — across inboxes, spreadsheets, Slack threads, Trello
+                    boards, cloud folders, and the heads of the handful of people
+                    who actually know how things work. Nobody&apos;s hiding them.
+                    They&apos;re just nowhere you can ask.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
                     The businesses that will pull ahead aren&apos;t the ones with
