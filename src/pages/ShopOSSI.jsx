@@ -919,8 +919,9 @@ function KnowledgeMosaic() {
       })}
 
       <text
-        x={padL}
+        x={VBW / 2}
         y={installY}
+        textAnchor="middle"
         fontFamily="JetBrains Mono"
         fontSize="9"
         fill="var(--rust)"
