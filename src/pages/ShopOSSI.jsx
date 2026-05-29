@@ -196,7 +196,7 @@ function ShopOSSI() {
                     <div className="label label-cyan mb-4">Fig. 02-A · Your company&apos;s context, mapped</div>
                     <KnowledgeMosaic />
                     <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)] text-center">
-                      Every project adds tiles. The map fills in, and compounds.
+                      Every project, SOP, and customer interaction adds tiles. The map fills in over time and compounds.
                     </p>
                   </Plate>
                 </div>
