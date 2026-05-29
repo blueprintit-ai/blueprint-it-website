@@ -455,8 +455,8 @@ function ShopOSSI() {
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
                     Paste one command. The installer handles every prerequisite,
                     sets up your vault, and lands you inside Claude Code. Most
-                    owners have their Shop Brain live, seeded, and ready for the
-                    team in under 15 minutes.
+                    owners have their Shop Brain live and ready in under
+                    15 minutes.
                   </p>
                 </div>
               </div>
