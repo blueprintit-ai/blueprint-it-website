@@ -100,9 +100,9 @@ function ShopOSSI() {
                     <p>Stop being the answer to every question in your shop.</p>
                     <p className="mt-5">
                       Shop OS is the brain your business should have, a living
-                      knowledge base that captures how your shop actually runs,
-                      so your team has somewhere to look before they look at
-                      you.
+                      knowledge base that understands how your shop actually
+                      runs. Stop answering the same questions every day. Shop
+                      OS will empower your team to find answers independently.
                     </p>
                     <p className="mt-5">
                       Your Working Shop Brain is live on your machine in under
