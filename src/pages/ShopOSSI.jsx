@@ -217,13 +217,13 @@ function ShopOSSI() {
                     </div>
                     <div className="md:col-span-8">
                       <p className="text-[color:var(--ink-soft)] leading-relaxed mb-4">
-                        The Brain starts empty. The day it turns on, it knows nothing. Not your customer list. Not your suppliers. Not the way you quote a cherry kitchen versus an oak vanity. Context flows in over weeks and months — every meeting recorded, every email forwarded, every walk-through narrated. There is no install button for institutional memory. You raise it.
+                        The Brain starts empty. The day it is installed it has the bare minimum information: your name, your company name. It knows very little. Not your customer list. Not your suppliers. Not the way you quote a frameless kitchen vs. a TFL closet with a center island. Context flows in over weeks and months — every meeting recorded, every email forwarded, every walk-through narrated. There is no install button for institutional memory. You and your team feed it every day.
                       </p>
                       <p className="text-[color:var(--ink-soft)] leading-relaxed mb-4">
                         Your processes need the same runway. Today your change-order workflow lives in two places: your head and your shop lead&apos;s head, as habit, not as documentation. Getting it out — written down, indexed, queryable by anyone on the team — takes iterations. You write it. You use it. You find the gap. You refine. Six months of that and the system answers a question you used to walk across the shop to ask.
                       </p>
                       <p className="text-[color:var(--ink-soft)] leading-relaxed mb-5">
-                        There is no shortcut to compounding. The only variable is when you start the clock. The shop that starts today has six months of captured context by Q4. The shop that waits until Q4 is still teaching the Brain its supplier names.
+                        There is no shortcut to compounding. The only variable is when you start the clock. The shop that starts today has six months of captured context by Q4. The shop that waits until Q4 is still teaching the Brain the basics.
                       </p>
                       <div className="pt-5 border-t border-[color:var(--paper-line)]">
                         <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--ink)] leading-relaxed">
