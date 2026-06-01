@@ -346,7 +346,7 @@ function ShopOSSI() {
                     <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
                       {[
                         ['/bp-setup', 'Onboarding interview that personalizes your vault with shop name, owner, key staff, services, and daily routines.'],
-                        ['/bp-digest', 'Routes raw materials (PDFs, emails, voice memos, shared drives) into structured vault notes automatically.'],
+                        ['/bp-digest', 'Reads PDFs, Excel spreadsheets, Word docs, images, and voice memos. Routes each file to the right vault folder with a structured summary — no manual sorting needed.'],
                         ['/assistant', 'Everyday vault helper for note creation, task tracking, and daily updates.'],
                         ['/bp-operator', 'Schedules recurring routines like Monday briefings, customer follow-up sweeps, and inbox triage.'],
                         ['/bp-optimizer', "Run it weekly. Surfaces what's drifting, what's broken, and what to clean up first."],
