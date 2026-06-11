@@ -220,7 +220,7 @@ function ShopOS() {
                   </div>
                   <div className="label mb-3">context · queryable · operator-owned</div>
                   <h3 className="font-display text-[2rem] leading-[1.05] tracking-[-0.015em] mb-4">
-                    Working Shop Brain
+                    Foundation Shop Brain
                   </h3>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
                     Every AI interaction on your team reads from one centralized place:

@@ -38,7 +38,7 @@ function ShopOSSI() {
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
     ogTitle?.setAttribute('content', 'Shop OS · Self-Install AI Operating System · Blueprint IT')
-    ogDesc?.setAttribute('content', 'A Working Shop Brain for your business. One command to install, $1,000 one time, yours from day one.')
+    ogDesc?.setAttribute('content', 'A Foundation Shop Brain for your business. One command to install, $1,000 one time, yours from day one.')
 
     return () => {
       document.title = prevTitle
@@ -105,8 +105,8 @@ function ShopOSSI() {
                       OS will empower your team to find answers independently.
                     </p>
                     <p className="mt-5">
-                      Your Working Shop Brain is live on your machine in under
-                      15 minutes; ready for every automation, agent, and AI tool
+                      Your Foundation Shop Brain is live on your machine in under
+                      1 hour; ready for every automation, agent, and AI tool
                       you&apos;ll layer on top. Yours from day one.
                     </p>
                   </motion.div>
@@ -145,7 +145,7 @@ function ShopOSSI() {
                         ['Format', 'Self-install · one command'],
                         ['Deliverable', 'Shop Brain Foundation'],
                         ['Skills bundled', '28'],
-                        ['Install time', '~15 minutes'],
+                        ['Install time', '~1 hour'],
                         ['Ownership', 'Yours from day one'],
                         ['Price', '$1,000'],
                       ].map(([k, v]) => (
@@ -456,7 +456,7 @@ function ShopOSSI() {
                     Paste one command. The installer handles every prerequisite,
                     sets up your vault, and lands you inside Claude Code. Most
                     owners have their Shop Brain live and ready in under
-                    15 minutes.
+                    1 hour.
                   </p>
                 </div>
               </div>
@@ -710,7 +710,7 @@ function ShopOSSI() {
                 <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                One install. $1,000. A Working Shop Brain your team owns from day one.
+                One install. $1,000. A Foundation Shop Brain your team owns from day one.
               </p>
 
               <div className="mt-10 mx-auto max-w-3xl text-left">
