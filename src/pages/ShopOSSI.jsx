@@ -14,7 +14,7 @@ const scrollToPurchase = () => {
 }
 
 function ShopOSSI() {
-  const [foundingRedeemed, setFoundingRedeemed] = useState(12)
+  const [foundingRedeemed, setFoundingRedeemed] = useState(50)
 
   useEffect(() => {
     let cancelled = false
@@ -598,27 +598,34 @@ function ShopOSSI() {
               </div>
 
               <div className="mt-10">
-                <Plate accent="rust">
-                  <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
-                    <div className="md:col-span-4">
-                      <div className="label label-rust mb-3">Founding 50 offer</div>
-                      <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em]">
-                        $250 off,{' '}
-                        <span className="font-display-italic text-[color:var(--rust)]">
-                          lifetime updates.
-                        </span>
-                      </h3>
+                <div className="relative">
+                  <Plate accent="rust" className="opacity-40">
+                    <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
+                      <div className="md:col-span-4">
+                        <div className="label label-rust mb-3">Founding 50 offer</div>
+                        <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em] line-through">
+                          $250 off,{' '}
+                          <span className="font-display-italic text-[color:var(--rust)]">
+                            lifetime updates.
+                          </span>
+                        </h3>
+                      </div>
+                      <div className="md:col-span-8">
+                        <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3 line-through">
+                          Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
+                        </p>
+                        <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
+                          ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
+                        </p>
+                      </div>
                     </div>
-                    <div className="md:col-span-8">
-                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3">
-                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
-                      </p>
-                      <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
-                        ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
-                      </p>
+                  </Plate>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="border-2 border-[color:var(--rust)] text-[color:var(--rust)] font-mono font-bold text-xl md:text-2xl tracking-[0.2em] uppercase px-6 py-2 rotate-[-8deg] opacity-90">
+                      Sold Out
                     </div>
                   </div>
-                </Plate>
+                </div>
               </div>
 
               <div className="mt-12 flex flex-col items-center gap-4">
@@ -714,27 +721,34 @@ function ShopOSSI() {
               </p>
 
               <div className="mt-10 mx-auto max-w-3xl text-left">
-                <Plate accent="rust">
-                  <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
-                    <div className="md:col-span-4">
-                      <div className="label label-rust mb-3">Founding 50 offer</div>
-                      <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em]">
-                        $250 off,{' '}
-                        <span className="font-display-italic text-[color:var(--rust)]">
-                          lifetime updates.
-                        </span>
-                      </h3>
+                <div className="relative">
+                  <Plate accent="rust" className="opacity-40">
+                    <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
+                      <div className="md:col-span-4">
+                        <div className="label label-rust mb-3">Founding 50 offer</div>
+                        <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em] line-through">
+                          $250 off,{' '}
+                          <span className="font-display-italic text-[color:var(--rust)]">
+                            lifetime updates.
+                          </span>
+                        </h3>
+                      </div>
+                      <div className="md:col-span-8">
+                        <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3 line-through">
+                          Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
+                        </p>
+                        <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
+                          ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
+                        </p>
+                      </div>
                     </div>
-                    <div className="md:col-span-8">
-                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3">
-                        Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
-                      </p>
-                      <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
-                        ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
-                      </p>
+                  </Plate>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="border-2 border-[color:var(--rust)] text-[color:var(--rust)] font-mono font-bold text-xl md:text-2xl tracking-[0.2em] uppercase px-6 py-2 rotate-[-8deg] opacity-90">
+                      Sold Out
                     </div>
                   </div>
-                </Plate>
+                </div>
               </div>
 
               <div className="mt-10 flex flex-col items-center gap-4">
