@@ -1,6 +1,6 @@
 # Product Marketing Context
 
-*Last updated: 2026-08-30*
+*Last updated: 2026-09-30*
 *Product: Blueprint OS Foundation*
 *Vendor: Blueprint IT (founder/operator: Glenn Chua)*
 
@@ -14,7 +14,7 @@
 
 **Product type:** Software bundle (npm-distributed installer, Cloudflare-licensed) delivered Done-With-You via a guided setup session, with one-time pricing. Local-first. Customer-owned data.
 
-**Business model:** $1,500 one-time, lifetime license. 30-day refund. No subscription, no per-seat fees, no API metering. Foundation is the front door to mid-tier Skill Packs (e.g., a future Cabinet Shop Pack) and back-end Blueprint IT consulting engagements ($25K-$100K+).
+**Business model:** $2,000 one-time, lifetime license. 30-day refund. No subscription, no per-seat fees, no API metering. Foundation is the front door to mid-tier Skill Packs (e.g., a future Cabinet Shop Pack) and back-end Blueprint IT consulting engagements ($25K-$100K+).
 
 ## Target Audience
 
@@ -95,7 +95,7 @@
 | "What's the monthly bill?" | Zero from us. Blueprint OS uses your existing Claude Code subscription for all AI work. If you don't have one, that's $20/month from Anthropic directly. |
 | "What happens to my data if Blueprint IT goes away?" | Your data is plain markdown files in your own Dropbox. Open them in any text editor. The vault, the skills, and the chat are all open source on GitHub. Nothing about your operation depends on us being alive. |
 | "I tried AI tools, they were useless after the demo." | Generic AI knows nothing about your business. Blueprint OS works because the first thing it does is read your context. Every answer cites your own past work. |
-| "Why $1,500?" | $1,500 one-time buys the installer, 28 skills, a lifetime license, guided setup and training, and 30-day money-back. After that, the only ongoing cost is your existing Claude Code subscription. |
+| "Why $2,000?" | $2,000 one-time buys the installer, 28 skills, a lifetime license, guided setup and training, and 30-day money-back. After that, the only ongoing cost is your existing Claude Code subscription. |
 | "Do you do the install for me?" | No. The model breaks if Glenn is in the install. The product is built to install itself. If you genuinely cannot run a single terminal command, we'll refund you. |
 
 **Anti-persona:** A company over 50 people with an IT department that wants vendor SOC-2, SLAs, and a dedicated CSM. A business that needs deep CRM/ERP integrations on day one (those are a consulting engagement, not Foundation). A solo creator with no team, no processes, and no recurring customers (the leverage isn't there).
@@ -177,7 +177,7 @@
 
 ## Goals
 
-**Business goal:** Sell Blueprint OS Foundation licenses at $1,500 each, building an installed base seeded for future Skill Pack and consulting upsells.
+**Business goal:** Sell Blueprint OS Foundation licenses at $2,000 each, building an installed base seeded for future Skill Pack and consulting upsells.
 
 **Conversion action:** Click "Get Blueprint OS" → purchase via Stripe or PayPal/Venmo at blueprintit.ai/blueprint-os → receive welcome email with license key + install instructions + welcome PDF.
 
