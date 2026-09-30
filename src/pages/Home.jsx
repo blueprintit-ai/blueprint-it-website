@@ -306,8 +306,8 @@ function Home() {
               >
                 Blueprint IT designs precise, production‑grade systems for
                 growing small businesses. We pair focused IT consulting with
-                custom AI automation — so your team spends more time on the
-                work that matters.
+                custom AI automation — so your team spends more time on
+                higher level tasks.
               </motion.p>
 
               <motion.div
