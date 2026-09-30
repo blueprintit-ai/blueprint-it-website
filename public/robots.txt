@@ -1,0 +1,28 @@
+# OpenAI crawlers: OAI-AdsBot is required for ChatGPT Ads landing page review.
+User-agent: OAI-AdsBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# AI answer engines — explicitly welcomed.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: *
+Allow: /
+Disallow: /thank-you
+Disallow: /thank-you.html
+Disallow: /products/thank-you
+Disallow: /blueprint-os/thank-you
+
+Sitemap: https://blueprintit.ai/sitemap.xml

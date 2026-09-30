@@ -1,1 +1,10 @@
-/*  /index.html  200
+# Netlify-format fallback. Deliberately NOT a catch-all: every real route is
+# emitted as a physical index.html by scripts/prerender-meta.mjs, so unknown
+# URLs must fall through to 404.html instead of silently serving the homepage.
+/shop-os           /blueprint-os          301
+/shop-os/*         /blueprint-os/:splat   301
+/shop-ossi         /blueprint-os          301
+/shop-ossi/*       /blueprint-os/:splat   301
+/shop-os-preview   /blueprint-os-preview  301
+/shop-os-preview/* /blueprint-os-preview/:splat 301
+/*              /404.html    404

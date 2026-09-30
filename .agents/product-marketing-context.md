@@ -1,28 +1,28 @@
 # Product Marketing Context
 
-*Last updated: 2026-05-26*
-*Product: Shop OS Foundation*
+*Last updated: 2026-08-30*
+*Product: Blueprint OS Foundation*
 *Vendor: Blueprint IT (founder/operator: Glenn Chua)*
 
 ## Product Overview
 
-**One-liner:** A self-install AI operating system that gives small businesses a shared, queryable brain on top of their own files, powered by their existing Claude Code subscription.
+**One-liner:** An AI operating system, set up with you in one guided hour, that gives small businesses a shared, queryable brain on top of their own files, powered by their existing Claude Code subscription.
 
-**What it does:** Shop OS Foundation installs in one terminal command and gives an owner-operator business three things that compound: (1) a structured Obsidian vault that becomes the single source of truth for customer history, SOPs, brand voice, and decisions, (2) a read-only chat surface employees can walk up to and ask questions without breaking anything, and (3) 28 pre-wired AI skills that run scheduled routines, organize files, transcribe audio, and process inboxes. Every output is grounded in the customer's own business context, not generic LLM output.
+**What it does:** Blueprint OS Foundation is installed in a guided session (30 min setup + 30 min training) and gives an owner-operator business three things that compound: (1) a structured Obsidian vault that becomes the single source of truth for customer history, SOPs, brand voice, and decisions, (2) a read-only chat surface employees can walk up to and ask questions without breaking anything, and (3) 28 pre-wired AI skills that run scheduled routines, organize files, transcribe audio, and process inboxes. Every output is grounded in the customer's own business context, not generic LLM output.
 
 **Product category:** AI operating system for small businesses. Adjacent shelves: AI assistant, second brain, knowledge management, business automation platform.
 
-**Product type:** Self-install software bundle (npm-distributed installer, Cloudflare-licensed) with one-time pricing. Local-first. Customer-owned data.
+**Product type:** Software bundle (npm-distributed installer, Cloudflare-licensed) delivered Done-With-You via a guided setup session, with one-time pricing. Local-first. Customer-owned data.
 
-**Business model:** $500 one-time for Founding 50 cohort. Lifetime grandfather pricing for that cohort. Price doubles after the 50 seats are sold. 30-day refund. No subscription, no per-seat fees, no API metering. Foundation is the front door to mid-tier Skill Packs (e.g., a future Cabinet Shop Pack) and back-end Blueprint IT consulting engagements ($25K-$100K+).
+**Business model:** $1,500 one-time, lifetime license. 30-day refund. No subscription, no per-seat fees, no API metering. Foundation is the front door to mid-tier Skill Packs (e.g., a future Cabinet Shop Pack) and back-end Blueprint IT consulting engagements ($25K-$100K+).
 
 ## Target Audience
 
 **Target companies:** Owner-operator small businesses, 1-25 people, where the owner is currently the bottleneck for institutional knowledge. Initial vertical seed: cabinet shops, custom millwork, closet installers (Glenn's warm trade-group network of 56k+ members). Horizontal Foundation copy intentionally avoids cabinet-specific language so it lands for trades, professional services, agencies, and any operator-led shop.
 
-**Decision-makers:** The owner or founder. There is no procurement committee at this size. They self-install on a single shop computer.
+**Decision-makers:** The owner or founder. There is no procurement committee at this size. It runs on a single shop computer, set up together with Blueprint IT in a guided session.
 
-**Primary use case:** "Stop being the answer to every question in my shop." Every employee question, every customer recall, every SOP lookup currently routes through the owner. Shop OS gives the team a brain they can query themselves.
+**Primary use case:** "Stop being the answer to every question in my shop." Every employee question, every customer recall, every SOP lookup currently routes through the owner. Blueprint OS gives the team a brain they can query themselves.
 
 **Jobs to be done:**
 - Capture institutional knowledge that today only lives in the owner's head
@@ -73,29 +73,29 @@
 ## Differentiation
 
 **Key differentiators:**
-- One-time price. No subscription. Lifetime updates for the Founding 50.
+- One-time price. No subscription. Lifetime license.
 - Runs on the customer's own Claude Code subscription. Zero API keys, zero metering, zero surprise bills.
 - Data lives in plain markdown files in the customer's own cloud (Dropbox, iCloud, OneDrive). The customer owns it forever.
 - Read-only employee chat means non-technical staff can use it without risk of breaking anything.
 - 28 pre-wired skills bundled at install, not "build your own" prompts.
-- Self-install in ~10 minutes via a single npx command and a drag-and-drop folder picker. No terminal expertise required.
+- Guided setup: 30-minute install session plus 30-minute training session with us. No terminal expertise required.
 - Founder is an admin of a 56k-member trade group, deeply embedded in his target market.
 
 **How we do it differently:** Foundation ships as a productized bundle (installer + vault + skills + license + chat), not a project. The customer paste-installs, drags a folder, and the system is live. Every subsequent feature is a skill they can opt into, not a config they have to maintain.
 
 **Why that's better:** Owners don't have to become integrators. They get the outcome (a working brain for their business) in an afternoon, not a quarter.
 
-**Why customers choose us:** They want AI in their business but don't want a recurring bill, don't want to learn to code, don't want to wait for a $50K consulting engagement, and don't want their data held hostage by a SaaS vendor. Shop OS is the only option in that intersection.
+**Why customers choose us:** They want AI in their business but don't want a recurring bill, don't want to learn to code, don't want to wait for a $50K consulting engagement, and don't want their data held hostage by a SaaS vendor. Blueprint OS is the only option in that intersection.
 
 ## Objections
 
 | Objection | Response |
 |-----------|----------|
-| "I'm not technical, I'll mess up the install." | One terminal command (we paste it in for you in the welcome email). Then drag your vault folder into the window. Eight to ten minutes. Most non-technical customers finish their first install during a coffee. |
-| "What's the monthly bill?" | Zero from us. Shop OS uses your existing Claude Code subscription for all AI work. If you don't have one, that's $20/month from Anthropic directly. |
+| "I'm not technical, I'll mess up the install." | You don't install alone. We run a 30-minute setup session with you, then a 30-minute training session so your team knows how to use it. |
+| "What's the monthly bill?" | Zero from us. Blueprint OS uses your existing Claude Code subscription for all AI work. If you don't have one, that's $20/month from Anthropic directly. |
 | "What happens to my data if Blueprint IT goes away?" | Your data is plain markdown files in your own Dropbox. Open them in any text editor. The vault, the skills, and the chat are all open source on GitHub. Nothing about your operation depends on us being alive. |
-| "I tried AI tools, they were useless after the demo." | Generic AI knows nothing about your business. Shop OS works because the first thing it does is read your context. Every answer cites your own past work. |
-| "Why $500?" | $500 is the Founding 50 cohort price, which doubles after the first 50 seats. It buys you the installer, 28 skills, license, lifetime grandfather pricing, and 30-day money-back. After that, the only ongoing cost is your existing Claude Code subscription. |
+| "I tried AI tools, they were useless after the demo." | Generic AI knows nothing about your business. Blueprint OS works because the first thing it does is read your context. Every answer cites your own past work. |
+| "Why $1,500?" | $1,500 one-time buys the installer, 28 skills, a lifetime license, guided setup and training, and 30-day money-back. After that, the only ongoing cost is your existing Claude Code subscription. |
 | "Do you do the install for me?" | No. The model breaks if Glenn is in the install. The product is built to install itself. If you genuinely cannot run a single terminal command, we'll refund you. |
 
 **Anti-persona:** A company over 50 people with an IT department that wants vendor SOC-2, SLAs, and a dedicated CSM. A business that needs deep CRM/ERP integrations on day one (those are a consulting engagement, not Foundation). A solo creator with no team, no processes, and no recurring customers (the leverage isn't there).
@@ -125,20 +125,19 @@
 - "Finally, an AI that actually knows my customers."
 - "It's mine. I own it."
 
-**Words to use:** Shop, brain, install, own, foundation, working, ready, your business, your team, your context, on day one, queryable, owner-operator, self-install, lifetime, no subscription, no monthly bill, no API key.
+**Words to use:** Shop, brain, install, own, foundation, working, ready, your business, your team, your context, on day one, queryable, owner-operator, guided setup, lifetime, no subscription, no monthly bill, no API key.
 
 **Words to avoid:** Platform, ecosystem, leverage AI, transform, revolutionary, cutting-edge, synergy, optimize, streamline, enterprise-grade, AI-powered (overused). Avoid "subscription" or "monthly" unless explicitly contrasting against them. Avoid framing the deliverable as "an app."
 
 **Glossary:**
 | Term | Meaning |
 |------|---------|
-| Shop OS Foundation | The $500 product. Installer + 28 skills + license + Shop OS Chat. |
+| Blueprint OS Foundation | The $500 product. Installer + 28 skills + license + Blueprint OS Chat. |
 | Working Shop Brain | The metaphor for the installed system. The brand-level name for what gets delivered. |
 | Vault | The customer's Obsidian folder that holds all their context. Plain markdown. Lives in their own cloud. |
-| Shop OS Chat | The read-only browser chat employees use at the shop computer. Transcripts auto-save to the vault. |
+| Blueprint OS Chat | The read-only browser chat employees use at the shop computer. Transcripts auto-save to the vault. |
 | Skill | A pre-wired AI workflow (e.g., `assistant`, `os-operator`, `os-digest`, `file-organizer`). |
-| Founding 50 | The first 50 customer cohort. $500. Lifetime grandfather pricing. |
-| Claude Code | Anthropic's coding-and-agent CLI. Every Shop OS AI call routes through the customer's own Claude Code subscription. |
+| Claude Code | Anthropic's coding-and-agent CLI. Every Blueprint OS AI call routes through the customer's own Claude Code subscription. |
 
 ## Brand Voice
 
@@ -159,13 +158,13 @@
 **Metrics (current, conservative):**
 - Live and tested end-to-end on a Windows mini PC, 2026-05-25
 - 28 pre-wired skills bundled in Foundation
-- One terminal command from zero to installed in ~10 minutes
+- Guided setup: installed and trained in one hour
 - 56k+ member trade group where the founder is admin (warm distribution)
 - Zero monthly fees from Blueprint IT
 
-**Customers:** No public Founding 50 customers yet. The page should reserve a Customers/Logos slot for after the first cohort lands and gives permission to be named.
+**Customers:** No public customers named yet. The page should reserve a Customers/Logos slot for after early customers give permission to be named.
 
-**Testimonials:** None ready for public use yet. Reserve a Testimonials slot for once first cohort customers say something quotable.
+**Testimonials:** None ready for public use yet. Reserve a Testimonials slot for once early customers say something quotable.
 
 **Value themes:**
 | Theme | Proof |
@@ -173,14 +172,14 @@
 | Own your system | Plain markdown files in your own cloud. Open source on GitHub. No vendor lock-in. |
 | Install yourself | One npx command, drag-and-drop folder, ~10 minutes. Documented in customer-welcome PDF. |
 | No monthly bill from us | One-time $500. Runs on your existing Claude Code subscription. |
-| Your team can use it without breaking it | Shop OS Chat is read-only at the SDK level. Tool whitelist enforced. Transcripts auto-save to the vault. |
+| Your team can use it without breaking it | Blueprint OS Chat is read-only at the SDK level. Tool whitelist enforced. Transcripts auto-save to the vault. |
 | Compounds with use | Every meeting, decision, customer interaction adds tiles to the brain. Day 1 → Yr 1 visualized in KnowledgeMosaic. |
 
 ## Goals
 
-**Business goal:** Sell the first 50 Founding 50 seats at $500 each ($25K cash + 50 installed-base customers seeded for future Skill Pack and consulting upsells).
+**Business goal:** Sell Blueprint OS Foundation licenses at $1,500 each, building an installed base seeded for future Skill Pack and consulting upsells.
 
-**Conversion action:** Click "Get Shop OS Foundation" / "Reserve a Founding 50 seat" → purchase via Stripe or PayPal/Venmo at blueprintit.ai/shop-ossi → receive welcome email with license key + install instructions + welcome PDF.
+**Conversion action:** Click "Get Blueprint OS" → purchase via Stripe or PayPal/Venmo at blueprintit.ai/blueprint-os → receive welcome email with license key + install instructions + welcome PDF.
 
 **Current metrics:** Page traffic source is TBD; first cohort will be driven by a warm Facebook post to Glenn's 56k-member trade group plus organic referrals. Conversion benchmark is unknown for cohort one; we'll measure against it for future iterations.
 

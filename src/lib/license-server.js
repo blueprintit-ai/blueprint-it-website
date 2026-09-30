@@ -18,7 +18,7 @@ export const licenseServer = {
   },
   async createStripeSession({ email, code, productType }) {
     // productType is optional. The Worker defaults to "foundation" so the
-    // existing PurchaseSection on /shop-ossi (which never sends it) keeps
+    // existing PurchaseSection on /blueprint-os (which never sends it) keeps
     // working unchanged. /products and /consultation pass "consultation" to
     // hit the $150 SKU with no coupon flow.
     return call("/create-stripe-checkout-session", {

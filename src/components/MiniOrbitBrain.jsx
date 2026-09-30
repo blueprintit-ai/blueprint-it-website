@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { detectWebgl } from '@/lib/webgl.js'
 
 // Mini particle brain locked at the OrbitDiagram center. Faithful small-
 // canvas copy of the hero ParticleBrainCanvas (same rasterization, same
@@ -50,20 +51,84 @@ function buildCircleCluster(count, worldScale) {
   return { positions, layers, count }
 }
 
+
+// --- SVG/CSS fallback (no WebGL: Brave Shields strict, RDP, VMs) ----------
+// Same circle-cluster distribution and X-gradient palette as the shader,
+// far fewer dots, drift + sway done with CSS keyframes (see App.css
+// .mini-orbit-fallback). Unit space: cluster radius = 1, viewBox spans ±1.18.
+const FB_DOTS_DESKTOP = 420
+const FB_DOTS_MOBILE = 240
+const toHex = (c) => `rgb(${(c[0] * 255) | 0},${(c[1] * 255) | 0},${(c[2] * 255) | 0})`
+const fbMix = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]
+function fbSmooth(e0, e1, x) {
+  const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0)))
+  return t * t * (3 - 2 * t)
+}
+function fbColor(x, layer, order) {
+  const xn = Math.max(0, Math.min(1, x * 0.5 + 0.5))
+  if (layer > 0.5) return fbMix(C_GOLD, C_RUST, fbSmooth(0.3, 0.85, xn + (order - 0.5) * 0.3))
+  const cool = fbMix(C_CYAN_SOFT, C_CYAN, fbSmooth(0, 0.5, xn))
+  const warm = fbMix(C_GOLD, C_RUST, fbSmooth(0.5, 1, xn))
+  return fbMix(cool, warm, fbSmooth(0.45, 0.55, xn))
+}
+
+function MiniOrbitFallback() {
+  const dots = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    const { positions, layers, count } = buildCircleCluster(isMobile ? FB_DOTS_MOBILE : FB_DOTS_DESKTOP, 1)
+    const out = []
+    for (let i = 0; i < count; i++) {
+      const x = positions[i * 3], y = positions[i * 3 + 1]
+      const order = Math.random()
+      out.push({
+        key: i,
+        x: x.toFixed(3),
+        y: (-y).toFixed(3),
+        fill: toHex(fbColor(x, layers[i], order)),
+        dur: (5 + order * 4).toFixed(2),
+        delay: (-order * 9).toFixed(2),
+      })
+    }
+    return out
+  }, [])
+
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full mini-orbit-fallback"
+      viewBox="-1.18 -1.18 2.36 2.36"
+      preserveAspectRatio="xMidYMid meet"
+      data-render="svg-fallback"
+    >
+      <g className="mini-orbit-fallback__sway">
+        {dots.map((d) => (
+          <circle
+            key={d.key}
+            cx={d.x}
+            cy={d.y}
+            r="0.022"
+            fill={d.fill}
+            className="mini-orbit-fallback__dot"
+            style={{ animationDuration: `${d.dur}s`, animationDelay: `${d.delay}s` }}
+          />
+        ))}
+      </g>
+    </svg>
+  )
+}
+
 export default function MiniOrbitBrain({ className = '' }) {
   const canvasRef = useRef(null)
   const wrapRef = useRef(null)
+  const [useFallback, setUseFallback] = useState(() => !detectWebgl())
 
   useEffect(() => {
+    if (useFallback) return
     const canvas = canvasRef.current
     const wrap = wrapRef.current
     if (!canvas || !wrap) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    const probe = document.createElement('canvas')
-    const hasWebgl = !!(probe.getContext('webgl2') || probe.getContext('webgl'))
-    if (!hasWebgl) return () => {}
 
     const isMobile = window.innerWidth < 768
     const count = isMobile ? MOBILE_PARTICLE_COUNT : PARTICLE_COUNT
@@ -88,11 +153,14 @@ export default function MiniOrbitBrain({ className = '' }) {
     const camera = new THREE.PerspectiveCamera(FOV_DEG, aspect0, 0.1, 100)
     camera.position.set(0, 0, CAM_Z)
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-    })
+    let renderer
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true })
+    } catch (err) {
+      console.info('[MiniOrbitBrain] WebGLRenderer failed — using SVG fallback', err)
+      setUseFallback(true)
+      return
+    }
     renderer.setPixelRatio(pxRatio)
     renderer.setSize(w0, h0, false)
     renderer.setClearColor(0x000000, 0)
@@ -240,7 +308,7 @@ export default function MiniOrbitBrain({ className = '' }) {
       material.dispose()
       renderer.dispose()
     }
-  }, [])
+  }, [useFallback])
 
   return (
     <div
@@ -248,10 +316,14 @@ export default function MiniOrbitBrain({ className = '' }) {
       className={`relative overflow-hidden ${className}`}
       aria-hidden="true"
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
+      {useFallback ? (
+        <MiniOrbitFallback />
+      ) : (
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full"
+        />
+      )}
     </div>
   )
 }

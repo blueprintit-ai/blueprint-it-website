@@ -25,10 +25,11 @@ import SiteFooter from '@/components/SiteFooter.jsx'
 
 // Assets
 import aiEmailWorkflowImage from '../assets/images/ai-email-workflow.png'
-import airtableLogo from '../assets/images/airtable-logo.png'
 import n8nLogo from '../assets/images/n8n-logo.png'
 import anthropicLogo from '../assets/images/anthropic-logo.png'
 import geminiLogo from '../assets/images/gemini-logo.png'
+import hermesLogo from '../assets/images/hermes-logo.svg'
+import higgsfieldLogo from '../assets/images/higgsfield-logo.png'
 
 // -----------------------------------------------------------------------------
 
@@ -174,7 +175,7 @@ function Home() {
     {
       id: '01',
       title: 'Experience',
-      body: 'We\'ve worked directly both inside our business and others — from cabinetry and closet businesses to furniture and golf businesses. We have felt the pain of tools not talking to each other, and learned what separates infrastructure that supports growth from infrastructure that quietly drags it down. That perspective is in every recommendation we make.',
+      body: 'We\'ve done this work inside our own business and inside our clients\' — cabinet and closet shops, furniture stores, ecommerce businesses. We\'ve built lead replies an owner approves from their phone, dashboards tied to live sales and inventory, and AI assistants that handle email and calendars. We know what it costs when tools don\'t talk to each other, and what changes when they do. Every recommendation we make comes from that experience.',
     },
     {
       id: '02',
@@ -240,10 +241,11 @@ function Home() {
   ]
 
   const partners = [
-    { logo: airtableLogo, name: 'Airtable', caption: 'Database / CRM' },
     { logo: n8nLogo, name: 'n8n', caption: 'Automation' },
     { logo: anthropicLogo, name: 'Anthropic', caption: 'AI Platform' },
     { logo: geminiLogo, name: 'Google Gemini', caption: 'AI & Analytics' },
+    { logo: hermesLogo, name: 'Hermes', caption: 'AI Agents', logoClass: 'h-20' },
+    { logo: higgsfieldLogo, name: 'Higgsfield', caption: 'AI Video & Image' },
   ]
 
   const tickerWords = [
@@ -266,7 +268,7 @@ function Home() {
         navItems={[
           { kind: 'button', label: 'Services', onClick: () => scrollToSection('services') },
           { kind: 'route', to: '/products', label: 'Products' },
-          !import.meta.env.PROD && { kind: 'route', to: '/shop-os', label: 'Shop OS' },
+          { kind: 'route', to: '/blueprint-os', label: 'Blueprint OS' },
           { kind: 'button', label: 'Studio', onClick: () => scrollToSection('about') },
           { kind: 'button', label: 'Case', onClick: () => scrollToSection('workflow') },
           { kind: 'button', label: 'Contact', onClick: () => scrollToSection('contact') },
@@ -722,17 +724,19 @@ function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[color:#223549]">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-px bg-[color:#223549]">
             {partners.map((p) => (
               <div
                 key={p.name}
-                className="bg-[color:#102842] p-8 md:p-10 flex flex-col items-center text-center"
+                className="bg-[color:#102842] p-8 md:p-10 flex flex-col items-center text-center last:col-span-2 md:last:col-span-1"
               >
-                <img
-                  src={p.logo}
-                  alt={p.name}
-                  className="h-10 w-auto mb-4 object-contain filter brightness-0 invert"
-                />
+                <div className="h-20 mb-4 flex items-center justify-center">
+                  <img
+                    src={p.logo}
+                    alt={p.name}
+                    className={`${p.logoClass ?? 'h-10'} w-auto object-contain filter brightness-0 invert`}
+                  />
+                </div>
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:#9cb0c5]">
                   {p.caption}
                 </div>

@@ -34,7 +34,7 @@ export default function PurchaseThankYou() {
   }
 
   useEffect(() => {
-    document.title = 'Welcome to Shop OS · Blueprint IT'
+    document.title = 'Welcome to Blueprint OS · Blueprint IT'
     const params = new URLSearchParams(window.location.search)
     const sessionId = params.get('session_id')
     const paypalOrderId = params.get('paypal_order_id')
@@ -102,8 +102,9 @@ export default function PurchaseThankYou() {
               </div>
             )}
             <p className="mb-4">
-              The email includes your install instructions and a 4-page how-to PDF.
-              You can also view it now:
+              The email includes the link to book your 30-minute setup session and
+              30-minute training session, what to have ready beforehand, and a
+              how-to PDF. You can also view the PDF now:
             </p>
             <a
               href={welcomePdfUrl(licenseKey)}
@@ -111,7 +112,7 @@ export default function PurchaseThankYou() {
               rel="noopener"
               className="inline-block px-6 py-3 bg-[color:var(--ink)] text-white"
             >
-              View the install guide
+              View the welcome guide
             </a>
             <p className="mt-12 text-sm text-[color:var(--ink-soft)]">
               Need help? <a href="mailto:glenn@blueprintit.ai" className="underline">glenn@blueprintit.ai</a>
@@ -133,7 +134,7 @@ export default function PurchaseThankYou() {
             <h1 className="font-display text-4xl mb-4">Hmm, something's not right.</h1>
             <p>
               We couldn't find your payment. If you just completed checkout, refresh this
-              page in a minute. Otherwise <a href="/shop-ossi#purchase" className="underline">return to the purchase page</a>.
+              page in a minute. Otherwise <a href="/blueprint-os#purchase" className="underline">return to the purchase page</a>.
             </p>
           </div>
         )}

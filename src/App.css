@@ -242,6 +242,16 @@
   box-shadow: 6px 6px 0 0 var(--ink);
 }
 
+.btn-cyan {
+  background: var(--cyan);
+  color: var(--paper);
+  border-color: var(--cyan);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+.btn-cyan:hover {
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+
 .btn-ghost {
   background: transparent;
   color: var(--ink);
@@ -385,7 +395,7 @@ button[style*="position: fixed"][style*="bottom"][style*="right"] {
 }
 
 /* -----------------------------------------------------------
-   Shop OS page — blueprint canvas background
+   Blueprint OS page — blueprint canvas background
 ------------------------------------------------------------*/
 .bp-canvas {
   position: fixed;
@@ -394,4 +404,38 @@ button[style*="position: fixed"][style*="bottom"][style*="right"] {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
+}
+
+/* SVG/CSS fallback for MiniOrbitBrain when WebGL is unavailable
+   (Brave Shields strict, Remote Desktop, VMs). Whole-group sway mirrors the
+   WebGL renderFrame; each dot drifts on its own delay for a living shimmer. */
+.mini-orbit-fallback {
+  pointer-events: none;
+  opacity: 0.4;
+}
+.mini-orbit-fallback__sway {
+  transform-origin: 0 0;
+  animation: mini-orbit-sway 19s ease-in-out infinite;
+}
+.mini-orbit-fallback__dot {
+  animation-name: mini-orbit-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes mini-orbit-sway {
+  0%   { transform: translate(0.04px, 0)       rotate(0deg); }
+  25%  { transform: translate(0, 0.08px)       rotate(4deg); }
+  50%  { transform: translate(-0.04px, 0)      rotate(0deg); }
+  75%  { transform: translate(0, -0.08px)      rotate(-4deg); }
+  100% { transform: translate(0.04px, 0)       rotate(0deg); }
+}
+@keyframes mini-orbit-drift {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(0.05px, -0.04px); }
+  66%  { transform: translate(-0.04px, 0.05px); }
+  100% { transform: translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mini-orbit-fallback__sway,
+  .mini-orbit-fallback__dot { animation: none; }
 }

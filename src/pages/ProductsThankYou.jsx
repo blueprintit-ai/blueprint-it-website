@@ -5,14 +5,20 @@ import SiteFooter from '@/components/SiteFooter.jsx'
 import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
 // eslint-disable-next-line no-unused-vars
 import { motion, MotionConfig } from 'framer-motion'
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react'
 import { SectionTag, Plate } from '@/components/blueprint.jsx'
 import { licenseServer } from '@/lib/license-server'
+
+// Install-call booking links. Keep in sync with CALENDLY_LEAD_HANDLER_URL /
+// CALENDLY_AI_ASSISTANT_URL on the license server (the same links go out in
+// the post-purchase email).
+const LEAD_HANDLER_BOOKING_URL = 'https://calendly.com/blueprintit/automated-lead-handler-setup'
+const AI_ASSISTANT_BOOKING_URL = 'https://calendly.com/blueprintit/ai-assistant-setup'
 
 export default function ProductsThankYou() {
   // 'checking' | 'succeeded' | 'pending' | 'failed'
   const [status, setStatus] = useState('checking')
-  // 'consultation' | 'foundation' | null — read from ?product=...
+  // 'consultation' | 'foundation' | 'lead-handler' | 'bundle' | 'ai-assistant' | null — from ?product=...
   const [product, setProduct] = useState(null)
 
   useEffect(() => {
@@ -27,7 +33,7 @@ export default function ProductsThankYou() {
     // should be redirected to the canonical Foundation thank-you page where the
     // license key UI lives.
     if (productParam === 'foundation' && sessionId) {
-      window.location.replace(`/shop-ossi/thank-you?session_id=${encodeURIComponent(sessionId)}`)
+      window.location.replace(`/blueprint-os/thank-you?session_id=${encodeURIComponent(sessionId)}`)
       return
     }
 
@@ -92,6 +98,153 @@ export default function ProductsThankYou() {
                   <p className="mt-8 text-[19px] text-[color:var(--ink-soft)] max-w-2xl">
                     This usually takes a few seconds. Don&apos;t close this tab.
                   </p>
+                </div>
+              )}
+
+              {status === 'succeeded' && (product === 'lead-handler' || product === 'bundle') && (
+                <div className="mt-8">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <CheckCircle2 size={32} strokeWidth={1.8} className="text-[color:var(--cyan)]" />
+                      <span className="label label-cyan">Payment confirmed</span>
+                    </div>
+                    <h1 className="font-display text-[clamp(2rem,5.6vw,4.8rem)] leading-[0.95] tracking-[-0.03em] max-w-3xl">
+                      {product === 'bundle' ? 'The full stack is yours.' : 'Your Lead Handler is on the way.'}{' '}
+                      <span className="font-display-italic text-[color:var(--cyan)]">
+                        Book your install call.
+                      </span>
+                    </h1>
+                  </motion.div>
+
+                  <div className="mt-12 grid md:grid-cols-12 gap-8 items-start">
+                    <div className="md:col-span-7">
+                      <Plate accent="cyan">
+                        <div className="label label-cyan mb-4">Next · Book the install call</div>
+                        <p className="text-[color:var(--ink-soft)] leading-relaxed text-[15px] mb-6">
+                          {product === 'bundle'
+                            ? 'Pick a time for your Lead Handler install call below. Two emails also just hit your inbox: your Blueprint OS license key with the welcome guide, and this same booking link. Start with the install call — we set everything up together.'
+                            : 'Pick a time for your install call below — the same booking link just hit your inbox too. On that call we wire the Lead Handler into your business — you approve AI-drafted replies from your phone within days.'}
+                        </p>
+                        <a
+                          href={LEAD_HANDLER_BOOKING_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn-ink inline-flex items-center justify-center w-full mb-6"
+                        >
+                          Book your install call
+                          <ArrowUpRight size={14} strokeWidth={2.2} />
+                        </a>
+                        <div className="pt-5 border-t border-[color:var(--paper-line)] font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
+                          Don&apos;t see the email{product === 'bundle' ? 's' : ''} after 60 seconds?
+                          Check spam, or email{' '}
+                          <a
+                            href="mailto:glenn@blueprintit.ai"
+                            className="underline underline-offset-[4px] hover:text-[color:var(--ink)]"
+                          >
+                            glenn@blueprintit.ai
+                          </a>
+                          .
+                        </div>
+                      </Plate>
+                    </div>
+                    <div className="md:col-span-5">
+                      <Plate accent="rust" className="bg-[rgba(251,248,239,0.65)] backdrop-blur-[2px]">
+                        <div className="label label-cyan mb-4">Have ready for the call</div>
+                        <ul className="space-y-3 text-[color:var(--ink-soft)] text-[15px] leading-relaxed">
+                          <li className="flex items-baseline gap-3">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--cyan)] shrink-0">01</span>
+                            <span>Where your leads come from — website form, Google Sheets, or Facebook Lead Ads.</span>
+                          </li>
+                          <li className="flex items-baseline gap-3">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--cyan)] shrink-0">02</span>
+                            <span>The email account replies should send from.</span>
+                          </li>
+                          <li className="flex items-baseline gap-3">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--cyan)] shrink-0">03</span>
+                            <span>Your phone, with Telegram installed — that&apos;s where approvals happen.</span>
+                          </li>
+                        </ul>
+                      </Plate>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {status === 'succeeded' && product === 'ai-assistant' && (
+                <div className="mt-8">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <CheckCircle2 size={32} strokeWidth={1.8} className="text-[color:var(--cyan)]" />
+                      <span className="label label-cyan">Payment confirmed</span>
+                    </div>
+                    <h1 className="font-display text-[clamp(2rem,5.6vw,4.8rem)] leading-[0.95] tracking-[-0.03em] max-w-3xl">
+                      Your AI Assistant is on the way.{' '}
+                      <span className="font-display-italic text-[color:var(--cyan)]">
+                        Book your setup call.
+                      </span>
+                    </h1>
+                  </motion.div>
+
+                  <div className="mt-12 grid md:grid-cols-12 gap-8 items-start">
+                    <div className="md:col-span-7">
+                      <Plate accent="cyan">
+                        <div className="label label-cyan mb-4">Next · Book the setup call</div>
+                        <p className="text-[color:var(--ink-soft)] leading-relaxed text-[15px] mb-6">
+                          Pick a time for your setup call below — the same
+                          booking link just hit your inbox too. On that call we
+                          finish the install, wire up your email and calendar
+                          integration, and run through 30 minutes of training.
+                        </p>
+                        <a
+                          href={AI_ASSISTANT_BOOKING_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn-ink inline-flex items-center justify-center w-full mb-6"
+                        >
+                          Book your setup call
+                          <ArrowUpRight size={14} strokeWidth={2.2} />
+                        </a>
+                        <div className="pt-5 border-t border-[color:var(--paper-line)] font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
+                          Don&apos;t see the email after 60 seconds?
+                          Check spam, or email{' '}
+                          <a
+                            href="mailto:glenn@blueprintit.ai"
+                            className="underline underline-offset-[4px] hover:text-[color:var(--ink)]"
+                          >
+                            glenn@blueprintit.ai
+                          </a>
+                          .
+                        </div>
+                      </Plate>
+                    </div>
+                    <div className="md:col-span-5">
+                      <Plate accent="rust" className="bg-[rgba(251,248,239,0.65)] backdrop-blur-[2px]">
+                        <div className="label label-cyan mb-4">Have ready for the call</div>
+                        <ul className="space-y-3 text-[color:var(--ink-soft)] text-[15px] leading-relaxed">
+                          <li className="flex items-baseline gap-3">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--cyan)] shrink-0">01</span>
+                            <span>An OpenRouter account, funded with $50 to start.</span>
+                          </li>
+                          <li className="flex items-baseline gap-3">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--cyan)] shrink-0">02</span>
+                            <span>A Hostinger account (any plan, $8&ndash;$24.49/mo).</span>
+                          </li>
+                          <li className="flex items-baseline gap-3">
+                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--cyan)] shrink-0">03</span>
+                            <span>The one email address and one calendar you want integrated.</span>
+                          </li>
+                        </ul>
+                      </Plate>
+                    </div>
+                  </div>
                 </div>
               )}
 

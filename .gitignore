@@ -10,3 +10,7 @@ package-lock.json
 yarn.lock
 
 .vercel
+.env*
+
+# SSR build output
+dist-ssr

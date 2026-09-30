@@ -4,7 +4,6 @@ import SiteFooter from '@/components/SiteFooter.jsx'
 import PurchaseSection from '@/components/PurchaseSection.jsx'
 import ParticleBrainCanvas from '@/components/ParticleBrainCanvas.jsx'
 import MiniOrbitBrain from '@/components/MiniOrbitBrain.jsx'
-// eslint-disable-next-line no-unused-vars -- motion is used via JSX member access (<motion.div>, etc.)
 import { motion, MotionConfig } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { SectionTag, Plate } from '@/components/blueprint.jsx'
@@ -13,32 +12,20 @@ const scrollToPurchase = () => {
   document.getElementById('purchase')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-function ShopOSSI() {
-  const [foundingRedeemed, setFoundingRedeemed] = useState(50)
+const CALENDLY_URL = 'https://calendly.com/blueprintit/15-ai-shop-os-discovery'
+const openCalendly = () => window.open(CALENDLY_URL, '_blank', 'noopener,noreferrer')
 
-  useEffect(() => {
-    let cancelled = false
-    fetch('https://shop-os-license-server.glenn-15d.workers.dev/founding50-redeemed')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (!cancelled && data && typeof data.redeemed === 'number') {
-          setFoundingRedeemed(data.redeemed)
-        }
-      })
-      .catch(() => {})
-    return () => { cancelled = true }
-  }, [])
-
+function BlueprintOS() {
   useEffect(() => {
     const prevTitle = document.title
-    document.title = 'Shop OS · Self-Install AI Operating System · Blueprint IT'
+    document.title = 'Blueprint OS · AI Operating System · Tailored For Your Business · Blueprint IT'
 
     const ogTitle = document.querySelector('meta[property="og:title"]')
     const ogDesc = document.querySelector('meta[property="og:description"]')
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
-    ogTitle?.setAttribute('content', 'Shop OS · Self-Install AI Operating System · Blueprint IT')
-    ogDesc?.setAttribute('content', 'A Foundation Shop Brain for your business. One command to install, $1,000 one time, yours from day one.')
+    ogTitle?.setAttribute('content', 'Blueprint OS · AI Operating System · Tailored For Your Business · Blueprint IT')
+    ogDesc?.setAttribute('content', 'A living Shop Brain for your business. One hour of guided setup, $2,000 one time, yours from day one.')
 
     return () => {
       document.title = prevTitle
@@ -53,12 +40,12 @@ function ShopOSSI() {
         <ParticleBrainCanvas />
 
         <SiteNav
-          ctaLabel="Get Shop OS"
-          onCtaClick={scrollToPurchase}
+          ctaLabel="Book a Demo"
+          onCtaClick={openCalendly}
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
             { kind: 'route', to: '/products', label: 'Products' },
-            !import.meta.env.PROD && { kind: 'route', to: '/shop-ossi', label: 'Shop OS SI' },
+            { kind: 'route', to: '/blueprint-os', label: 'Blueprint OS' },
             { kind: 'link', label: 'Studio', href: '/#about' },
             { kind: 'link', label: 'Case', href: '/#workflow' },
             { kind: 'link', label: 'Contact', href: '/#contact' },
@@ -79,15 +66,15 @@ function ShopOSSI() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-                    className="font-display mt-8 text-[clamp(2.08rem,6.4vw,5.76rem)] leading-[0.92] tracking-[-0.03em]"
+                    className="font-display mt-8 text-[clamp(1.3rem,3.85vw,3.43rem)] leading-[0.92] tracking-[-0.03em]"
                   >
-                    Your{' '}
+                    The{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
-                      Shop Operating System
-                    </span>
-                    .{' '}
+                      brain
+                    </span>{' '}
+                    your business{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      Ready to install.
+                      runs on.
                     </span>
                   </motion.h1>
 
@@ -95,19 +82,23 @@ function ShopOSSI() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25, duration: 0.8 }}
-                    className="mt-8 max-w-2xl text-[22px] md:text-[24px] leading-[1.55] text-[color:var(--ink-soft)]"
+                    className="mt-8 max-w-2xl text-[18.5px] md:text-[20.1px] leading-[1.55] text-[color:var(--ink-soft)]"
                   >
-                    <p>Stop being the answer to every question in your shop.</p>
-                    <p className="mt-5">
-                      Shop OS is the brain your business should have, a living
-                      knowledge base that understands how your shop actually
-                      runs. Stop answering the same questions every day. Shop
-                      OS will empower your team to find answers independently.
+                    <p>
+                      AI is only as useful as what it knows about your shop.
+                      Today it knows very little. Every prompt essentially
+                      starts from zero, and every real answer still routes
+                      through you.
                     </p>
                     <p className="mt-5">
-                      Your Foundation Shop Brain is live on your machine in under
-                      1 hour; ready for every automation, agent, and AI tool
-                      you&apos;ll layer on top. Yours from day one.
+                      Blueprint OS is the Shop Brain for your business. It turns what
+                      you and your team know &mdash; customers, quotes, SOPs, how
+                      you actually do things &mdash; into a living knowledge base
+                      your crew can ask directly, and that every automation,
+                      agent, and AI tool you add builds on top of.
+                    </p>
+                    <p className="mt-5 text-[color:var(--ink)]">
+                      Build the brain first. Everything else compounds on it.
                     </p>
                   </motion.div>
 
@@ -117,8 +108,11 @@ function ShopOSSI() {
                     transition={{ delay: 0.5, duration: 0.6 }}
                     className="mt-10 flex flex-wrap items-center gap-5"
                   >
+                    <div className="w-full font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
+                      One hour of guided setup · Yours from day one
+                    </div>
                     <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                      Get Shop OS
+                      Get Blueprint OS
                       <ArrowRight size={14} strokeWidth={2.2} />
                     </button>
                     <a
@@ -142,12 +136,12 @@ function ShopOSSI() {
                     <dl className="divide-y divide-[color:var(--paper-line)] font-mono text-xs">
                       {[
                         ['Practice', 'AI Operating System'],
-                        ['Format', 'Self-install · one command'],
+                        ['Format', 'Guided setup · Done With You'],
                         ['Deliverable', 'Shop Brain Foundation'],
                         ['Skills bundled', '28'],
-                        ['Install time', '~1 hour'],
+                        ['Onboarding', '30 min setup + 30 min training'],
                         ['Ownership', 'Yours from day one'],
-                        ['Price', '$1,000'],
+                        ['Price', '$2,000'],
                       ].map(([k, v]) => (
                         <div key={k} className="flex items-baseline justify-between py-2.5">
                           <dt className="uppercase tracking-[0.14em] text-[color:var(--ink-mute)]">
@@ -171,45 +165,48 @@ function ShopOSSI() {
               <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
                 <div className="md:col-span-5">
                   <SectionTag id="01">Drawing № 02 · The Gap</SectionTag>
-                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
-                    You and your team have the knowledge.{' '}
+                  <h2 className="font-display text-4xl md:text-5xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    Everything your team knows,{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
-                      Your business needs a copy.
+                      structured for AI.
                     </span>
                   </h2>
                   <p className="mt-6 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    The answers are already inside your business. They&apos;re just
-                    scattered — across inboxes, spreadsheets, Slack threads, Trello
-                    boards, cloud folders, and the heads of the handful of people
-                    who actually know how things work. Nobody&apos;s hiding them.
-                    They&apos;re just nowhere you can ask.
+                    Without your shop&apos;s context, AI is guessing. Blueprint OS
+                    builds that context in, so every answer is grounded in how
+                    your business actually runs.
                   </p>
                   <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
-                    The businesses that will pull ahead aren&apos;t the ones with
-                    more AI tools. They&apos;re the ones who built shared
-                    institutional intelligence on top of them, and let it compound.
+                    The answers already exist inside your business — scattered
+                    across inboxes, spreadsheets, and the heads of the few
+                    people who know how things work. They&apos;re just nowhere
+                    you can ask.
+                  </p>
+                  <p className="mt-4 text-[color:var(--ink-soft)] leading-relaxed text-lg">
+                    Every business will use AI in the future. The advantage
+                    will go to the businesses whose AI knows their business.
                   </p>
                 </div>
 
                 <div className="md:col-span-7 md:col-start-6">
                   <Plate accent="cyan" className="bg-[color:var(--paper-2)]">
-                    <div className="label label-cyan mb-4">Fig. 02-A · Your company&apos;s context, mapped</div>
-                    <KnowledgeMosaic />
+                    <div className="label label-cyan mb-4">Fig. 02-A · Your Shop&apos;s Knowledge, Organized for AI</div>
+                    <ContextConvergence />
                     <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)] text-center">
-                      Every project, SOP, and customer interaction adds tiles. The map fills in over time and compounds.
+                      The answers already exist. Blueprint OS gives them structure — and gives your team a place to ask.
                     </p>
                   </Plate>
                 </div>
               </div>
 
-              {/* Why Build Shop OS Now callout */}
+              {/* Why Build Blueprint OS Now callout */}
               <div className="mt-16 md:mt-20">
                 <Plate accent="rust">
                   <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
                     <div className="md:col-span-4">
                       <div className="label label-rust mb-3">Drawing № 02-B · Timing</div>
                       <h3 className="font-display text-3xl md:text-4xl leading-[1.0] tracking-[-0.015em]">
-                        Why Build Shop OS{' '}
+                        Why Build Blueprint OS{' '}
                         <span className="font-display-italic text-[color:var(--rust)]">Now?</span>
                       </h3>
                       <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
@@ -217,18 +214,48 @@ function ShopOSSI() {
                       </p>
                     </div>
                     <div className="md:col-span-8">
-                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-4">
-                        The Brain starts empty. The day it is installed it has the bare minimum information: your name, your company name. It knows very little. Not your customer list. Not your suppliers. Not the way you quote a frameless kitchen vs. a TFL closet with a center island. Context flows in over weeks and months — every meeting recorded, every email forwarded, every walk-through narrated. There is no install button for institutional memory. You and your team feed it every day.
-                      </p>
-                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-4">
-                        Your processes need the same runway. Today your change-order workflow lives in two places: your head and your shop lead&apos;s head, as habit, not as documentation. Getting it out — written down, indexed, queryable by anyone on the team — takes iterations. You write it. You use it. You find the gap. You refine. Six months of that and the system answers a question your team used to walk across the shop to ask.
-                      </p>
                       <p className="text-[color:var(--ink-soft)] leading-relaxed mb-5">
-                        There is no shortcut to compounding. The only variable is when you start the clock. The shop that starts today has six months of captured context by Q4. The shop that waits until Q4 is still teaching the Brain the basics.
+                        The Brain starts empty. Context flows in over time —
+                        every quote, meeting, and walk-through — and there is
+                        no install button for institutional memory. Your
+                        processes need the same runway: written down, used,
+                        refined, until the system answers questions your team
+                        used to walk across the shop to ask. There is no
+                        shortcut to compounding. The only variable is when you
+                        start the clock.
                       </p>
                       <div className="pt-5 border-t border-[color:var(--paper-line)]">
                         <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--ink)] leading-relaxed">
                           ↳ Every week you wait is a week of context that doesn&apos;t get captured, processes that don&apos;t get encoded, and twenty-minute answers that stay twenty minutes.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Plate>
+              </div>
+
+              {/* Category validation callout */}
+              <div className="mt-8">
+                <Plate accent="cyan">
+                  <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
+                    <div className="md:col-span-4">
+                      <div className="label label-cyan mb-3">Drawing № 02-C · Proof of category</div>
+                      <h3 className="font-display text-3xl md:text-4xl leading-[1.0] tracking-[-0.015em]">
+                        Fortune 500s are{' '}
+                        <span className="font-display-italic text-[color:var(--cyan)]">building this.</span>
+                      </h3>
+                    </div>
+                    <div className="md:col-span-8">
+                      <p className="text-[color:var(--ink-soft)] leading-relaxed mb-5">
+                        The biggest companies in the world are paying enterprise
+                        AI-transformation platforms to build exactly this: a
+                        &ldquo;Company Brain&rdquo; that maps how their people
+                        actually work, so AI can work alongside them. Same
+                        thesis.
+                      </p>
+                      <div className="pt-5 border-t border-[color:var(--paper-line)]">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--ink)] leading-relaxed">
+                          ↳ Blueprint OS is the same foundation, sized and priced for your shop. One hour. $2,000. Yours from day one.
                         </p>
                       </div>
                     </div>
@@ -246,7 +273,7 @@ function ShopOSSI() {
               <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
                 <div className="md:col-span-6">
                   <SectionTag id="02">Drawing № 03 · The Anatomy</SectionTag>
-                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                  <h2 className="font-display text-4xl md:text-5xl leading-[0.95] mt-6 tracking-[-0.02em]">
                     The{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">anatomy</span>{' '}
                     of your AI Operating System.
@@ -277,20 +304,17 @@ function ShopOSSI() {
                     Shop Brain Foundation
                   </h3>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-4">
-                    Your shop&apos;s knowledge lives in people and scattered datasets.
-                    Emails no one can find. Spreadsheets only one person understands.
-                    Files, SOPs, and processes that exist because someone wrote
-                    it down months or years ago. Shop OS Foundation pulls it all
-                    into one centralized brain. Your customer history, SOPs, brand
-                    voice, and internal policies, readable by every person on your
-                    team and every automation you run.
+                    Blueprint OS organizes your scattered knowledge —
+                    customer history, SOPs, brand voice, internal policies —
+                    into one centralized Brain, readable by every person on
+                    your team and assists with every automation. You choose
+                    what knowledge to provide it.
                   </p>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
-                    Your team accesses it through Shop OS Chat, a custom interface
-                    that runs locally on your shop computer. Open it, ask the Brain
-                    anything, get an answer grounded in how your business actually
-                    runs. Every conversation saves back automatically, so the Brain
-                    gets smarter every day.
+                    Your team uses it through Blueprint OS Chat, running locally on
+                    the shop computer. Ask anything, get answers grounded in
+                    how your business actually runs. Every conversation saves
+                    back automatically, so the Brain gets smarter every day.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-3">What your team gets</div>
@@ -334,12 +358,10 @@ function ShopOSSI() {
                     Twenty-eight Foundation Skills
                   </h3>
                   <p className="text-[color:var(--ink-soft)] leading-relaxed mb-6">
-                    Shop OS Foundation bundles 28 skills at install. The six
-                    primary skills below run your shop directly. They handle
-                    onboarding, ingestion, daily operations, and vault health.
-                    The other twenty-two sit underneath them, covering planning,
-                    research, integrations, and quality control, so the Brain
-                    can do real work.
+                    Twenty-eight skills, wired at install. The six below run
+                    your shop directly. The other twenty-two work underneath
+                    them, so the Brain can plan, research, integrate, and
+                    check its own work.
                   </p>
                   <div className="pt-5 border-t border-[color:var(--paper-line)]">
                     <div className="label label-cyan mb-4">Primary skills · run these directly</div>
@@ -364,10 +386,10 @@ function ShopOSSI() {
                     <div className="pt-5 border-t border-[color:var(--paper-line)]">
                       <div className="label mb-3">Plus twenty-two more · running underneath</div>
                       <p className="text-[color:var(--ink-soft)] leading-relaxed text-[14px] mb-4">
-                        The Brain calls these automatically when it needs them. You
-                        will not run them by name, but you will feel them every time
-                        Claude plans a multi-step task, audits its own work, or asks
-                        the right clarifying question before acting.
+                        The Brain calls these automatically. You&apos;ll never run
+                        them by name — you&apos;ll feel them every time it
+                        plans a multi-step task, audits its own work, or asks
+                        the right question before acting.
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {[
@@ -437,26 +459,25 @@ function ShopOSSI() {
           </section>
 
           {/* =========================================================
-              §03 — Drawing № 04 · How To Run Shop OS
+              §03 — Drawing № 04 · How To Run Blueprint OS
           ==========================================================*/}
           <section id="shop-operator" className="relative bg-[color:var(--paper-2)]/60">
             <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-20 md:py-28 border-t border-[color:var(--ink)]">
               <div className="grid md:grid-cols-12 gap-10 md:gap-16 mb-14 md:mb-20">
                 <div className="md:col-span-6">
-                  <SectionTag id="03">Drawing № 04 · How To Run Shop OS</SectionTag>
-                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
-                    Up and running{' '}
+                  <SectionTag id="03">Drawing № 04 · The Journey</SectionTag>
+                  <h2 className="font-display text-4xl md:text-5xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    Seed. Ask. Automate.{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
-                      in four steps.
+                      Compound.
                     </span>
                   </h2>
                 </div>
                 <div className="md:col-span-6">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Paste one command. The installer handles every prerequisite,
-                    sets up your vault, and lands you inside Claude Code. Most
-                    owners have their Shop Brain live and ready in under
-                    1 hour.
+                    One hour of guided setup with us gets you live. From there,
+                    four moves turn a folder of scattered files into the brain
+                    your shop runs on.
                   </p>
                 </div>
               </div>
@@ -465,23 +486,23 @@ function ShopOSSI() {
                 {[
                   {
                     n: '01',
-                    title: 'Run one command',
-                    body: 'Paste the install command from your welcome email. The installer auto-installs every prerequisite (Node.js, Claude Code, Obsidian), picks up your license, creates your Shop OS Vault in the folder you choose, and lands you inside Claude Code ready to go. About ten minutes.',
+                    title: 'Seed the Brain',
+                    body: 'Two 30-minute screen shares with us — setup, then training — and your Brain is live on your machine. Then you feed it: drop past quotes, email threads, voice memos, and SOPs into the Raw inbox, and /bp-digest files each one where it belongs. The more you seed, the smarter every answer.',
                   },
                   {
                     n: '02',
-                    title: 'Seed your context',
-                    body: 'Drop your past quotes, email threads, voice memos, and SOPs into the Raw inbox. Run /bp-digest. Every file gets routed to the right vault folder with a structured summary. The more you seed, the smarter every answer.',
+                    title: 'Ask it anything',
+                    body: 'Double-click the Blueprint OS Chat icon and your custom chat opens locally in your browser. Anyone in the shop can ask — what you quoted last spring, how that job was run, what the SOP actually says — and get answers grounded in your business, not the internet’s.',
                   },
                   {
                     n: '03',
-                    title: 'Open the chat',
-                    body: 'Double-click the Shop OS Chat icon in your vault. Your custom chat opens locally in your browser. Anyone in the shop can ask it anything about your business. Transcripts save back to the vault automatically.',
+                    title: 'Automate the routine',
+                    body: 'Use /bp-operator to put recurring work on a schedule: Monday-morning briefings, customer follow-up sweeps, inbox triage, the weekly brief. Set them once, they run on their own.',
                   },
                   {
                     n: '04',
-                    title: 'Let it run on a schedule',
-                    body: 'Use /bp-operator to schedule the routines you would otherwise do every Monday morning: customer follow-up sweep, inbox triage, weekly brief. Set them once, they run on their own.',
+                    title: 'Let it compound',
+                    body: 'Every conversation saves back to the vault. Every file adds context. /bp-optimizer keeps it healthy, and /bp-evolver spots patterns you’d miss. The Brain at month six answers questions the day-one Brain couldn’t.',
                   },
                 ].map((step, i) => (
                   <motion.div
@@ -517,8 +538,8 @@ function ShopOSSI() {
               <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
                 <div className="md:col-span-6">
                   <SectionTag id="04">Drawing № 05 · What&apos;s in the box</SectionTag>
-                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
-                    One install.{' '}
+                  <h2 className="font-display text-4xl md:text-5xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                    One hour.{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
                       Everything you need.
                     </span>
@@ -526,24 +547,23 @@ function ShopOSSI() {
                 </div>
                 <div className="md:col-span-5 md:col-start-8 md:pt-8">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Shop OS Foundation is a one-time purchase. Installer, license,
-                    twenty-eight pre-wired skills, and the custom chat your team
-                    can use locally. Lifetime updates while you&apos;re in the
-                    Founding 50 cohort.
+                    Blueprint OS Foundation is a one-time purchase. Setup session,
+                    training session, license, twenty-eight pre-wired skills, and
+                    the custom chat your team can use locally.
                   </p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-3 gap-5">
                 <Plate accent="cyan">
-                  <div className="label label-cyan mb-3">Installer &amp; license</div>
+                  <div className="label label-cyan mb-3">Setup, training &amp; license</div>
                   <h3 className="font-display text-2xl leading-[1.1] tracking-[-0.015em] mb-4">
-                    One command. Your machine.
+                    One hour with us. Your machine.
                   </h3>
                   <ul className="space-y-2 font-mono text-[12px]">
                     {[
-                      'One npx command, Mac or Windows',
-                      'Visual folder picker, no typing paths',
+                      '30-minute setup session, Mac or Windows',
+                      '30-minute training session for you and your team',
                       'License key delivered by email',
                       'Double-clickable chat launcher',
                     ].map((d) => (
@@ -583,10 +603,9 @@ function ShopOSSI() {
                   </h3>
                   <ul className="space-y-2 font-mono text-[12px]">
                     {[
-                      'One-time $1,000. No monthly bill from us.',
+                      'One-time $2,000. No monthly bill from us.',
                       'Runs on your existing Claude Code subscription',
                       'Data in plain markdown in your own cloud',
-                      'Lifetime updates as Founding 50',
                     ].map((d) => (
                       <li key={d} className="flex items-start gap-3">
                         <span className="inline-block h-1.5 w-4 mt-2 bg-[color:var(--cyan)]" />
@@ -597,46 +616,6 @@ function ShopOSSI() {
                 </Plate>
               </div>
 
-              <div className="mt-10">
-                <div className="relative">
-                  <Plate accent="rust" className="opacity-40">
-                    <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
-                      <div className="md:col-span-4">
-                        <div className="label label-rust mb-3">Founding 50 offer</div>
-                        <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em] line-through">
-                          $250 off,{' '}
-                          <span className="font-display-italic text-[color:var(--rust)]">
-                            lifetime updates.
-                          </span>
-                        </h3>
-                      </div>
-                      <div className="md:col-span-8">
-                        <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3 line-through">
-                          Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
-                        </p>
-                        <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
-                          ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
-                        </p>
-                      </div>
-                    </div>
-                  </Plate>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="border-2 border-[color:var(--rust)] text-[color:var(--rust)] font-mono font-bold text-xl md:text-2xl tracking-[0.2em] uppercase px-6 py-2 rotate-[-8deg] opacity-90">
-                      Sold Out
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-12 flex flex-col items-center gap-4">
-                <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                  Get Shop OS · $1,000
-                  <ArrowUpRight size={14} strokeWidth={2.2} />
-                </button>
-                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
-                  Self-install. Lifetime license. Yours from day one.
-                </div>
-              </div>
             </div>
           </section>
 
@@ -648,7 +627,7 @@ function ShopOSSI() {
               <div className="grid md:grid-cols-12 gap-8 mb-14 md:mb-20">
                 <div className="md:col-span-6">
                   <SectionTag id="05">Drawing № 06 · Honest answers</SectionTag>
-                  <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
+                  <h2 className="font-display text-4xl md:text-5xl leading-[0.95] mt-6 tracking-[-0.02em]">
                     The three questions{' '}
                     <span className="font-display-italic text-[color:var(--rust)]">
                       every operator asks.
@@ -666,16 +645,16 @@ function ShopOSSI() {
               <div className="grid md:grid-cols-3 gap-5">
                 {[
                   {
-                    q: 'I’m not technical. Will I mess up the install?',
-                    a: 'We paste the exact command into your welcome email. You paste it into Terminal, click to pick a folder when the picker opens, then paste in your license key. The whole thing takes about 5 minutes. If you can copy-paste, you can install Shop OS.',
+                    q: 'I’m not technical. Is this going to be over my head?',
+                    a: 'You do not have to do the setup alone. We can set it up with you on a screen share, then train your team on running it. You don’t need to know what a terminal is.',
                   },
                   {
                     q: 'What does it cost per month?',
-                    a: 'Nothing from Blueprint IT. Shop OS uses your existing Claude subscription for AI work. Claude Pro ($20/month from Anthropic) is the right starting point and plenty to run Shop OS day-to-day. As your Shop Brain grows and your team uses it every day, you may want to upgrade to Claude Max ($100/month) for higher usage limits.',
+                    a: 'Nothing from Blueprint IT. Blueprint OS runs on your existing Claude subscription — Claude Pro ($20/month) is plenty to start. Upgrade to Claude Max ($100/month) only if daily use outgrows it.',
                   },
                   {
                     q: 'What if Blueprint IT disappears?',
-                    a: 'Your vault is data owned by you. The installer, the skills, and the chat are also yours after install. Your operating system does not depend on us being around.',
+                    a: 'Your vault, the installer, the skills, and the chat are all yours after install. Your operating system doesn’t depend on us being around.',
                   },
                 ].map((item, i) => (
                   <motion.div
@@ -701,70 +680,7 @@ function ShopOSSI() {
           </section>
 
           {/* =========================================================
-              Final CTA — Drawing № 07 · Ready
-          ==========================================================*/}
-          <section id="shop-ready" className="relative">
-            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-36 border-t border-[color:var(--ink)] text-center">
-              <SectionTag id="06">Drawing № 07 · Ready</SectionTag>
-              <motion.h2
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-15%' }}
-                transition={{ duration: 0.8 }}
-                className="font-display mt-8 text-[clamp(3rem,9vw,8rem)] leading-[0.92] tracking-[-0.03em]"
-              >
-                Get your{' '}
-                <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
-              </motion.h2>
-              <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                One install. $1,000. A Foundation Shop Brain your team owns from day one.
-              </p>
-
-              <div className="mt-10 mx-auto max-w-3xl text-left">
-                <div className="relative">
-                  <Plate accent="rust" className="opacity-40">
-                    <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
-                      <div className="md:col-span-4">
-                        <div className="label label-rust mb-3">Founding 50 offer</div>
-                        <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-[-0.015em] line-through">
-                          $250 off,{' '}
-                          <span className="font-display-italic text-[color:var(--rust)]">
-                            lifetime updates.
-                          </span>
-                        </h3>
-                      </div>
-                      <div className="md:col-span-8">
-                        <p className="text-[color:var(--ink-soft)] leading-relaxed mb-3 line-through">
-                          Use code <strong className="font-mono text-[color:var(--ink)]">FOUNDING50</strong> at checkout. The first 50 customers get $250 off, bringing your price to $750 one-time. Plus, every Founding 50 customer gets every future Shop OS release, free, forever. Future foundation skills, routines, integrations, shipped to your install at no additional cost.
-                        </p>
-                        <p className="font-mono text-[12px] text-[color:var(--ink-mute)] tracking-[0.05em]">
-                          ↳ FOUNDING50 redeemed: {foundingRedeemed} of 50
-                        </p>
-                      </div>
-                    </div>
-                  </Plate>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="border-2 border-[color:var(--rust)] text-[color:var(--rust)] font-mono font-bold text-xl md:text-2xl tracking-[0.2em] uppercase px-6 py-2 rotate-[-8deg] opacity-90">
-                      Sold Out
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-10 flex flex-col items-center gap-4">
-                <button onClick={scrollToPurchase} className="btn-ink btn-rust">
-                  Get Shop OS · $1,000
-                  <ArrowUpRight size={14} strokeWidth={2.2} />
-                </button>
-                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
-                  Self-install. Lifetime license. Yours from day one.
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* =========================================================
-              Footer plate — Who's behind this
+              Who's behind this
           ==========================================================*/}
           <section id="shop-founder" className="relative">
             <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-16 md:py-20 border-t border-[color:var(--ink)]">
@@ -774,7 +690,7 @@ function ShopOSSI() {
                 </div>
                 <div className="md:col-span-9 space-y-5 max-w-3xl">
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Shop OS was built by{' '}
+                    Blueprint OS was built by{' '}
                     <span className="text-[color:var(--ink)] font-medium">
                       Glenn Chua
                     </span>{' '}
@@ -796,16 +712,69 @@ function ShopOSSI() {
                     teams.
                   </p>
                   <p className="text-lg text-[color:var(--ink-soft)] leading-relaxed">
-                    Shop OS exists because every business needs a foundational
+                    Blueprint OS exists because every business needs a foundational
                     knowledge base, your custom Shop Operating System, to
                     capture and leverage everything currently trapped in
                     inboxes, scattered files, and the heads of veteran
                     employees. Whatever tools you run today and whatever AI
                     breakthrough lands tomorrow, none of it compounds without a
-                    well-organized Shop OS underneath. It&apos;s the foundation
-                    that truly makes AI actually useful in your business.
+                    well-organized Blueprint OS underneath. It&apos;s the foundation
+                    that truly makes AI useful in your business.
                   </p>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* =========================================================
+              Final CTA — Drawing № 07 · Ready
+          ==========================================================*/}
+          <section id="shop-ready" className="relative">
+            <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-36 border-t border-[color:var(--ink)] text-center">
+              <SectionTag id="06">Drawing № 07 · Ready</SectionTag>
+              <motion.h2
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-15%' }}
+                transition={{ duration: 0.8 }}
+                className="font-display mt-8 text-[clamp(2rem,5vw,4rem)] leading-[0.92] tracking-[-0.03em]"
+              >
+                Get your{' '}
+                <span className="font-display-italic text-[color:var(--rust)]">Blueprint OS.</span>
+              </motion.h2>
+              <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
+                One hour. $2,000. A Foundation Shop Brain your team owns from day one.
+              </p>
+
+              <div className="mt-10 flex flex-col items-center gap-4">
+                <button onClick={openCalendly} className="btn-ink btn-cyan">
+                  Book a Demo
+                  <ArrowUpRight size={14} strokeWidth={2.2} />
+                </button>
+                <button onClick={scrollToPurchase} className="btn-ink btn-rust">
+                  Get Blueprint OS · $2,000
+                  <ArrowUpRight size={14} strokeWidth={2.2} />
+                </button>
+                <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-mute)]">
+                  Setup + training included. Lifetime license. Yours from day one.
+                </div>
+              </div>
+
+              {/* Trust strip */}
+              <div className="mt-10 flex flex-wrap justify-center gap-3">
+                {[
+                  'Runs locally on your machine',
+                  'Your data · plain markdown',
+                  'No per-seat fees',
+                  'Doesn’t depend on us existing',
+                ].map((t) => (
+                  <div
+                    key={t}
+                    className="border border-[color:var(--paper-line)] bg-[color:var(--paper)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--ink-soft)]"
+                  >
+                    {t}
+                  </div>
+                ))}
               </div>
             </div>
           </section>
@@ -825,125 +794,167 @@ function ShopOSSI() {
   )
 }
 
-function KnowledgeMosaic() {
-  const VBW = 600
-  const VBH = 348
-  const padL = 14
-  const padR = 14
-  const padT = 16
-  const padB = 88
-  const innerW = VBW - padL - padR
-  const innerH = VBH - padT - padB
-  const COLS = 16
-  const ROWS = 8
-  const totalCells = COLS * ROWS
-  const cellW = innerW / COLS
-  const cellH = innerH / ROWS
-  const gap = 2
+// iOS/iPadOS detection. Every iPad browser (Chrome and Firefox included) is
+// WebKit under the hood, and Framer Motion's `whileInView` reveal never fires
+// for this figure's SVG children there — leaving all 40+ elements stuck at
+// their `initial` opacity 0, i.e. a blank panel. On those devices we skip
+// Framer Motion entirely and render the finished frame as a static graphic.
+// iPadOS 13+ reports itself as "MacIntel", hence the maxTouchPoints check.
+function isIOSDevice() {
+  if (typeof navigator === 'undefined') return false
+  const ua = navigator.userAgent || ''
+  if (/iPad|iPhone|iPod/.test(ua)) return true
+  return navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1
+}
 
-  const milestones = [
-    { label: 'Day 1',  upto: 5,   color: 'var(--rust)' },
-    { label: 'Mo 1',   upto: 15,  color: 'var(--gold)' },
-    { label: 'Mo 3',   upto: 36,  color: 'var(--cyan-soft)' },
-    { label: 'Mo 6',   upto: 70,  color: 'var(--cyan)' },
-    { label: 'Yr 1',   upto: 128, color: 'var(--ink-soft)' },
+function ContextConvergence() {
+  // Resolved once, before first paint, so the static branch never flashes.
+  const [isStatic] = useState(isIOSDevice)
+
+  const NODE = { x: 337, y: 170 }
+  const HUB_IN = { x: 318, y: 170 }
+  const HUB_OUT = { x: 356, y: 170 }
+  const viewport = { once: true, amount: 0.15 }
+
+  // Static mode swaps every motion.* element for its plain SVG tag and drops
+  // the animation props, so the figure paints in its completed state.
+  const T = isStatic ? 'text' : motion.text
+  const L = isStatic ? 'line' : motion.line
+  const G = isStatic ? 'g' : motion.g
+  const R = isStatic ? 'rect' : motion.rect
+  const reveal = (initial, whileInView, transition) =>
+    isStatic ? {} : { initial, whileInView, viewport, transition }
+
+  const chips = [
+    { label: 'EMAIL THREADS', x: 62, y: 58, w: 116, rot: -7 },
+    { label: 'QUOTE #1042', x: 38, y: 118, w: 104, rot: 5 },
+    { label: 'SPREADSHEET', x: 153, y: 98, w: 104, rot: -4 },
+    { label: 'VOICE MEMO', x: 96, y: 173, w: 108, rot: 8 },
+    { label: 'SOP (DRAFT)', x: 46, y: 228, w: 108, rot: -9 },
+    { label: 'JOB PHOTOS', x: 157, y: 243, w: 116, rot: 4 },
+    { label: 'IN DAVE’S HEAD', x: 104, y: 278, w: 132, rot: -5, rust: true },
+  ].map((c) => ({ ...c, cx: c.x + c.w / 2, cy: c.y + 11 }))
+
+  const rows = [
+    { label: 'CUSTOMERS', y: 72, count: 6 },
+    { label: 'QUOTES', y: 142, count: 5 },
+    { label: 'SOPS', y: 212, count: 4 },
+    { label: 'DECISIONS', y: 282, count: 3 },
   ]
-
-  function milestoneFor(i) {
-    for (let mi = 0; mi < milestones.length; mi++) {
-      if (i < milestones[mi].upto) return mi
-    }
-    return milestones.length - 1
-  }
-
-  const cells = []
-  for (let i = 0; i < totalCells; i++) {
-    const row = Math.floor(i / COLS)
-    const col = i % COLS
-    const x = padL + col * cellW + gap / 2
-    const y = padT + row * cellH + gap / 2
-    const w = cellW - gap
-    const h = cellH - gap
-    const mIdx = milestoneFor(i)
-    const fill = milestones[mIdx].color
-    const milestoneStart = mIdx > 0 ? milestones[mIdx - 1].upto : 0
-    const localProgress = (i - milestoneStart) / Math.max(1, milestones[mIdx].upto - milestoneStart)
-    const delay = 0.3 + mIdx * 0.22 + localProgress * 0.12
-    cells.push({ key: i, x, y, w, h, fill, delay })
-  }
-
-  const legendY = padT + innerH + 16
-  const installY = VBH - 14
-  const legendItemW = innerW / milestones.length
+  const tileOpacity = [1, 0.85, 0.7, 0.55, 0.4, 0.25]
 
   return (
-    <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full h-auto">
-      {cells.map((c) => (
-        <rect
-          key={`bg-${c.key}`}
-          x={c.x}
-          y={c.y}
-          width={c.w}
-          height={c.h}
-          fill="none"
-          stroke="var(--paper-line)"
-          strokeWidth="0.5"
-          opacity="0.5"
-        />
-      ))}
+    <div className="relative w-full" style={{ aspectRatio: '660 / 340' }}>
+      <svg viewBox="0 0 660 340" className="w-full h-auto block">
+        {/* Column headers */}
+        <T
+          x="20" y="26" fontFamily="JetBrains Mono" fontSize="10" letterSpacing="2"
+          fill="var(--ink-mute)"
+          {...reveal({ opacity: 0 }, { opacity: 1 }, { duration: 0.5 })}
+        >
+          TODAY · SCATTERED
+        </T>
+        <T
+          x="640" y="26" fontFamily="JetBrains Mono" fontSize="10" letterSpacing="2"
+          fill="var(--cyan)" textAnchor="end"
+          {...reveal({ opacity: 0 }, { opacity: 1 }, { duration: 0.5, delay: 1.5 })}
+        >
+          WITH BLUEPRINT OS · ANSWERS
+        </T>
 
-      {cells.map((c) => (
-        <motion.rect
-          key={c.key}
-          x={c.x}
-          y={c.y}
-          width={c.w}
-          height={c.h}
-          fill={c.fill}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.92 }}
-          transition={{ duration: 0.45, ease: 'easeOut', delay: c.delay }}
-        />
-      ))}
+        {/* Dashed convergence lines: scattered → node */}
+        {chips.map((c, i) => (
+          <L
+            key={`in-${c.label}`}
+            x1={c.cx} y1={c.cy} x2={HUB_IN.x} y2={HUB_IN.y}
+            stroke="var(--paper-line)" strokeWidth="1" strokeDasharray="3 3"
+            {...reveal(
+              { pathLength: 0, opacity: 0 },
+              { pathLength: 1, opacity: 1 },
+              { duration: 0.45, delay: 0.7 + i * 0.06, ease: 'easeOut' }
+            )}
+          />
+        ))}
 
-      {milestones.map((m, i) => {
-        const cx = padL + i * legendItemW + legendItemW / 2
-        return (
-          <g key={m.label}>
-            <rect
-              x={cx - 36}
-              y={legendY}
-              width="10"
-              height="10"
-              fill={m.color}
-              opacity="0.92"
-            />
-            <text
-              x={cx - 22}
-              y={legendY + 9}
-              fontFamily="JetBrains Mono"
-              fontSize="10"
-              fill="var(--ink-soft)"
-              textAnchor="start"
+        {/* Cyan fan-out lines: node → rows */}
+        {rows.map((r, i) => (
+          <L
+            key={`out-${r.label}`}
+            x1={HUB_OUT.x} y1={HUB_OUT.y} x2="420" y2={r.y + 6}
+            stroke="var(--cyan)" strokeWidth="1.2"
+            {...reveal(
+              { pathLength: 0, opacity: 0 },
+              { pathLength: 1, opacity: 1 },
+              { duration: 0.4, delay: 1.35 + i * 0.07, ease: 'easeOut' }
+            )}
+          />
+        ))}
+
+        {/* Scattered chips */}
+        {chips.map((c, i) => (
+          <G
+            key={c.label}
+            {...reveal(
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0 },
+              { duration: 0.5, delay: 0.1 + i * 0.08 }
+            )}
+          >
+            <g transform={`rotate(${c.rot} ${c.cx} ${c.cy})`}>
+              <rect
+                x={c.x} y={c.y} width={c.w} height="22"
+                fill="var(--paper)"
+                stroke={c.rust ? 'var(--rust)' : 'var(--ink-mute)'}
+              />
+              <text
+                x={c.cx} y={c.cy + 3.5} textAnchor="middle"
+                fontFamily="JetBrains Mono" fontSize="9"
+                fill={c.rust ? 'var(--rust)' : 'var(--ink-soft)'}
+              >
+                {c.label}
+              </text>
+            </g>
+          </G>
+        ))}
+
+        {/* Blueprint OS node */}
+        <G {...reveal({ opacity: 0 }, { opacity: 1 }, { duration: 0.5, delay: 1.1 })}>
+          <circle cx={NODE.x} cy={NODE.y} r="24" fill="var(--card)" stroke="var(--rust)" strokeWidth="1.5" />
+          <circle cx={NODE.x} cy={NODE.y} r="17" fill="none" stroke="var(--rust)" strokeWidth="0.75" strokeDasharray="2 3" />
+          <text
+            x={NODE.x} y={NODE.y + 42} fontFamily="JetBrains Mono" fontSize="9"
+            letterSpacing="1.5" fill="var(--rust)" textAnchor="middle"
+          >
+            BLUEPRINT OS
+          </text>
+        </G>
+
+        {/* Structured rows */}
+        {rows.map((r, ri) => (
+          <g key={r.label}>
+            <T
+              x="428" y={r.y - 6} fontFamily="JetBrains Mono" fontSize="9"
+              letterSpacing="1" fill="var(--ink)"
+              {...reveal({ opacity: 0 }, { opacity: 1 }, { duration: 0.4, delay: 1.45 + ri * 0.15 })}
             >
-              {m.label}
-            </text>
+              {r.label}
+            </T>
+            {Array.from({ length: r.count }).map((_, ci) => (
+              <R
+                key={ci}
+                x={428 + ci * 30} y={r.y} width="26" height="13" fill="var(--cyan)"
+                {...(isStatic ? { opacity: tileOpacity[ci] } : {})}
+                {...reveal(
+                  { opacity: 0 },
+                  { opacity: tileOpacity[ci] },
+                  { duration: 0.35, delay: 1.55 + ri * 0.15 + ci * 0.05 }
+                )}
+              />
+            ))}
           </g>
-        )
-      })}
-
-      <text
-        x={VBW / 2}
-        y={installY}
-        textAnchor="middle"
-        fontFamily="JetBrains Mono"
-        fontSize="9"
-        fill="var(--rust)"
-        textTransform="uppercase"
-      >
-        Install → Day 1 live. From there, the company&apos;s context map compounds.
-      </text>
-    </svg>
+        ))}
+      </svg>
+    </div>
   )
 }
 
@@ -958,10 +969,27 @@ function OrbitDiagram() {
   const cy = VBH / 2
   const r = 220
 
+  // The reveal is triggered by the wrapping HTML div, not by each SVG <g>.
+  // WebKit on iOS/iPadOS never fires `whileInView` for SVG children (see
+  // isIOSDevice above), which left every chip stuck at opacity 0 on iPad.
+  const chipVariants = {
+    hidden: { opacity: 0 },
+    show: (i) => ({
+      opacity: 1,
+      transition: { duration: 0.5, delay: 0.1 + i * 0.08 },
+    }),
+  }
+
   return (
     <>
       {/* Desktop orbit */}
-      <div className="hidden md:block relative" style={{ aspectRatio: `${VBW} / ${VBH}` }}>
+      <motion.div
+        className="hidden md:block relative"
+        style={{ aspectRatio: `${VBW} / ${VBH}` }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full h-auto block">
           <circle
             cx={cx}
@@ -981,13 +1009,7 @@ function OrbitDiagram() {
             const ix = cx + Math.cos(angle) * innerR
             const iy = cy + Math.sin(angle) * innerR
             return (
-              <motion.g
-                key={chip}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: '-15%' }}
-                transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-              >
+              <motion.g key={chip} custom={i} variants={chipVariants}>
                 <line
                   x1={ix}
                   y1={iy}
@@ -1041,10 +1063,10 @@ function OrbitDiagram() {
                 '0 0 18px rgba(244,239,227,0.85), 0 1px 0 rgba(244,239,227,0.6)',
             }}
           >
-            Your Shop OS
+            Your Blueprint OS
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Mobile fallback */}
       <div className="md:hidden">
@@ -1067,4 +1089,4 @@ function OrbitDiagram() {
   )
 }
 
-export default ShopOSSI
+export default BlueprintOS

@@ -1,5 +1,5 @@
 // Shared "blueprint drawing" primitives used across pages.
-// Lifted verbatim from the original App.jsx so both Home and Shop OS can import.
+// Lifted verbatim from the original App.jsx so both Home and Blueprint OS can import.
 
 export const SectionTag = ({ id, children }) => (
   <div className="flex items-center gap-4">

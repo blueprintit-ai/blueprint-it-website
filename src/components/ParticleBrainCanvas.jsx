@@ -1,5 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { buildPointillistBrain } from '@/lib/brainShape.js'
+import { detectWebgl } from '@/lib/webgl.js'
+import ParticleBrainFallback from './ParticleBrainFallback.jsx'
 
 // Particle brain background — benaios.com-style WebGL effect retuned to
 // Blueprint IT palette. ~14k particles render an assembled 🧠 silhouette
@@ -26,294 +29,20 @@ const C_RUST = [0xff / 255, 0x69 / 255, 0x2f / 255]
 const C_INK_SOFT = [0x2a / 255, 0x3f / 255, 0x55 / 255]
 const C_INK_MUTE = [0x6a / 255, 0x77 / 255, 0x88 / 255]
 
-// Rasterize 🧠 emoji to an offscreen canvas; return brain particle targets.
-// Captures silhouette edges + interior gradient edges (gyri/sulci) for
-// anatomical recognizability at any density.
-function buildPointillistBrain(maxTargets, worldScale = 2.4) {
-  const SIZE = 1280
-  const canvas2d = document.createElement('canvas')
-  canvas2d.width = SIZE
-  canvas2d.height = SIZE
-  const ctx2d = canvas2d.getContext('2d')
-
-  ctx2d.fillStyle = '#ffffff'
-  ctx2d.fillRect(0, 0, SIZE, SIZE)
-
-  // Lateral (left-side sagittal) view — frontal lobe faces left,
-  // occipital pole right, cerebellum at lower-right.
-  // cx/cy anchor the cerebrum centroid; rw/rh scale the path.
-  const cx = SIZE * 0.470   // 602
-  const cy = SIZE * 0.415   // 531
-  const rw = SIZE * 0.415   // 531  — horizontal radius
-  const rh = SIZE * 0.330   // 422  — vertical radius
-
-  // ── SILHOUETTE: one continuous path (cerebrum + cerebellum + stem) ────────
-  ctx2d.fillStyle = '#111111'
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.82, cy + rh * 0.28)         // A  front-bottom
-  ctx2d.bezierCurveTo(                                   // front face (concave)
-    cx - rw * 0.96, cy - rh * 0.06,
-    cx - rw * 0.90, cy - rh * 0.48,
-    cx - rw * 0.70, cy - rh * 0.74
-  )
-  ctx2d.bezierCurveTo(                                   // forehead arc → crown
-    cx - rw * 0.48, cy - rh * 1.00,
-    cx - rw * 0.10, cy - rh * 1.12,
-    cx + rw * 0.14, cy - rh * 1.12
-  )
-  ctx2d.bezierCurveTo(                                   // crown → occipital top
-    cx + rw * 0.42, cy - rh * 1.10,
-    cx + rw * 0.72, cy - rh * 0.94,
-    cx + rw * 0.86, cy - rh * 0.62
-  )
-  ctx2d.bezierCurveTo(                                   // occipital descending
-    cx + rw * 1.02, cy - rh * 0.28,
-    cx + rw * 1.00, cy + rh * 0.16,
-    cx + rw * 0.80, cy + rh * 0.42
-  )
-  ctx2d.bezierCurveTo(                                   // cerebrum → cerebellum notch
-    cx + rw * 0.70, cy + rh * 0.56,
-    cx + rw * 0.56, cy + rh * 0.58,
-    cx + rw * 0.47, cy + rh * 0.51
-  )
-  ctx2d.bezierCurveTo(                                   // cerebellum upper arc
-    cx + rw * 0.60, cy + rh * 0.44,
-    cx + rw * 0.96, cy + rh * 0.48,
-    cx + rw * 1.02, cy + rh * 0.70
-  )
-  ctx2d.bezierCurveTo(                                   // cerebellum lower arc
-    cx + rw * 1.02, cy + rh * 0.92,
-    cx + rw * 0.78, cy + rh * 1.06,
-    cx + rw * 0.52, cy + rh * 1.00
-  )
-  ctx2d.bezierCurveTo(                                   // brain stem connector
-    cx + rw * 0.36, cy + rh * 1.00,
-    cx + rw * 0.16, cy + rh * 1.02,
-    cx + rw * 0.04, cy + rh * 0.97
-  )
-  ctx2d.bezierCurveTo(                                   // temporal base (forward)
-    cx - rw * 0.20, cy + rh * 0.97,
-    cx - rw * 0.50, cy + rh * 0.89,
-    cx - rw * 0.72, cy + rh * 0.72
-  )
-  ctx2d.bezierCurveTo(                                   // temporal → front-bottom
-    cx - rw * 0.88, cy + rh * 0.58,
-    cx - rw * 0.92, cy + rh * 0.42,
-    cx - rw * 0.82, cy + rh * 0.28
-  )
-  ctx2d.closePath()
-  ctx2d.fill()
-
-  // ── SULCI in mid-grey (#777) ──────────────────────────────────────────────
-  // The gradient-edge detector picks up the dark (#111) → grey (#777)
-  // transition at each sulcus edge as interior particle candidates.
-  ctx2d.strokeStyle = '#777777'
-  ctx2d.lineCap = 'round'
-  ctx2d.lineJoin = 'round'
-
-  // Lateral / Sylvian fissure — the deepest, most prominent sulcus.
-  // Separates temporal lobe (below) from frontal + parietal (above).
-  // Runs nearly horizontal then turns up at its posterior end.
-  ctx2d.lineWidth = SIZE * 0.014
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.40, cy + rh * 0.24)
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.04, cy + rh * 0.14,
-    cx + rw * 0.34, cy + rh * 0.10,
-    cx + rw * 0.44, cy - rh * 0.02
-  )
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.50, cy - rh * 0.14,
-    cx + rw * 0.46, cy - rh * 0.26,
-    cx + rw * 0.38, cy - rh * 0.30
-  )
-  ctx2d.stroke()
-
-  // Central sulcus (Rolandic fissure) — nearly vertical,
-  // divides motor cortex (front) from sensory cortex (behind).
-  ctx2d.lineWidth = SIZE * 0.010
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.10, cy - rh * 0.98)
-  ctx2d.bezierCurveTo(
-    cx - rw * 0.02, cy - rh * 0.62,
-    cx + rw * 0.08, cy - rh * 0.22,
-    cx + rw * 0.14, cy + rh * 0.12
-  )
-  ctx2d.stroke()
-
-  // Precentral sulcus (just anterior to central)
-  ctx2d.lineWidth = SIZE * 0.008
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.24, cy - rh * 0.94)
-  ctx2d.bezierCurveTo(
-    cx - rw * 0.16, cy - rh * 0.58,
-    cx - rw * 0.06, cy - rh * 0.20,
-    cx - rw * 0.02, cy + rh * 0.12
-  )
-  ctx2d.stroke()
-
-  // Postcentral sulcus (just posterior to central)
-  ctx2d.lineWidth = SIZE * 0.008
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx + rw * 0.06, cy - rh * 0.96)
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.16, cy - rh * 0.60,
-    cx + rw * 0.24, cy - rh * 0.20,
-    cx + rw * 0.28, cy + rh * 0.10
-  )
-  ctx2d.stroke()
-
-  // Superior frontal sulcus — runs roughly front-to-back in upper frontal lobe
-  ctx2d.lineWidth = SIZE * 0.008
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.64, cy - rh * 0.74)
-  ctx2d.bezierCurveTo(
-    cx - rw * 0.50, cy - rh * 0.80,
-    cx - rw * 0.32, cy - rh * 0.82,
-    cx - rw * 0.20, cy - rh * 0.76
-  )
-  ctx2d.stroke()
-
-  // Inferior frontal sulcus — below superior, parallel
-  ctx2d.lineWidth = SIZE * 0.007
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.60, cy - rh * 0.46)
-  ctx2d.bezierCurveTo(
-    cx - rw * 0.46, cy - rh * 0.54,
-    cx - rw * 0.28, cy - rh * 0.52,
-    cx - rw * 0.18, cy - rh * 0.44
-  )
-  ctx2d.stroke()
-
-  // Intraparietal sulcus — parietal lobe, runs front-to-back
-  ctx2d.lineWidth = SIZE * 0.008
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx + rw * 0.12, cy - rh * 0.82)
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.30, cy - rh * 0.74,
-    cx + rw * 0.50, cy - rh * 0.62,
-    cx + rw * 0.62, cy - rh * 0.46
-  )
-  ctx2d.stroke()
-
-  // Superior temporal sulcus — parallels Sylvian, below it in temporal lobe
-  ctx2d.lineWidth = SIZE * 0.007
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx - rw * 0.26, cy + rh * 0.56)
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.10, cy + rh * 0.46,
-    cx + rw * 0.32, cy + rh * 0.44,
-    cx + rw * 0.42, cy + rh * 0.38
-  )
-  ctx2d.stroke()
-
-  // Cerebellum folds — two horizontal bands across the cerebellar surface
-  ctx2d.lineWidth = SIZE * 0.007
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx + rw * 0.53, cy + rh * 0.64)
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.72, cy + rh * 0.62,
-    cx + rw * 0.92, cy + rh * 0.64,
-    cx + rw * 1.00, cy + rh * 0.72
-  )
-  ctx2d.stroke()
-  ctx2d.beginPath()
-  ctx2d.moveTo(cx + rw * 0.55, cy + rh * 0.82)
-  ctx2d.bezierCurveTo(
-    cx + rw * 0.72, cy + rh * 0.80,
-    cx + rw * 0.90, cy + rh * 0.82,
-    cx + rw * 0.98, cy + rh * 0.88
-  )
-  ctx2d.stroke()
-
-  // ── Rasterise drawn shape into particle candidates ────────────────────────
-  const img = ctx2d.getImageData(0, 0, SIZE, SIZE)
-  const data = img.data
-  function pxSum(x, y) {
-    if (x < 0 || y < 0 || x >= SIZE || y >= SIZE) return 765
-    const i = (y * SIZE + x) * 4
-    return data[i] + data[i + 1] + data[i + 2]
-  }
-  function isBackground(x, y) { return pxSum(x, y) > 690 }
-
-  const STRIDE = 3
-  const worldRadiusPx = SIZE * 0.42
-  const positions = []
-  const layers = []
-  let silCount = 0
-
-  for (let py = 0; py < SIZE; py += STRIDE) {
-    for (let px = 0; px < SIZE; px += STRIDE) {
-      if (isBackground(px, py)) continue
-      const onSilhouette =
-        isBackground(px - STRIDE, py) ||
-        isBackground(px + STRIDE, py) ||
-        isBackground(px, py - STRIDE) ||
-        isBackground(px, py + STRIDE)
-      // Accept every interior pixel — fills the whole brain uniformly so
-      // the subsampled nodes scatter throughout the shape like the reference.
-      const wx = ((px - SIZE / 2) / worldRadiusPx) * worldScale
-      const wy = -((py - SIZE / 2) / worldRadiusPx) * worldScale
-      const wz = 0
-      positions.push(wx, wy, wz)
-      layers.push(onSilhouette ? 1 : 0)
-    }
-  }
-
-  // Uniformly subsample to maxTargets.
-  const totalCandidates = positions.length / 3
-  let finalPositions = positions
-  let finalLayers = layers
-  if (totalCandidates > maxTargets) {
-    finalPositions = []
-    finalLayers = []
-    const step = totalCandidates / maxTargets
-    for (let idx = 0; idx < totalCandidates; idx++) {
-      if (Math.floor(idx / step) !== Math.floor((idx - 1) / step)) {
-        finalPositions.push(
-          positions[idx * 3 + 0],
-          positions[idx * 3 + 1],
-          positions[idx * 3 + 2]
-        )
-        finalLayers.push(layers[idx])
-      }
-    }
-  }
-
-  return {
-    positions: new Float32Array(finalPositions),
-    layers: new Float32Array(finalLayers),
-    count: finalPositions.length / 3,
-  }
-}
 
 export default function ParticleBrainCanvas() {
   const canvasRef = useRef(null)
+  const [useFallback, setUseFallback] = useState(() => !detectWebgl())
 
   useEffect(() => {
+    if (useFallback) {
+      console.info('[ParticleBrain] WebGL unavailable — using SVG fallback')
+      return
+    }
     const canvas = canvasRef.current
     if (!canvas) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    // WebGL detection via throwaway canvas (real one stays untouched).
-    const probe = document.createElement('canvas')
-    const hasWebgl = !!(probe.getContext('webgl2') || probe.getContext('webgl'))
-
-    if (!hasWebgl) {
-      const ctx2d = canvas.getContext('2d')
-      if (ctx2d) {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        ctx2d.globalAlpha = 0.3
-        ctx2d.font =
-          '320px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
-        ctx2d.textAlign = 'center'
-        ctx2d.textBaseline = 'middle'
-        ctx2d.fillText('\u{1F9E0}', canvas.width / 2, canvas.height / 2)
-      }
-      return () => {}
-    }
 
     const isMobile = window.innerWidth < 768
     const count = isMobile ? MOBILE_PARTICLES : TOTAL_PARTICLES
@@ -328,11 +57,20 @@ export default function ParticleBrainCanvas() {
     )
     camera.position.set(0, 0, 6.4)
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-    })
+    let renderer
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+      })
+    } catch (err) {
+      // Probe passed but real context creation failed (context limit, GPU
+      // reset, etc.) — swap to the SVG fallback instead of a blank hero.
+      console.info('[ParticleBrain] WebGLRenderer failed — using SVG fallback', err)
+      setUseFallback(true)
+      return
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setSize(window.innerWidth, window.innerHeight, false)
     renderer.setClearColor(0x000000, 0)
@@ -689,7 +427,8 @@ export default function ParticleBrainCanvas() {
       threadMaterial.dispose()
       renderer.dispose()
     }
-  }, [])
+  }, [useFallback])
 
+  if (useFallback) return <ParticleBrainFallback />
   return <canvas ref={canvasRef} aria-hidden="true" className="bp-canvas" />
 }

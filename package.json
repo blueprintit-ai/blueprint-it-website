@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && BUILD_TARGET=ssr vite build --ssr src/entry-server.jsx && node scripts/prerender-meta.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:ssr": "BUILD_TARGET=ssr vite build --ssr src/entry-server.jsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

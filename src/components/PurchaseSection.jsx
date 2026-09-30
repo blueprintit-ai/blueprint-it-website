@@ -29,7 +29,7 @@ export default function PurchaseSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const basePrice = 100000
+  const basePrice = 200000
   const finalPrice = coupon?.finalPrice ?? basePrice
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
@@ -77,10 +77,11 @@ export default function PurchaseSection() {
     <section id="purchase" className="relative py-20 md:py-28">
       <div className="mx-auto max-w-2xl px-6">
         <h2 className="font-display text-4xl md:text-5xl tracking-[-0.02em] mb-4">
-          Get Shop OS Foundation
+          Get Blueprint OS Foundation
         </h2>
         <p className="text-lg text-[color:var(--ink-soft)] mb-10">
-          $1,000 one-time. Lifetime license. Install in less than 15 minutes.
+          $2,000 one-time. Lifetime license. A 30-minute setup session and a
+          30-minute training session with us, included.
         </p>
 
         <div className="border border-[color:var(--border)] rounded-sm p-8 bg-white/40 backdrop-blur-sm">
@@ -121,7 +122,7 @@ export default function PurchaseSection() {
                   type="text"
                   value={couponInput}
                   onChange={(e) => setCouponInput(e.target.value)}
-                  placeholder="FOUNDING50"
+                  placeholder="Enter code"
                   className="flex-1 px-3 py-2 border border-[color:var(--border)] bg-white"
                 />
                 <button
@@ -188,7 +189,7 @@ export default function PurchaseSection() {
                         await licenseServer.capturePayPalOrder({
                           orderId: data.orderID, email,
                         })
-                        window.location.href = `/shop-ossi/thank-you?paypal_order_id=${data.orderID}`
+                        window.location.href = `/blueprint-os/thank-you?paypal_order_id=${data.orderID}`
                       } catch (e) {
                         setError(e.message)
                       }

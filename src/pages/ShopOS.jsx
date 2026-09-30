@@ -14,15 +14,15 @@ const openCalendly = () => window.open(CALENDLY_URL, '_blank', 'noopener,norefer
 function ShopOS() {
   useEffect(() => {
     const prevTitle = document.title
-    document.title = 'Shop OS — AI Operating System Installed in 10 Days · Blueprint IT'
+    document.title = 'Blueprint OS — AI Operating System Installed in 10 Days · Blueprint IT'
 
     // Update og:title and og:description meta tags if present
     const ogTitle = document.querySelector('meta[property="og:title"]')
     const ogDesc = document.querySelector('meta[property="og:description"]')
     const prevOgTitle = ogTitle?.getAttribute('content')
     const prevOgDesc = ogDesc?.getAttribute('content')
-    ogTitle?.setAttribute('content', 'Shop OS — AI Operating System Installed in 10 Days · Blueprint IT')
-    ogDesc?.setAttribute('content', 'Blueprint IT installs your Shop OS in 10 days — a Shop Brain wired into your stack, two proof automations, and a team that owns it on day one.')
+    ogTitle?.setAttribute('content', 'Blueprint OS — AI Operating System Installed in 10 Days · Blueprint IT')
+    ogDesc?.setAttribute('content', 'Blueprint IT installs your Blueprint OS in 10 days — a Shop Brain wired into your stack, two proof automations, and a team that owns it on day one.')
 
     return () => {
       document.title = prevTitle
@@ -42,7 +42,7 @@ function ShopOS() {
           navItems={[
             { kind: 'link', label: 'Services', href: '/#services' },
             { kind: 'route', to: '/products', label: 'Products' },
-            !import.meta.env.PROD && { kind: 'route', to: '/shop-os', label: 'Shop OS' },
+            !import.meta.env.PROD && { kind: 'route', to: '/shop-os', label: 'Blueprint OS' },
             { kind: 'link', label: 'Studio', href: '/#about' },
             { kind: 'link', label: 'Case', href: '/#workflow' },
             { kind: 'link', label: 'Contact', href: '/#contact' },
@@ -88,7 +88,7 @@ function ShopOS() {
                       while you sleep.
                     </p>
                     <p className="mt-5">
-                      That&apos;s Shop OS. Installed in 10 days. The foundation
+                      That&apos;s Blueprint OS. Installed in 10 days. The foundation
                       underneath every automation you&apos;ll build — and the interface
                       to everything your business already knows.
                     </p>
@@ -446,7 +446,7 @@ function ShopOS() {
                 <div className="md:col-span-6">
                   <SectionTag id="04">Drawing № 05 · The Operator</SectionTag>
                   <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mt-6 tracking-[-0.02em]">
-                    Who runs Shop OS{' '}
+                    Who runs Blueprint OS{' '}
                     <span className="font-display-italic text-[color:var(--cyan)]">
                       after we leave.
                     </span>
@@ -523,7 +523,7 @@ function ShopOS() {
                 className="font-display mt-8 text-[clamp(3rem,9vw,8rem)] leading-[0.92] tracking-[-0.03em]"
               >
                 Install your{' '}
-                <span className="font-display-italic text-[color:var(--rust)]">Shop OS.</span>
+                <span className="font-display-italic text-[color:var(--rust)]">Blueprint OS.</span>
               </motion.h2>
               <p className="mt-8 mx-auto max-w-2xl text-lg md:text-xl text-[color:var(--ink-soft)] leading-relaxed">
                 10 days from kickoff to a working system your team owns. One call to
@@ -682,7 +682,7 @@ function KnowledgeMosaic() {
         fontFamily="JetBrains Mono"
         fontSize="9"
         fill="var(--rust)"
-        textTransform="uppercase"
+        style={{ textTransform: 'uppercase' }}
       >
         Install → Day 10 handoff. From there, the company&apos;s context map compounds.
       </text>
@@ -786,7 +786,7 @@ function OrbitDiagram() {
           <MiniOrbitBrain className="w-full h-full" />
         </div>
 
-        {/* "Your Shop OS" label centered over the brain. Editorial italic
+        {/* "Your Blueprint OS" label centered over the brain. Editorial italic
             display in ink with a soft paper-cream text shadow so it reads
             clearly against the polychrome particle backdrop while staying
             integrated into the diagram. */}
@@ -801,7 +801,7 @@ function OrbitDiagram() {
                 '0 0 18px rgba(244,239,227,0.85), 0 1px 0 rgba(244,239,227,0.6)',
             }}
           >
-            Your Shop OS
+            Your Blueprint OS
           </div>
         </div>
       </div>
