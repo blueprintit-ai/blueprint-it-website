@@ -40,9 +40,9 @@ export default function SiteNav({ onCtaClick, navItems, ctaLabel = 'Discovery Ca
           }}
         >
           <img
-            src="/logo/bp-logo.png"
-            alt="Blueprint IT · Strategic Technology Solutions"
-            width="801"
+            src="/logo/bp-logo-serif.png"
+            alt="Blueprint IT"
+            width="818"
             height="240"
             className="h-12 md:h-14 w-auto"
           />
