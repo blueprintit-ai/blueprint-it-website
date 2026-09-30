@@ -40,11 +40,11 @@ export default function SiteNav({ onCtaClick, navItems, ctaLabel = 'Discovery Ca
           }}
         >
           <img
-            src="/logo/bp-logo-serif.png"
+            src="/logo/blueprint-it-wordmark.png"
             alt="Blueprint IT"
-            width="818"
-            height="240"
-            className="h-12 md:h-14 w-auto"
+            width="824"
+            height="200"
+            className="h-9 md:h-10 w-auto"
           />
           <span className="hidden md:inline font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--ink-mute)]">
             / est. 2024 / Wake Forest · NC
