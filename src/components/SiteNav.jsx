@@ -33,16 +33,19 @@ export default function SiteNav({ onCtaClick, navItems, ctaLabel = 'Discovery Ca
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
         <a
           href="#top"
-          className="flex items-baseline gap-3"
+          className="flex items-center gap-3"
           onClick={(e) => {
             e.preventDefault()
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }}
         >
-          <span className="font-display text-2xl leading-none tracking-tight">
-            Blueprint
-            <span className="font-display-italic text-[color:var(--rust)]">IT</span>
-          </span>
+          <img
+            src="/logo/bp-logo.png"
+            alt="Blueprint IT · Strategic Technology Solutions"
+            width="801"
+            height="240"
+            className="h-12 md:h-14 w-auto"
+          />
           <span className="hidden md:inline font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--ink-mute)]">
             / est. 2024 / Wake Forest · NC
           </span>
